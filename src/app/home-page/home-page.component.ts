@@ -13,6 +13,6 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
   gotoCreatepage(){
-    this.router.navigate(["creatpage"]);
+    this.router.navigate(["createpage"]);
   }
 }
