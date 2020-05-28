@@ -11,7 +11,8 @@ export class AppComponent {
   constructor( private router: Router){
 
   }
-  gotoCreatepage(){
-    this.router.navigate(["creatpage"]);
+  
+  ngOnInit(){
+  //  this.router.navigate(["home-page"]);
   }
 }
