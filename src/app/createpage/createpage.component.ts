@@ -219,7 +219,16 @@ export class CreatePageComponent implements OnInit {
         "experience_effects": this.effects_array,
       };
       console.log(this.experience);
-      this.emptyField('submit');
+
+       // this.synthelicService.saveExperience(this.experience).subscribe({
+      //   next: response =>
+      //   {
+      //     console.log(response);
+      //   },
+      //   error: err => this.errorMessage = err,
+      //   complete:()=>{this.emptyField('submit');}
+      // }); 
+      
     }
     else {
 
