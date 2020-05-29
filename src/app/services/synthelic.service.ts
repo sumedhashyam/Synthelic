@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators';
 import { IResponse } from './IResponse';
+import { IExperience } from './IExperience';
 
 @Injectable({
     providedIn: 'root'
@@ -14,6 +15,7 @@ export class SynthelicService
     apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page_number=1';
     apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
     apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
+    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/;'
 
     constructor(private http: HttpClient)
     {
@@ -41,8 +43,8 @@ export class SynthelicService
         if (!url)
         {
             url = this.apiElementNamesUrl;
-        }        
-        
+        }
+
         return this.http.get<IResponse>(url).pipe(
             tap(data => console.log("Element Names:" + JSON.stringify(data))),
             catchError(this.handleError)
@@ -63,6 +65,17 @@ export class SynthelicService
             //tap(data => console.log("Element Applications:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
+    }
+
+    saveExperience(experience: IExperience): Observable<any>
+    {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        return this.http.post<IExperience>(this.apiSaveExperienceUrl, experience, httpOptions)
+            .pipe(catchError(this.handleError));
     }
 
     private handleError(err: HttpErrorResponse)
