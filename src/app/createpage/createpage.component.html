@@ -46,7 +46,7 @@
   <div class="main-div">
     <div class="left">
       <div class="add-media inline-form">
-        <input type="text" class="form-control" placeholder="" [(ngModel)]="title" />
+        <input type="text" class="form-control" placeholder="title" [(ngModel)]="title" />
         <button class="btn btn-dark">add media</button>
       </div>
 
@@ -71,8 +71,20 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="substance" role="tabpanel" aria-labelledby="substance-tab">
 
-                <div class="box mb-2">
-                  <input type="text" class="form-control" name="name" [(ngModel)]="element_name" placeholder="name" />
+                <div class="box mb-2">                                    
+                  <div class="ng-autocomplete">
+                    <ng-autocomplete [data]="elementNames" [searchKeyword]="keyword" class="form-control" placeHolder="name"
+                      [(ngModel)]="element_name" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+                    </ng-autocomplete>
+
+                    <ng-template #itemTemplate let-item>
+                      <a [innerHTML]="item.Name"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                      <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                  </div>
                 </div>
                 <div class="block">
                   <div class="box">
@@ -116,7 +128,7 @@
       <div class="synergies">
         <h4>synergies</h4>
         <div class="inline-form">
-          <input type="text" class="form-control" name="Url" [(ngModel)]="url" placeholder="" />
+          <input type="text" class="form-control" name="Url" [(ngModel)]="url" placeholder="http://" />
           <div class="box">
             <select name="category" [(ngModel)]="category" class="js-example-basic-single form-control">
               <option [ngValue]="null" [disabled]="true">select category</option>
