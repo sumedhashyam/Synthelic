@@ -226,43 +226,48 @@ export class CreatePageComponent implements OnInit {
     }
   }
   elementAdd() {
-    if (this.elements_array.length <= '9') {
-      var obj = {
-        "element": this.selectedElementNameId,
-        "name": this.element_name,
-        "type": this.element_type,
-        "quantity": this.element_quantity,
-        "category_effect": this.element_describe,
-        "category_application": this.element_helpe
+    if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0) {
+      if (this.elements_array.length <= '9') {
+        var obj = {
+          "element": this.selectedElementNameId,
+          "name": this.element_name,
+          "type": this.element_type,
+          "quantity": this.element_quantity,
+          "category_effect": this.element_describe,
+          "category_application": this.element_helpe
+        }
+        this.elements_array.push(obj);
+        console.log(this.elements_array);
+        // Reset
+        this.emptyField('element');
       }
-      this.elements_array.push(obj);
-      console.log(this.elements_array);
-      // Reset
-      this.emptyField('element');
-    }
-    else {
-      this.Error = true;
-      this.errorObj = "Max limit :10";
-      setTimeout(() => { this.Error = false }, 100000);
+      else {
+        this.Error = true;
+        this.errorObj = "Max limit :10";
+        setTimeout(() => { this.Error = false }, 100000);
+      }
     }
 
   }
   effectsAdd() {
-    if (this.effects_array.length <= '9') {
-      var obj = {
-        "effects": this.effects_name
+    if (this.effects_name != undefined && this.effects_name != '' && this.effects_name != null) {
+      if (this.effects_array.length <= '9') {
+        var obj = {
+          "effects": this.effects_name
+        }
+        this.effects_array.push(obj);
+        //reset
+        this.effects_name = '';
       }
-      this.effects_array.push(obj);
-      //reset
-      this.effects_name = '';
-    }
-    else {
-      this.Error = true;
-      this.errorObj = "Max limit :10";
-      setTimeout(() => { this.Error = false }, 100000);
+      else {
+        this.Error = true;
+        this.errorObj = "Max limit :10";
+        setTimeout(() => { this.Error = false }, 100000);
+      }
     }
   }
   synergiesAdd() {
+    if(this.category != undefined && this.category != null && this.category != '' && this.url != undefined && this.url !='')
     if (this.synergies_array.length <= '9') {
       var obj = {
         "category": this.category,
