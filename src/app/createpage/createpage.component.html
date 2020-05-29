@@ -46,7 +46,7 @@
   <div class="main-div">
     <div class="left">
       <div class="add-media inline-form">
-        <input type="text" class="form-control" name="" placeholder="" />
+        <input type="text" class="form-control" placeholder="" [(ngModel)]="title"/>
         <button class="btn btn-dark">add media</button>
       </div>
 
@@ -127,7 +127,7 @@
 
       <div class="reports-notes mt-5">
         <button class="btn btn-dark mb-3">report & notes <i class="fa fa-angle-up"></i></button>
-        <textarea class="form-control" rows="4"></textarea>
+        <textarea class="form-control" rows="4" [(ngModel)]="notes"></textarea>
       </div>
 
       <div class="add-more-details mt-5">
@@ -139,15 +139,17 @@
             <h4>explorer <i class="fa fa-angle-up"></i></h4>
             <div class="row">
               <div class="col-md-4">
-                <input class="form-control" name="" placeholder="weight (kg)" />
+                <input class="form-control" name="" [(ngModel)]="ex_weight" placeholder="weight (kg)" />
               </div>
               <div class="col-md-4">
-                <input class="form-control" name="" placeholder="age" />
+                <input class="form-control" name="" [(ngModel)]="ex_age" placeholder="age" />
               </div>
               <div class="col-md-4">
                 <div class="box">
-                  <select class="js-example-basic-single form-control" name="">
+                  <select class="js-example-basic-single form-control" name="" (change)="genderFun($event)">
                     <option value="AL">Sex</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                   </select>
                 </div>
               </div>
@@ -157,10 +159,10 @@
             <h4>set <i class="fa fa-angle-up"></i></h4>
             <div class="row">
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="min set before use" />
+                <input class="form-control" [(ngModel)]="set_before" placeholder="min set before use" />
               </div>
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="expectations" />
+                <input class="form-control" [(ngModel)]="set_expectations" placeholder="expectations" />
               </div>
             </div>
           </div>
@@ -169,19 +171,19 @@
             <h4>setting <i class="fa fa-angle-up"></i></h4>
             <div class="row">
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="place of location" />
+                <input class="form-control" [(ngModel)]="setting_location" placeholder="place of location" />
               </div>
               <div class="col-md-3">
-                <input class="form-control" name="" placeholder="weather" />
+                <input class="form-control" [(ngModel)]="setting_weather" placeholder="weather" />
               </div>
               <div class="col-md-3">
-                <input class="form-control" name="" placeholder="atmosphere" />
+                <input class="form-control" [(ngModel)]="setting_atmosphere" placeholder="atmosphere" />
               </div>
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="companions" />
+                <input class="form-control" [(ngModel)]="setting_companions" placeholder="companions" />
               </div>
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="other" />
+                <input class="form-control" [(ngModel)]="setting_other" placeholder="other" />
               </div>
             </div>
           </div>
@@ -189,16 +191,16 @@
             <h4>effects in detail <i class="fa fa-angle-up"></i></h4>
             <div class="row">
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="physical" />
+                <input class="form-control" [(ngModel)]="effects_physical" placeholder="physical" />
               </div>
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="emotional" />
+                <input class="form-control" [(ngModel)]="effects_emotional" placeholder="emotional" />
               </div>
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="semantic" />
+                <input class="form-control" [(ngModel)]="effects_semantic" placeholder="semantic" />
               </div>
               <div class="col-md-6">
-                <input class="form-control" name="" placeholder="meta-physical" />
+                <input class="form-control" [(ngModel)]="effects_meta_physical" placeholder="meta-physical" />
               </div>
             </div>
           </div>
@@ -206,49 +208,41 @@
         </div>
       </div>
       <div class="btn-div">
-        <button class="btn btn-dark">submit personal</button>
-        <button class="btn btn-dark">submit public</button>
+        <button class="btn btn-dark" (click)="submitInfo('personal')">submit personal</button>
+        <button class="btn btn-dark" (click)="submitInfo('public')">submit public</button>
       </div>
 
     </div>
 
     <div class="right">
-      <div class="error-box">
-        <p>error showing</p>
+      <div class="error-box" *ngIf="Error">
+        <p>{{error_msg}}</p>
       </div>
-      <div class="r-box">
+      <div class="r-box" *ngIf="elements_array.length > 0 ">
         <h4>elements added</h4>
-        <div class="tag-box">
+        <div class="tag-box" *ngFor="let item of elements_array;let i=index">
           <div class="tag">
-            hydroxychloroquine
-            <i class="fa fa-close"></i>
-          </div>
-          <div class="tag">
-            demerol
+            {{item.name}}
             <i class="fa fa-close"></i>
           </div>
         </div>
       </div>
-      <div class="r-box second-element">
+      <div class="r-box second-element" *ngIf="effects_array.length > 0 ">
         <h4>effects added</h4>
-        <div class="tag-box">
+        <div class="tag-box" *ngFor="let item of effects_array;let i=index">
           <div class="tag">
-            happy
-            <i class="fa fa-close"></i>
-          </div>
-          <div class="tag">
-            erotic
+            {{item.effect}}
             <i class="fa fa-close"></i>
           </div>
         </div>
       </div>
-      <div class="r-box third-element">
+      <div class="r-box third-element" *ngIf="synergies_array.length > 0 ">
         <h4>synergies added</h4>
-        <div class="tag-box">
+        <div class="tag-box" *ngFor="let item of synergies_array;let i=index">
           <div class="tag">
             <img src="../../assets/img/user.jpg" alt="" />
-            bob dylan - like a rolling stone
-            <span>music</span>
+           {{item.url}}
+            <span>{{item.category}}</span>
             <i class="fa fa-close"></i>
           </div>
         </div>
