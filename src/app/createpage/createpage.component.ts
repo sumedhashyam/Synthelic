@@ -18,13 +18,16 @@ export class CreatePageComponent implements OnInit
   errorMessage: string;
   apiElementNamesUrl: string;
 
+  // API response holder
   genders: IGender[] = [];
   categories: ICategory[] = [];
   elementNames: IElementName[] = [];
   elementEffects: IElement[] = [];
-  elementApplications: IElement[] = [];
-  experience: IExperience[];
+  elementApplications: IElement[] = []; 
 
+  selectedElementNameId: number;
+
+  experience: IExperience[];
   addmore: boolean = false;
   explorer: boolean = false;
   set: boolean = false;
@@ -154,6 +157,11 @@ export class CreatePageComponent implements OnInit
     });
   }
 
+  elementNameSelected(element:IElementName)
+  {
+    this.selectedElementNameId=element.Id;
+  }
+
   upDownClick(type): void
   {
     if (type == 'addmore')
@@ -278,13 +286,18 @@ export class CreatePageComponent implements OnInit
   elementAdd()
   {
     var obj = {
-      "element": 1,
+      "element": this.selectedElementNameId,
       "name": this.element_name,
       "type": this.element_type,
-      "quantity": this.element_quantity
+      "quantity": this.element_quantity,
+      "category_effect":this.element_describe,
+      "category_application":this.element_helpe
     }
     this.elements_array.push(obj);
     console.log(this.elements_array);
+
+    // Reset
+    this.selectedElementNameId = 0;
   }
   effectsAdd()
   {

@@ -74,7 +74,7 @@
                 <div class="box mb-2">                                    
                   <div class="ng-autocomplete">
                     <ng-autocomplete [data]="elementNames" [searchKeyword]="keyword" class="form-control" placeHolder="name"
-                      [(ngModel)]="element_name" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+                      [(ngModel)]="element_name" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" (selected)='elementNameSelected($event)'>
                     </ng-autocomplete>
 
                     <ng-template #itemTemplate let-item>
