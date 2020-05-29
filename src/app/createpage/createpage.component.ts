@@ -143,6 +143,7 @@ export class CreatePageComponent implements OnInit {
 
   elementNameSelected(element: IElementName) {
     this.selectedElementNameId = element.Id;
+    this.element_name=element.Name;
   }
 
   upDownClick(type): void {
@@ -235,11 +236,12 @@ export class CreatePageComponent implements OnInit {
     }
   }
   elementAdd() {
+    debugger;
     if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0) {
       if (this.elements_array.length <= '9') {
         var obj = {
           "element": this.selectedElementNameId,
-          "name": this.element_name,
+          "name": this.element_name['Name'],
           "type": this.element_type,
           "quantity": this.element_quantity,
           "category_effect": this.element_describe,
