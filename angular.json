@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Synthelic"
+    }
+  },
+  "defaultProject": "Synthelic",
+  "cli": {
+    "analytics": false
+  }
 }
