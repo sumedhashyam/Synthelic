@@ -13,6 +13,8 @@ import { IElement } from '../services/IElement';
 export class CreatePageComponent implements OnInit
 {
   errorMessage: string;
+  pageNumber: number = 1;
+
   genders: IGender[] = [];
   categories: ICategory[] = [];
   elementNames: IElementName[] = [];
@@ -97,23 +99,32 @@ export class CreatePageComponent implements OnInit
 
   fetchElementNames(): void
   {
-    // TODO: We need to call API till we not get all data
+    let elementNames: IElementName[];
 
-    // let elementNames: IElementName[];
-    // do { }
-    // while (initialize counter < condition);
-
-    this.synthelicService.getElementNames(10, 1).subscribe({
+    this.synthelicService.getElementNames(10, this.pageNumber).subscribe({
       next: response =>
       {
-        let elementNames = response.results as IElementName[];
+        elementNames = response.results as IElementName[];
         elementNames.forEach(elementName =>
         {
           this.elementNames.push(elementName);
         });
 
       },
-      error: err => this.errorMessage = err
+      error: err => this.errorMessage = err,
+      complete: () =>
+      {
+        // TODO: Uncomment code once API get fixed.
+        // if (elementNames.length > 0)
+        // {
+        //   this.pageNumber++;
+        //   this.fetchElementNames()
+        // }
+        // else
+        // {
+        //   this.pageNumber = 0;
+        // }
+      }
     });
   }
 
