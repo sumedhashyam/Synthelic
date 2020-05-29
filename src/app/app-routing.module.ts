@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CreatepageComponent} from "../app/createpage/createpage.component";
+import { CreatePageComponent} from "../app/createpage/createpage.component";
 import {HomePageComponent} from "../app/home-page/home-page.component";
 
 
@@ -16,7 +16,7 @@ const routes: Routes = [
   } ,
   {
     path: "createpage",
-    component: CreatepageComponent,
+    component: CreatePageComponent,
   } 
 ];
 

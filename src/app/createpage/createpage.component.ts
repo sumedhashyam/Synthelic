@@ -10,8 +10,7 @@ import { IElement } from '../services/IElement';
   templateUrl: './createpage.component.html',
   styleUrls: ['./createpage.component.css']
 })
-
-export class CreatepageComponent implements OnInit
+export class CreatePageComponent implements OnInit
 {
   errorMessage: string;
   genders: IGender[] = [];
@@ -99,10 +98,20 @@ export class CreatepageComponent implements OnInit
   fetchElementNames(): void
   {
     // TODO: We need to call API till we not get all data
+
+    // let elementNames: IElementName[];
+    // do { }
+    // while (initialize counter < condition);
+
     this.synthelicService.getElementNames(10, 1).subscribe({
       next: response =>
       {
-        this.elementNames = response.results as IElementName[];
+        let elementNames = response.results as IElementName[];
+        elementNames.forEach(elementName =>
+        {
+          this.elementNames.push(elementName);
+        });
+
       },
       error: err => this.errorMessage = err
     });
