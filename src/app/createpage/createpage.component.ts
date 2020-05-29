@@ -12,8 +12,7 @@ import { IResponse } from '../services/IResponse';
   templateUrl: './createpage.component.html',
   styleUrls: ['./createpage.component.css']
 })
-export class CreatePageComponent implements OnInit
-{
+export class CreatePageComponent implements OnInit {
   errorMessage: string;
   apiElementNamesUrl: string;
 
@@ -22,7 +21,7 @@ export class CreatePageComponent implements OnInit
   elementNames: IElementName[] = [];
   elementEffects: IElement[] = [];
   elementApplications: IElement[] = [];
-  experience: IExperience[] = [];
+  experience: IExperience[];
 
   addmore: boolean = false;
   explorer: boolean = false;
@@ -30,7 +29,7 @@ export class CreatePageComponent implements OnInit
   setting: boolean = false;
   effects: boolean = false;
   reportNotes: boolean = false;
-
+  category: string = null;
   title: string = '';
   notes: string = '';
   ex_weight: string = '';
@@ -51,12 +50,17 @@ export class CreatePageComponent implements OnInit
   synergies_array: any = [];
   effects_array: any = [];
   Error: boolean = false;
-  error_msg: string;
+  element_name: string;
+  element_type: string;
+  element_quantity: string;
+  effects_name: string;
+  url: string;
+  element_describe:string=null;
+  element_helpe:string=null;
 
   constructor(private synthelicService: SynthelicService) { }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.fetchGenders();
     this.fetchCategories();
     this.fetchElementNames();
@@ -64,47 +68,38 @@ export class CreatePageComponent implements OnInit
     this.fetchElementApplications();
   }
 
-  fetchGenders(): void
-  {
+  fetchGenders(): void {
     this.synthelicService.getGenders().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.genders = response.results as IGender[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  fetchCategories(): void
-  {
+  fetchCategories(): void {
     this.synthelicService.getCategories().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.categories = response.results as ICategory[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  fetchElementNames(): void
-  {
+  fetchElementNames(): void {
     let response: IResponse;
 
     this.synthelicService.getElementNames(this.apiElementNamesUrl).subscribe({
-      next: resp =>
-      {
+      next: resp => {
         response = resp;
         let elementNames = response.results as IElementName[];
-        elementNames.forEach(elementName =>
-        {
+        elementNames.forEach(elementName => {
           this.elementNames.push(elementName);
         });
       },
       error: err => this.errorMessage = err,
-      complete: () =>
-      {        
-        if (response && response.next)
-        {
+      complete: () => {
+        if (response && response.next) {
           this.apiElementNamesUrl = response.next;
           this.fetchElementNames();
         }
@@ -112,103 +107,78 @@ export class CreatePageComponent implements OnInit
     });
   }
 
-  fetchElementEffects(): void
-  {
+  fetchElementEffects(): void {
     this.synthelicService.getElementEffects
       ().subscribe({
-        next: response =>
-        {
+        next: response => {
           this.elementEffects = response.results as IElement[];
         },
         error: err => this.errorMessage = err
       });
   }
 
-  fetchElementApplications(): void
-  {
+  fetchElementApplications(): void {
     this.synthelicService.getElementApplications().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.elementApplications = response.results as IElement[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  upDownClick(type): void
-  {
-    if (type == 'addmore')
-    {
-      if (this.addmore == false)
-      {
+  upDownClick(type): void {
+    if (type == 'addmore') {
+      if (this.addmore == false) {
         this.addmore = true;
       }
-      else
-      {
+      else {
         this.addmore = false;
       }
     }
-    else if (type == 'explorer')
-    {
-      if (this.explorer == false)
-      {
+    else if (type == 'explorer') {
+      if (this.explorer == false) {
         this.explorer = true;
       }
-      else
-      {
+      else {
         this.explorer = false;
       }
     }
-    else if (type == 'set')
-    {
-      if (this.set == false)
-      {
+    else if (type == 'set') {
+      if (this.set == false) {
         this.set = true;
       }
-      else
-      {
+      else {
         this.set = false;
       }
     }
-    else if (type == 'setting')
-    {
-      if (this.setting == false)
-      {
+    else if (type == 'setting') {
+      if (this.setting == false) {
         this.setting = true;
       }
-      else
-      {
+      else {
         this.setting = false;
       }
     }
-    else if (type == 'effects')
-    {
-      if (this.effects == false)
-      {
+    else if (type == 'effects') {
+      if (this.effects == false) {
         this.effects = true;
       }
-      else
-      {
+      else {
         this.effects = false;
       }
     }
-    else if (type == 'reportNotes')
-    {
-      if (this.reportNotes == false)
-      {
+    else if (type == 'reportNotes') {
+      if (this.reportNotes == false) {
         this.reportNotes = true;
       }
-      else
-      {
+      else {
         this.reportNotes = false;
       }
     }
 
   }
-  submitInfo(info): void
-  {
-    if (info == 'personal')
-    {
+  submitInfo(info): void {
+    if (info == 'personal') {
       this.experience = [{
         "title": this.title,
         "explorer_weight": this.ex_weight,
@@ -231,8 +201,7 @@ export class CreatePageComponent implements OnInit
       }];
       console.log(this.experience);
     }
-    else
-    {
+    else {
       this.experience = [{
         "title": this.title,
         "explorer_weight": this.ex_weight,
@@ -254,6 +223,54 @@ export class CreatePageComponent implements OnInit
         "experience_effects": this.effects_array,
       }];
       console.log(this.experience);
+    }
+  }
+  elementAdd() {
+    var obj = {
+      "element": 1,
+      "name": this.element_name,
+      "type": this.element_type,
+      "quantity": this.element_quantity
+    }
+    this.elements_array.push(obj);
+    console.log(this.elements_array);
+  }
+  effectsAdd() {
+    var obj = {
+      "effects": this.effects_name
+    }
+    this.effects_array.push(obj);
+    console.log(this.effects_array);
+  }
+  synergiesAdd() {
+    var obj = {
+      "category": this.category,
+      "url": this.url
+    }
+    this.synergies_array.push(obj);
+    console.log(this.synergies_array);
+  }
+  remove(item, type) {
+    if (type == 'elements') {
+      this.elements_array.forEach((value, index) => {
+        if (value.name == item) {
+          this.elements_array.splice(index, 1);
+        }
+      });
+    }
+    else if (type == 'effects') {
+      this.effects_array.forEach((value, index) => {
+        if (value.effects == item) {
+          this.effects_array.splice(index, 1);
+        }
+      });
+    }
+    else{
+      this.synergies_array.forEach((value, index) => {
+        if (value.url == item) {
+          this.synergies_array.splice(index, 1);
+        }
+      });
     }
   }
 }

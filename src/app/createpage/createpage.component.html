@@ -72,25 +72,26 @@
               <div class="tab-pane fade show active" id="substance" role="tabpanel" aria-labelledby="substance-tab">
 
                 <div class="box mb-2">
-                  <input type="text" class="form-control" name="" placeholder="name" />
+                  <input type="text" class="form-control" name="name" [(ngModel)]="element_name" placeholder="name" />
                 </div>
                 <div class="block">
                   <div class="box">
-                    <input type="text" class="form-control" name="" placeholder="type" />
+                    <input type="text" class="form-control" name="type" [(ngModel)]="element_type" placeholder="type" />
                   </div>
                   <div class="box">
-                    <input type="text" class="form-control" name="" placeholder="quantity" />
+                    <input type="text" class="form-control" name="quantity" [(ngModel)]="element_quantity"
+                      placeholder="quantity" />
                   </div>
                   <div class="box">
-                    <select class="js-example-basic-single form-control" name="">
-                      <option value="AL">i would describe it as</option>
-
+                    <select class="js-example-basic-single form-control" name="describe" [(ngModel)]="element_describe">
+                      <option [ngValue]="null" [disabled]="true">i would describe it as</option>
+                      <option *ngFor="let eff of elementEffects" [value]="eff.title">{{eff.title}}</option>
                     </select>
                   </div>
                   <div class="box">
-                    <select class="js-example-basic-single form-control" name="">
-                      <option value="AL">it has helped me with</option>
-
+                    <select class="js-example-basic-single form-control" name="helpe" [(ngModel)]="element_helpe">
+                      <option [ngValue]="null" [disabled]="true">it has helped me with</option>
+                      <option *ngFor="let app of elementApplications" [value]="app.title">{{app.title}}</option>
                     </select>
                   </div>
                 </div>
@@ -99,7 +100,7 @@
               <div class="tab-pane fade" id="brand" role="tabpanel" aria-labelledby="brand-tab">...</div>
             </div>
           </div>
-          <button class="btn btn-dark">add</button>
+          <button class="btn btn-dark" (click)="elementAdd()">add</button>
         </div>
 
       </div>
@@ -107,27 +108,28 @@
       <div class="effects">
         <h4>effects</h4>
         <div class="inline-form">
-          <input type="text" class="form-control" name="" placeholder="" />
-          <button class="btn btn-dark">add</button>
+          <input type="text" class="form-control" name="effects_name" [(ngModel)]="effects_name" placeholder="" />
+          <button class="btn btn-dark" (click)="effectsAdd()">add</button>
         </div>
       </div>
 
       <div class="synergies">
         <h4>synergies</h4>
         <div class="inline-form">
-          <input type="text" class="form-control" name="" placeholder="" />
+          <input type="text" class="form-control" name="Url" [(ngModel)]="url" placeholder="" />
           <div class="box">
-            <select class="js-example-basic-single form-control" name="">
-              <option value="AL">category</option>
+            <select name="category" [(ngModel)]="category" class="js-example-basic-single form-control">
+              <option [ngValue]="null" [disabled]="true">select category</option>
+              <option *ngFor="let cat of categories" [value]="cat.title">{{cat.title}}</option>
             </select>
           </div>
-          <button class="btn btn-dark">add</button>
+          <button class="btn btn-dark" (click)="synergiesAdd()">add</button>
         </div>
       </div>
 
       <div class="reports-notes mt-5">
-        <button class="btn btn-dark mb-3" (click)="upDownClick('reportNotes')">report & notes <i class="fa fa-angle-up" *ngIf="!reportNotes"></i><i
-            class="fa fa-angle-down" *ngIf="reportNotes"></i></button>
+        <button class="btn btn-dark mb-3" (click)="upDownClick('reportNotes')">report & notes <i class="fa fa-angle-up"
+            *ngIf="!reportNotes"></i><i class="fa fa-angle-down" *ngIf="reportNotes"></i></button>
         <textarea class="form-control" *ngIf="!reportNotes" rows="4" [(ngModel)]="notes"></textarea>
       </div>
 
@@ -149,7 +151,7 @@
               <div class="col-md-4">
                 <div class="box">
                   <select name="sex" [(ngModel)]="gender" class="js-example-basic-single form-control">
-                    <option [ngValue]="null" [disabled]="true" >select gender</option>
+                    <option [ngValue]="null" [disabled]="true">select gender</option>
                     <option *ngFor="let sex of genders" [value]="sex.title">{{sex.title}}</option>
                   </select>
                 </div>
@@ -220,34 +222,34 @@
 
     <div class="right">
       <div class="error-box" *ngIf="Error">
-        <p>{{error_msg}}</p>
+        <p>{{errorMessage}}</p>
       </div>
       <div class="r-box" *ngIf="elements_array.length > 0 ">
         <h4>elements added</h4>
-        <div class="tag-box" *ngFor="let item of elements_array;let i=index">
-          <div class="tag">
+        <div class="tag-box">
+          <div class="tag" *ngFor="let item of elements_array">
             {{item.name}}
-            <i class="fa fa-close"></i>
+            <i class="fa fa-close" (click)="remove(item.name,'elements')"></i>
           </div>
         </div>
       </div>
       <div class="r-box second-element" *ngIf="effects_array.length > 0 ">
         <h4>effects added</h4>
-        <div class="tag-box" *ngFor="let item of effects_array;let i=index">
-          <div class="tag">
-            {{item.effect}}
-            <i class="fa fa-close"></i>
+        <div class="tag-box">
+          <div class="tag" *ngFor="let item of effects_array">
+            {{item.effects}}
+            <i class="fa fa-close" (click)="remove(item.effects,'effects')"></i>
           </div>
         </div>
       </div>
       <div class="r-box third-element" *ngIf="synergies_array.length > 0 ">
         <h4>synergies added</h4>
-        <div class="tag-box" *ngFor="let item of synergies_array;let i=index">
-          <div class="tag">
+        <div class="tag-box">
+          <div class="tag" *ngFor="let item of synergies_array">
             <img src="../../assets/img/user.jpg" alt="" />
             {{item.url}}
             <span>{{item.category}}</span>
-            <i class="fa fa-close"></i>
+            <i class="fa fa-close" (click)="remove(item.url,'synergies')"></i>
           </div>
         </div>
       </div>
