@@ -5,6 +5,7 @@ import { ICategory } from '../services/ICategory';
 import { IElementName } from '../services/IElementName';
 import { IElement } from '../services/IElement';
 import { IExperience } from '../services/IExperience';
+import { IResponse } from '../services/IResponse';
 
 @Component({
   selector: 'app-createpage',
@@ -14,21 +15,21 @@ import { IExperience } from '../services/IExperience';
 export class CreatePageComponent implements OnInit
 {
   errorMessage: string;
-  pageNumber: number = 1;
+  apiElementNamesUrl: string;
 
   genders: IGender[] = [];
   categories: ICategory[] = [];
   elementNames: IElementName[] = [];
   elementEffects: IElement[] = [];
   elementApplications: IElement[] = [];
-  experience:IExperience[]=[];
- 
+  experience: IExperience[] = [];
+
   addmore: boolean = false;
   explorer: boolean = false;
   set: boolean = false;
   setting: boolean = false;
-  effects:boolean=false;
-  reportNotes:boolean=false;
+  effects: boolean = false;
+  reportNotes: boolean = false;
 
   title: string = '';
   notes: string = '';
@@ -87,31 +88,26 @@ export class CreatePageComponent implements OnInit
 
   fetchElementNames(): void
   {
-    let elementNames: IElementName[];
+    let response: IResponse;
 
-    this.synthelicService.getElementNames(10, this.pageNumber).subscribe({
-      next: response =>
+    this.synthelicService.getElementNames(this.apiElementNamesUrl).subscribe({
+      next: resp =>
       {
-        elementNames = response.results as IElementName[];
+        response = resp;
+        let elementNames = response.results as IElementName[];
         elementNames.forEach(elementName =>
         {
           this.elementNames.push(elementName);
         });
-
       },
       error: err => this.errorMessage = err,
       complete: () =>
-      {
-        // TODO: Uncomment code once API get fixed.
-        // if (elementNames.length > 0)
-        // {
-        //   this.pageNumber++;
-        //   this.fetchElementNames()
-        // }
-        // else
-        // {
-        //   this.pageNumber = 0;
-        // }
+      {        
+        if (response && response.next)
+        {
+          this.apiElementNamesUrl = response.next;
+          this.fetchElementNames();
+        }
       }
     });
   }
@@ -139,56 +135,75 @@ export class CreatePageComponent implements OnInit
     });
   }
 
- upDownClick(type) :void {
-    if (type =='addmore') {
-      if (this.addmore == false) {
+  upDownClick(type): void
+  {
+    if (type == 'addmore')
+    {
+      if (this.addmore == false)
+      {
         this.addmore = true;
       }
-      else {
+      else
+      {
         this.addmore = false;
       }
     }
-    else if (type =='explorer') {
-      if (this.explorer == false) {
+    else if (type == 'explorer')
+    {
+      if (this.explorer == false)
+      {
         this.explorer = true;
       }
-      else {
+      else
+      {
         this.explorer = false;
       }
     }
-    else if (type =='set') {
-      if (this.set == false) {
+    else if (type == 'set')
+    {
+      if (this.set == false)
+      {
         this.set = true;
       }
-      else {
+      else
+      {
         this.set = false;
       }
     }
-    else if (type =='setting') {
-      if (this.setting == false) {
+    else if (type == 'setting')
+    {
+      if (this.setting == false)
+      {
         this.setting = true;
       }
-      else {
+      else
+      {
         this.setting = false;
       }
     }
-    else if (type =='effects') {
-      if (this.effects == false) {
+    else if (type == 'effects')
+    {
+      if (this.effects == false)
+      {
         this.effects = true;
       }
-      else {
+      else
+      {
         this.effects = false;
       }
     }
-    else if (type =='reportNotes') {
-      if (this.reportNotes == false) {
+    else if (type == 'reportNotes')
+    {
+      if (this.reportNotes == false)
+      {
         this.reportNotes = true;
       }
-      else {
+      else
+      {
         this.reportNotes = false;
       }
     }
-    
+
   }
   submitInfo(info): void
   {

@@ -11,7 +11,7 @@ export class SynthelicService
 {
     apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
     apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
-    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/';
+    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page_number=1';
     apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
     apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
 
@@ -23,7 +23,7 @@ export class SynthelicService
     getGenders(): Observable<IResponse>
     {
         return this.http.get<IResponse>(this.apiGendersUrl).pipe(
-            tap(data => console.log("Genders:" + JSON.stringify(data))),
+            //tap(data => console.log("Genders:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
     }
@@ -31,15 +31,18 @@ export class SynthelicService
     getCategories(): Observable<IResponse>
     {
         return this.http.get<IResponse>(this.apiCategoriesUrl).pipe(
-            tap(data => console.log("Categories:" + JSON.stringify(data))),
+            //tap(data => console.log("Categories:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
     }
 
-    getElementNames(pageSize: number, pageNumber: number): Observable<IResponse>
+    getElementNames(url?: string): Observable<IResponse>
     {
-        let url = `${this.apiElementNamesUrl}?page_size=${pageSize}&page_number=${pageNumber}`;
-
+        if (!url)
+        {
+            url = this.apiElementNamesUrl;
+        }        
+        
         return this.http.get<IResponse>(url).pipe(
             tap(data => console.log("Element Names:" + JSON.stringify(data))),
             catchError(this.handleError)
@@ -49,7 +52,7 @@ export class SynthelicService
     getElementEffects(): Observable<IResponse>
     {
         return this.http.get<IResponse>(this.apiElementApplicationsUrl).pipe(
-            tap(data => console.log("Element Effects:" + JSON.stringify(data))),
+            //tap(data => console.log("Element Effects:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
     }
@@ -57,13 +60,13 @@ export class SynthelicService
     getElementApplications(): Observable<IResponse>
     {
         return this.http.get<IResponse>(this.apiElementEffectsUrl).pipe(
-            tap(data => console.log("Element Applications:" + JSON.stringify(data))),
+            //tap(data => console.log("Element Applications:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
     }
 
     private handleError(err: HttpErrorResponse)
-    {        
+    {
         let errorMessage = '';
         if (err.error instanceof ErrorEvent)
         {
