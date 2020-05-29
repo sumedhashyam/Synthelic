@@ -1,0 +1,23 @@
+.autocomplete-container {
+    box-shadow: none;
+    position: relative;
+    overflow: visible;
+    height: 42px;
+}
+.ng-autocomplete {
+    width: 100% !important;
+    padding: 0;
+}
+.autocomplete-container .input-container input {
+    background-color: #1a1a1a !important;
+    color: #767676 !important;
+    line-height: 42px !important;
+    height: 42px !important;
+}
+
+.autocomplete-container .suggestions-container {
+    background: #282828 !important;
+}
+.suggestions-container ul li a {
+    color: #767676 !important;
+}
