@@ -46,7 +46,7 @@
   <div class="main-div">
     <div class="left">
       <div class="add-media inline-form">
-        <input type="text" class="form-control" placeholder="" [(ngModel)]="title"/>
+        <input type="text" class="form-control" placeholder="" [(ngModel)]="title" />
         <button class="btn btn-dark">add media</button>
       </div>
 
@@ -126,18 +126,20 @@
       </div>
 
       <div class="reports-notes mt-5">
-        <button class="btn btn-dark mb-3">report & notes <i class="fa fa-angle-up"></i></button>
-        <textarea class="form-control" rows="4" [(ngModel)]="notes"></textarea>
+        <button class="btn btn-dark mb-3" (click)="upDownClick('reportNotes')">report & notes <i class="fa fa-angle-up" *ngIf="!reportNotes"></i><i
+            class="fa fa-angle-down" *ngIf="reportNotes"></i></button>
+        <textarea class="form-control" *ngIf="!reportNotes" rows="4" [(ngModel)]="notes"></textarea>
       </div>
 
       <div class="add-more-details mt-5">
-        <button class="btn btn-dark mb-3" (click)="addmoreclick()">add more details <i class="fa fa-angle-up"
+        <button class="btn btn-dark mb-3" (click)="upDownClick('addmore')">add more details <i class="fa fa-angle-up"
             *ngIf="!addmore"></i>
           <i class="fa fa-angle-down" *ngIf="addmore"></i></button>
         <div *ngIf="!addmore">
           <div class="inner-box">
-            <h4>explorer <i class="fa fa-angle-up"></i></h4>
-            <div class="row">
+            <h4 (click)="upDownClick('explorer')">explorer <i class="fa fa-angle-up" *ngIf="!explorer"></i>
+              <i class="fa fa-angle-down" *ngIf="explorer"></i></h4>
+            <div class="row" *ngIf="!explorer">
               <div class="col-md-4">
                 <input class="form-control" name="" [(ngModel)]="ex_weight" placeholder="weight (kg)" />
               </div>
@@ -146,18 +148,18 @@
               </div>
               <div class="col-md-4">
                 <div class="box">
-                  <select class="js-example-basic-single form-control" name="" (change)="genderFun($event)">
-                    <option value="AL">Sex</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                  <select name="sex" [(ngModel)]="gender" class="js-example-basic-single form-control">
+                    <option [ngValue]="null" [disabled]="true" >select gender</option>
+                    <option *ngFor="let sex of genders" [value]="sex.title">{{sex.title}}</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
           <div class="inner-box">
-            <h4>set <i class="fa fa-angle-up"></i></h4>
-            <div class="row">
+            <h4 (click)="upDownClick('set')">set <i class="fa fa-angle-up" *ngIf="!set"></i>
+              <i class="fa fa-angle-down" *ngIf="set"></i></h4>
+            <div class="row" *ngIf="!set">
               <div class="col-md-6">
                 <input class="form-control" [(ngModel)]="set_before" placeholder="min set before use" />
               </div>
@@ -168,8 +170,9 @@
           </div>
 
           <div class="inner-box">
-            <h4>setting <i class="fa fa-angle-up"></i></h4>
-            <div class="row">
+            <h4 (click)="upDownClick('setting')">setting <i class="fa fa-angle-up" *ngIf="!setting"></i>
+              <i class="fa fa-angle-down" *ngIf="setting"></i></h4>
+            <div class="row" *ngIf="!setting">
               <div class="col-md-6">
                 <input class="form-control" [(ngModel)]="setting_location" placeholder="place of location" />
               </div>
@@ -188,8 +191,9 @@
             </div>
           </div>
           <div class="inner-box">
-            <h4>effects in detail <i class="fa fa-angle-up"></i></h4>
-            <div class="row">
+            <h4 (click)="upDownClick('effects')">effects in detail <i class="fa fa-angle-up" *ngIf="!effects"></i>
+              <i class="fa fa-angle-down" *ngIf="effects"></i></h4>
+            <div class="row" *ngIf="!effects">
               <div class="col-md-6">
                 <input class="form-control" [(ngModel)]="effects_physical" placeholder="physical" />
               </div>
@@ -241,7 +245,7 @@
         <div class="tag-box" *ngFor="let item of synergies_array;let i=index">
           <div class="tag">
             <img src="../../assets/img/user.jpg" alt="" />
-           {{item.url}}
+            {{item.url}}
             <span>{{item.category}}</span>
             <i class="fa fa-close"></i>
           </div>

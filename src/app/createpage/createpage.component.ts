@@ -4,6 +4,7 @@ import { IGender } from '../services/IGender';
 import { ICategory } from '../services/ICategory';
 import { IElementName } from '../services/IElementName';
 import { IElement } from '../services/IElement';
+import { IExperience } from '../services/IExperience';
 
 @Component({
   selector: 'app-createpage',
@@ -20,33 +21,20 @@ export class CreatePageComponent implements OnInit
   elementNames: IElementName[] = [];
   elementEffects: IElement[] = [];
   elementApplications: IElement[] = [];
-
-  public experience = {
-    "title": "",
-    "explorer_weight": "",
-    "explorer_age": "",
-    "explorer_gender": "",
-    "set_before": "",
-    "set_expectations": "",
-    "setting_location": "",
-    "setting_weather": "",
-    "setting_atmosphere": "",
-    "setting_companions": "",
-    "setting_other": "",
-    "effects_physical": "",
-    "effects_emotional": "",
-    "effects_semantic": "",
-    "effects_meta_physical": "",
-    "experience_elements": "",
-    "experience_synergies": "",
-    "experience_effects": "",
-  };
+  experience:IExperience[]=[];
+ 
   addmore: boolean = false;
+  explorer: boolean = false;
+  set: boolean = false;
+  setting: boolean = false;
+  effects:boolean=false;
+  reportNotes:boolean=false;
+
   title: string = '';
   notes: string = '';
   ex_weight: string = '';
   ex_age: string = '';
-  gender: string = '';
+  gender: string = null;
   set_before: string;
   set_expectations: string;
   setting_location: string;
@@ -151,27 +139,62 @@ export class CreatePageComponent implements OnInit
     });
   }
 
-  addmoreclick(): void
-  {
-    if (this.addmore == false)
-    {
-      this.addmore = true;
+ upDownClick(type) :void {
+    if (type =='addmore') {
+      if (this.addmore == false) {
+        this.addmore = true;
+      }
+      else {
+        this.addmore = false;
+      }
     }
-    else
-    {
-      this.addmore = false;
+    else if (type =='explorer') {
+      if (this.explorer == false) {
+        this.explorer = true;
+      }
+      else {
+        this.explorer = false;
+      }
     }
-  }
-  genderFun(event): void
-  {
-    this.gender = event.target.value
-    console.log(event.target.value);
+    else if (type =='set') {
+      if (this.set == false) {
+        this.set = true;
+      }
+      else {
+        this.set = false;
+      }
+    }
+    else if (type =='setting') {
+      if (this.setting == false) {
+        this.setting = true;
+      }
+      else {
+        this.setting = false;
+      }
+    }
+    else if (type =='effects') {
+      if (this.effects == false) {
+        this.effects = true;
+      }
+      else {
+        this.effects = false;
+      }
+    }
+    else if (type =='reportNotes') {
+      if (this.reportNotes == false) {
+        this.reportNotes = true;
+      }
+      else {
+        this.reportNotes = false;
+      }
+    }
+    
   }
   submitInfo(info): void
   {
     if (info == 'personal')
     {
-      this.experience = {
+      this.experience = [{
         "title": this.title,
         "explorer_weight": this.ex_weight,
         "explorer_age": this.ex_age,
@@ -190,12 +213,12 @@ export class CreatePageComponent implements OnInit
         "experience_elements": this.elements_array,
         "experience_synergies": this.synergies_array,
         "experience_effects": this.effects_array,
-      };
+      }];
       console.log(this.experience);
     }
     else
     {
-      this.experience = {
+      this.experience = [{
         "title": this.title,
         "explorer_weight": this.ex_weight,
         "explorer_age": this.ex_age,
@@ -214,7 +237,7 @@ export class CreatePageComponent implements OnInit
         "experience_elements": this.elements_array,
         "experience_synergies": this.synergies_array,
         "experience_effects": this.effects_array,
-      };
+      }];
       console.log(this.experience);
     }
   }
