@@ -132,7 +132,7 @@
           <div class="box">
             <select name="category" [(ngModel)]="category" class="js-example-basic-single form-control">
               <option [ngValue]="null" [disabled]="true">select category</option>
-              <option *ngFor="let cat of categories" [value]="cat.title">{{cat.title}}</option>
+              <option *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
             </select>
           </div>
           <button class="btn btn-dark" (click)="synergiesAdd()">add</button>
@@ -164,7 +164,7 @@
                 <div class="box">
                   <select name="sex" [(ngModel)]="gender" class="js-example-basic-single form-control">
                     <option [ngValue]="null" [disabled]="true">select gender</option>
-                    <option *ngFor="let sex of genders" [value]="sex.title">{{sex.title}}</option>
+                    <option *ngFor="let sex of genders" [value]="sex.id">{{sex.title}}</option>
                   </select>
                 </div>
               </div>
@@ -250,7 +250,7 @@
         <h4>effects added</h4>
         <div class="tag-box">
           <div class="tag" *ngFor="let item of effects_array">
-            {{item.effects}}
+            {{item.effect}}
             <i class="fa fa-close" (click)="remove(item.effects,'effects')"></i>
           </div>
         </div>

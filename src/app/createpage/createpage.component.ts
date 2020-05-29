@@ -143,7 +143,7 @@ export class CreatePageComponent implements OnInit {
 
   elementNameSelected(element: IElementName) {
     this.selectedElementNameId = element.Id;
-    this.element_name=element.Name;
+    this.element_name = element.Name;
   }
 
   upDownClick(type): void {
@@ -198,7 +198,7 @@ export class CreatePageComponent implements OnInit {
 
   }
   submitInfo(info): void {
-    if (info == 'personal') {
+    if (info == 'personal' && this.title != undefined && this.title != '') {
       this.experience = {
         "title": this.title,
         "explorer_weight": this.ex_weight,
@@ -221,22 +221,21 @@ export class CreatePageComponent implements OnInit {
       };
       console.log(this.experience);
 
-       // this.synthelicService.saveExperience(this.experience).subscribe({
-      //   next: response =>
-      //   {
-      //     console.log(response);
-      //   },
-      //   error: err => this.errorMessage = err,
-      //   complete:()=>{this.emptyField('submit');}
-      // }); 
-      
+      this.synthelicService.saveExperience(this.experience).subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: err => { this.Error=true; this.errorMessage = err; console.log(err); },
+        complete: () => { this.emptyField('submit');
+       }
+      });
+
     }
     else {
 
     }
   }
   elementAdd() {
-    debugger;
     if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0) {
       if (this.elements_array.length <= '9') {
         var obj = {
@@ -264,7 +263,7 @@ export class CreatePageComponent implements OnInit {
     if (this.effects_name != undefined && this.effects_name != '' && this.effects_name != null) {
       if (this.effects_array.length <= '9') {
         var obj = {
-          "effects": this.effects_name
+          "effect": this.effects_name
         }
         this.effects_array.push(obj);
         //reset
@@ -278,21 +277,21 @@ export class CreatePageComponent implements OnInit {
     }
   }
   synergiesAdd() {
-    if(this.category != undefined && this.category != null && this.category != '' && this.url != undefined && this.url !='')
-    if (this.synergies_array.length <= '9') {
-      var obj = {
-        "category": this.category,
-        "url": this.url
+    if (this.category != undefined && this.category != null && this.category != '' && this.url != undefined && this.url != '')
+      if (this.synergies_array.length <= '9') {
+        var obj = {
+          "category": this.category,
+          "url": this.url
+        }
+        this.synergies_array.push(obj);
+        //reset
+        this.emptyField('synergies');
       }
-      this.synergies_array.push(obj);
-      //reset
-      this.emptyField('synergies');
-    }
-    else {
-      this.Error = true;
-      this.errorObj = "Max limit :10";
-      setTimeout(() => { this.Error = false }, 100000);
-    }
+      else {
+        this.Error = true;
+        this.errorObj = "Max limit :10";
+        setTimeout(() => { this.Error = false }, 100000);
+      }
   }
   remove(item, type) {
     if (type == 'elements') {

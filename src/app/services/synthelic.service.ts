@@ -15,7 +15,7 @@ export class SynthelicService
     apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page_number=1';
     apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
     apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
-    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/;'
+    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';
 
     constructor(private http: HttpClient)
     {
