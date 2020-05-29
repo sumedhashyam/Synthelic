@@ -13,8 +13,7 @@ import { IResponse } from '../services/IResponse';
   templateUrl: './createpage.component.html',
   styleUrls: ['./createpage.component.css']
 })
-export class CreatePageComponent implements OnInit
-{
+export class CreatePageComponent implements OnInit {
   errorMessage: string;
   apiElementNamesUrl: string;
 
@@ -23,11 +22,11 @@ export class CreatePageComponent implements OnInit
   categories: ICategory[] = [];
   elementNames: IElementName[] = [];
   elementEffects: IElement[] = [];
-  elementApplications: IElement[] = []; 
+  elementApplications: IElement[] = [];
 
   selectedElementNameId: number;
 
-  experience: IExperience[];
+  experience: IExperience;
   addmore: boolean = false;
   explorer: boolean = false;
   set: boolean = false;
@@ -62,15 +61,14 @@ export class CreatePageComponent implements OnInit
   url: string;
   element_describe: string = null;
   element_helpe: string = null;
-
+  errorObj: string = null;
   // Use for autocomplete
   // Ref - https://www.npmjs.com/package/angular-ng-autocomplete
   keyword = 'Name';
 
   constructor(private synthelicService: SynthelicService) { }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.fetchGenders();
     this.fetchCategories();
     this.fetchElementNames();
@@ -78,42 +76,34 @@ export class CreatePageComponent implements OnInit
     this.fetchElementApplications();
   }
 
-  fetchGenders(): void
-  {
+  fetchGenders(): void {
     this.synthelicService.getGenders().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.genders = response.results as IGender[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  fetchCategories(): void
-  {
+  fetchCategories(): void {
     this.synthelicService.getCategories().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.categories = response.results as ICategory[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  fetchElementNames(): void
-  {
+  fetchElementNames(): void {
     let response: IResponse;
 
     this.synthelicService.getElementNames(this.apiElementNamesUrl).subscribe({
-      next: resp =>
-      {
+      next: resp => {
         response = resp;
         let elementNames = response.results as IElementNames[];
 
-        elementNames.forEach(en =>
-        {
-          en.names.forEach(name =>
-          {
+        elementNames.forEach(en => {
+          en.names.forEach(name => {
             const eName: IElementName = {
               Id: en.id,
               Name: name
@@ -123,10 +113,8 @@ export class CreatePageComponent implements OnInit
         });
       },
       error: err => this.errorMessage = err,
-      complete: () =>
-      {
-        if (response && response.next)
-        {
+      complete: () => {
+        if (response && response.next) {
           this.apiElementNamesUrl = response.next;
           this.fetchElementNames();
         }
@@ -134,109 +122,83 @@ export class CreatePageComponent implements OnInit
     });
   }
 
-  fetchElementEffects(): void
-  {
+  fetchElementEffects(): void {
     this.synthelicService.getElementEffects
       ().subscribe({
-        next: response =>
-        {
+        next: response => {
           this.elementEffects = response.results as IElement[];
         },
         error: err => this.errorMessage = err
       });
   }
 
-  fetchElementApplications(): void
-  {
+  fetchElementApplications(): void {
     this.synthelicService.getElementApplications().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.elementApplications = response.results as IElement[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  elementNameSelected(element:IElementName)
-  {
-    this.selectedElementNameId=element.Id;
+  elementNameSelected(element: IElementName) {
+    this.selectedElementNameId = element.Id;
   }
 
-  upDownClick(type): void
-  {
-    if (type == 'addmore')
-    {
-      if (this.addmore == false)
-      {
+  upDownClick(type): void {
+    if (type == 'addmore') {
+      if (this.addmore == false) {
         this.addmore = true;
       }
-      else
-      {
+      else {
         this.addmore = false;
       }
     }
-    else if (type == 'explorer')
-    {
-      if (this.explorer == false)
-      {
+    else if (type == 'explorer') {
+      if (this.explorer == false) {
         this.explorer = true;
       }
-      else
-      {
+      else {
         this.explorer = false;
       }
     }
-    else if (type == 'set')
-    {
-      if (this.set == false)
-      {
+    else if (type == 'set') {
+      if (this.set == false) {
         this.set = true;
       }
-      else
-      {
+      else {
         this.set = false;
       }
     }
-    else if (type == 'setting')
-    {
-      if (this.setting == false)
-      {
+    else if (type == 'setting') {
+      if (this.setting == false) {
         this.setting = true;
       }
-      else
-      {
+      else {
         this.setting = false;
       }
     }
-    else if (type == 'effects')
-    {
-      if (this.effects == false)
-      {
+    else if (type == 'effects') {
+      if (this.effects == false) {
         this.effects = true;
       }
-      else
-      {
+      else {
         this.effects = false;
       }
     }
-    else if (type == 'reportNotes')
-    {
-      if (this.reportNotes == false)
-      {
+    else if (type == 'reportNotes') {
+      if (this.reportNotes == false) {
         this.reportNotes = true;
       }
-      else
-      {
+      else {
         this.reportNotes = false;
       }
     }
 
   }
-  submitInfo(info): void
-  {
-    if (info == 'personal')
-    {
-      this.experience = [{
+  submitInfo(info): void {
+    if (info == 'personal') {
+      this.experience = {
         "title": this.title,
         "explorer_weight": this.ex_weight,
         "explorer_age": this.ex_age,
@@ -255,98 +217,130 @@ export class CreatePageComponent implements OnInit
         "experience_elements": this.elements_array,
         "experience_synergies": this.synergies_array,
         "experience_effects": this.effects_array,
-      }];
+      };
       console.log(this.experience);
+      this.emptyField('submit');
     }
-    else
-    {
-      this.experience = [{
-        "title": this.title,
-        "explorer_weight": this.ex_weight,
-        "explorer_age": this.ex_age,
-        "explorer_gender": this.gender,
-        "set_before": this.set_before,
-        "set_expectations": this.set_expectations,
-        "setting_location": this.setting_location,
-        "setting_weather": this.setting_weather,
-        "setting_atmosphere": this.setting_atmosphere,
-        "setting_companions": this.setting_companions,
-        "setting_other": this.setting_other,
-        "effects_physical": this.effects_physical,
-        "effects_emotional": this.effects_emotional,
-        "effects_semantic": this.effects_semantic,
-        "effects_meta_physical": this.effects_meta_physical,
-        "experience_elements": this.elements_array,
-        "experience_synergies": this.synergies_array,
-        "experience_effects": this.effects_array,
-      }];
-      console.log(this.experience);
-    }
-  }
-  elementAdd()
-  {
-    var obj = {
-      "element": this.selectedElementNameId,
-      "name": this.element_name,
-      "type": this.element_type,
-      "quantity": this.element_quantity,
-      "category_effect":this.element_describe,
-      "category_application":this.element_helpe
-    }
-    this.elements_array.push(obj);
-    console.log(this.elements_array);
+    else {
 
-    // Reset
-    this.selectedElementNameId = 0;
-  }
-  effectsAdd()
-  {
-    var obj = {
-      "effects": this.effects_name
     }
-    this.effects_array.push(obj);
-    console.log(this.effects_array);
   }
-  synergiesAdd()
-  {
-    var obj = {
-      "category": this.category,
-      "url": this.url
+  elementAdd() {
+    if (this.elements_array.length <= '9') {
+      var obj = {
+        "element": this.selectedElementNameId,
+        "name": this.element_name,
+        "type": this.element_type,
+        "quantity": this.element_quantity,
+        "category_effect": this.element_describe,
+        "category_application": this.element_helpe
+      }
+      this.elements_array.push(obj);
+      console.log(this.elements_array);
+      // Reset
+      this.emptyField('element');
     }
-    this.synergies_array.push(obj);
-    console.log(this.synergies_array);
+    else {
+      this.Error = true;
+      this.errorObj = "Max limit :10";
+      setTimeout(() => { this.Error = false }, 100000);
+    }
+
   }
-  remove(item, type)
-  {
-    if (type == 'elements')
-    {
-      this.elements_array.forEach((value, index) =>
-      {
-        if (value.name == item)
-        {
+  effectsAdd() {
+    if (this.effects_array.length <= '9') {
+      var obj = {
+        "effects": this.effects_name
+      }
+      this.effects_array.push(obj);
+      //reset
+      this.effects_name = '';
+    }
+    else {
+      this.Error = true;
+      this.errorObj = "Max limit :10";
+      setTimeout(() => { this.Error = false }, 100000);
+    }
+  }
+  synergiesAdd() {
+    if (this.synergies_array.length <= '9') {
+      var obj = {
+        "category": this.category,
+        "url": this.url
+      }
+      this.synergies_array.push(obj);
+      //reset
+      this.emptyField('synergies');
+    }
+    else {
+      this.Error = true;
+      this.errorObj = "Max limit :10";
+      setTimeout(() => { this.Error = false }, 100000);
+    }
+  }
+  remove(item, type) {
+    if (type == 'elements') {
+      this.elements_array.forEach((value, index) => {
+        if (value.name == item) {
           this.elements_array.splice(index, 1);
         }
       });
     }
-    else if (type == 'effects')
-    {
-      this.effects_array.forEach((value, index) =>
-      {
-        if (value.effects == item)
-        {
+    else if (type == 'effects') {
+      this.effects_array.forEach((value, index) => {
+        if (value.effects == item) {
           this.effects_array.splice(index, 1);
         }
       });
     }
-    else
-    {
-      this.synergies_array.forEach((value, index) =>
-      {
-        if (value.url == item)
-        {
+    else {
+      this.synergies_array.forEach((value, index) => {
+        if (value.url == item) {
           this.synergies_array.splice(index, 1);
         }
       });
+    }
+  }
+  emptyField(type) {
+    if (type == 'submit') {
+      this.title = '';
+      this.notes = '';
+      this.ex_weight = '';
+      this.ex_age = '';
+      this.gender = null;
+      this.set_before = '';
+      this.set_expectations = '';
+      this.setting_location = '';
+      this.setting_weather = '';
+      this.setting_atmosphere = '';
+      this.setting_companions = '';
+      this.setting_other = '';
+      this.effects_physical = '';
+      this.effects_emotional = '';
+      this.effects_semantic = '';
+      this.effects_meta_physical = '';
+      this.elements_array = [];
+      this.synergies_array = [];
+      this.effects_array = [];
+      this.element_name = '';
+      this.element_type = '';
+      this.element_quantity = '';
+      this.effects_name = '';
+      this.url = '';
+      this.element_describe = null;
+      this.element_helpe = null;
+    }
+    else if (type == 'element') {
+      this.element_name = '';
+      this.element_type = '';
+      this.element_quantity = '';
+      this.element_describe = null;
+      this.element_helpe = null;
+      this.selectedElementNameId = 0;
+    }
+    else if (type == 'synergies') {
+      this.category = null;
+      this.url = '';
     }
   }
 }

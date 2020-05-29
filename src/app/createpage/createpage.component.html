@@ -235,12 +235,13 @@
     <div class="right">
       <div class="error-box" *ngIf="Error">
         <p>{{errorMessage}}</p>
+        <p>{{errorObj}}</p>
       </div>
       <div class="r-box" *ngIf="elements_array.length > 0 ">
         <h4>elements added</h4>
         <div class="tag-box">
           <div class="tag" *ngFor="let item of elements_array">
-            {{item.name}}
+            {{item.name.Name}}
             <i class="fa fa-close" (click)="remove(item.name,'elements')"></i>
           </div>
         </div>
@@ -258,7 +259,7 @@
         <h4>synergies added</h4>
         <div class="tag-box">
           <div class="tag" *ngFor="let item of synergies_array">
-            <img src="../../assets/img/user.jpg" alt="" />
+            <!-- <img src="../../assets/img/user.jpg" alt="" /> -->
             {{item.url}}
             <span>{{item.category}}</span>
             <i class="fa fa-close" (click)="remove(item.url,'synergies')"></i>
