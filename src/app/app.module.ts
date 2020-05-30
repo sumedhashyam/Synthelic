@@ -6,14 +6,14 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreatePageComponent } from './createpage/createpage.component';
-import { HomePageComponent } from './home-page/home-page.component';
+import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreatePageComponent,
-    HomePageComponent
+    HomeComponent,
+    CreatePageComponent    
   ],
   imports: [
     BrowserModule,
