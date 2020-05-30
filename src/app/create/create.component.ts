@@ -13,7 +13,8 @@ import { IResponse } from '../services/IResponse';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent implements OnInit
+{
   errorMessage: string;
   apiElementNamesUrl: string;
 
@@ -25,14 +26,16 @@ export class CreateComponent implements OnInit {
   elementApplications: IElement[] = [];
 
   selectedElementNameId: number;
+  
+  // Toggle properties
+  hideMore: boolean = false;
+  hideExplorer: boolean = false;
+  hideSet: boolean = false;
+  hideSetting: boolean = false;
+  hideEffects: boolean = false;
+  hideReportNotes: boolean = false;
 
   experience: IExperience;
-  addmore: boolean = false;
-  explorer: boolean = false;
-  set: boolean = false;
-  setting: boolean = false;
-  effects: boolean = false;
-  reportNotes: boolean = false;
   category: string = null;
   title: string = '';
   notes: string = '';
@@ -62,13 +65,15 @@ export class CreateComponent implements OnInit {
   element_describe: string = null;
   element_helpe: string = null;
   errorObj: string = null;
+
   // Use for autocomplete
   // Ref - https://www.npmjs.com/package/angular-ng-autocomplete
   keyword = 'Name';
 
   constructor(private synthelicService: SynthelicService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.fetchGenders();
     this.fetchCategories();
     this.fetchElementNames();
@@ -76,34 +81,42 @@ export class CreateComponent implements OnInit {
     this.fetchElementApplications();
   }
 
-  fetchGenders(): void {
+  fetchGenders(): void
+  {
     this.synthelicService.getGenders().subscribe({
-      next: response => {
+      next: response =>
+      {
         this.genders = response.results as IGender[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  fetchCategories(): void {
+  fetchCategories(): void
+  {
     this.synthelicService.getCategories().subscribe({
-      next: response => {
+      next: response =>
+      {
         this.categories = response.results as ICategory[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  fetchElementNames(): void {
+  fetchElementNames(): void
+  {
     let response: IResponse;
 
     this.synthelicService.getElementNames(this.apiElementNamesUrl).subscribe({
-      next: resp => {
+      next: resp =>
+      {
         response = resp;
         let elementNames = response.results as IElementNames[];
 
-        elementNames.forEach(en => {
-          en.names.forEach(name => {
+        elementNames.forEach(en =>
+        {
+          en.names.forEach(name =>
+          {
             const eName: IElementName = {
               Id: en.id,
               Name: name
@@ -113,8 +126,10 @@ export class CreateComponent implements OnInit {
         });
       },
       error: err => this.errorMessage = err,
-      complete: () => {
-        if (response && response.next) {
+      complete: () =>
+      {
+        if (response && response.next)
+        {
           this.apiElementNamesUrl = response.next;
           this.fetchElementNames();
         }
@@ -122,83 +137,98 @@ export class CreateComponent implements OnInit {
     });
   }
 
-  fetchElementEffects(): void {
+  fetchElementEffects(): void
+  {
     this.synthelicService.getElementEffects
       ().subscribe({
-        next: response => {
+        next: response =>
+        {
           this.elementEffects = response.results as IElement[];
         },
         error: err => this.errorMessage = err
       });
   }
 
-  fetchElementApplications(): void {
+  fetchElementApplications(): void
+  {
     this.synthelicService.getElementApplications().subscribe({
-      next: response => {
+      next: response =>
+      {
         this.elementApplications = response.results as IElement[];
       },
       error: err => this.errorMessage = err
     });
   }
 
-  elementNameSelected(element: IElementName) {
+  elementNameSelected(element: IElementName)
+  {
     this.selectedElementNameId = element.Id;
     this.element_name = element.Name;
   }
 
-  upDownClick(type): void {
-    if (type == 'addmore') {
-      if (this.addmore == false) {
-        this.addmore = true;
+  toggleReportNotes(): void
+  {
+    this.hideReportNotes = !this.hideReportNotes;
+  }
+
+  toggleMoreDetails(): void
+  {
+    this.hideMore = !this.hideMore;
+  }
+
+  toggleExplorer(): void
+  {
+    this.hideExplorer = !this.hideExplorer;
+  }
+
+  toggleSet(): void
+  {
+    this.hideSet = !this.hideSet;
+  }
+
+  toggleSetting(): void
+  {
+    this.hideSetting = !this.hideSetting;
+  }
+
+  toggleEffects(): void
+  {
+    this.hideEffects = !this.hideEffects;
+  }
+
+  elementAdd()
+  {
+    if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0)
+    {
+      if (this.elements_array.length <= '9')
+      {
+        var obj = {
+          "element": this.selectedElementNameId,
+          "name": this.element_name['Name'],
+          "type": this.element_type,
+          "quantity": this.element_quantity,
+          "category_effect": this.element_describe,
+          "category_application": this.element_helpe
+        }
+        this.elements_array.push(obj);
+        console.log(this.elements_array);
+        // Reset
+        this.emptyField('element');
       }
-      else {
-        this.addmore = false;
-      }
-    }
-    else if (type == 'explorer') {
-      if (this.explorer == false) {
-        this.explorer = true;
-      }
-      else {
-        this.explorer = false;
-      }
-    }
-    else if (type == 'set') {
-      if (this.set == false) {
-        this.set = true;
-      }
-      else {
-        this.set = false;
-      }
-    }
-    else if (type == 'setting') {
-      if (this.setting == false) {
-        this.setting = true;
-      }
-      else {
-        this.setting = false;
-      }
-    }
-    else if (type == 'effects') {
-      if (this.effects == false) {
-        this.effects = true;
-      }
-      else {
-        this.effects = false;
-      }
-    }
-    else if (type == 'reportNotes') {
-      if (this.reportNotes == false) {
-        this.reportNotes = true;
-      }
-      else {
-        this.reportNotes = false;
+      else
+      {
+        this.Error = true;
+        this.errorObj = "Max limit :10";
+        setTimeout(() => { this.Error = false }, 100000);
       }
     }
 
   }
-  submitInfo(info): void {
-    if (info == 'personal' && this.title != undefined && this.title != '') {
+  
+  submitInfo(info): void
+  {
+    if (info == 'personal' && this.title != undefined && this.title != '')
+    {
       this.experience = {
         "title": this.title,
         "explorer_weight": this.ex_weight,
@@ -222,46 +252,32 @@ export class CreateComponent implements OnInit {
       console.log(this.experience);
 
       this.synthelicService.saveExperience(this.experience).subscribe({
-        next: response => {
+        next: response =>
+        {
           console.log(response);
         },
-        error: err => { this.Error=true; this.errorMessage = err; console.log(err); },
-        complete: () => { this.emptyField('submit');
-       }
+        error: err => { this.Error = true; this.errorMessage = err; console.log(err); },
+        complete: () =>
+        {
+          this.emptyField('submit');
+        }
       });
 
     }
-    else {
+    else
+    {
 
     }
   }
-  elementAdd() {
-    if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0) {
-      if (this.elements_array.length <= '9') {
-        var obj = {
-          "element": this.selectedElementNameId,
-          "name": this.element_name['Name'],
-          "type": this.element_type,
-          "quantity": this.element_quantity,
-          "category_effect": this.element_describe,
-          "category_application": this.element_helpe
-        }
-        this.elements_array.push(obj);
-        console.log(this.elements_array);
-        // Reset
-        this.emptyField('element');
-      }
-      else {
-        this.Error = true;
-        this.errorObj = "Max limit :10";
-        setTimeout(() => { this.Error = false }, 100000);
-      }
-    }
 
-  }
-  effectsAdd() {
-    if (this.effects_name != undefined && this.effects_name != '' && this.effects_name != null) {
-      if (this.effects_array.length <= '9') {
+  
+
+  effectsAdd()
+  {
+    if (this.effects_name != undefined && this.effects_name != '' && this.effects_name != null)
+    {
+      if (this.effects_array.length <= '9')
+      {
         var obj = {
           "effect": this.effects_name
         }
@@ -269,16 +285,19 @@ export class CreateComponent implements OnInit {
         //reset
         this.effects_name = '';
       }
-      else {
+      else
+      {
         this.Error = true;
         this.errorObj = "Max limit :10";
         setTimeout(() => { this.Error = false }, 100000);
       }
     }
   }
-  synergiesAdd() {
+  synergiesAdd()
+  {
     if (this.category != undefined && this.category != null && this.category != '' && this.url != undefined && this.url != '')
-      if (this.synergies_array.length <= '9') {
+      if (this.synergies_array.length <= '9')
+      {
         var obj = {
           "category": this.category,
           "url": this.url
@@ -287,37 +306,50 @@ export class CreateComponent implements OnInit {
         //reset
         this.emptyField('synergies');
       }
-      else {
+      else
+      {
         this.Error = true;
         this.errorObj = "Max limit :10";
         setTimeout(() => { this.Error = false }, 100000);
       }
   }
-  remove(item, type) {
-    if (type == 'elements') {
-      this.elements_array.forEach((value, index) => {
-        if (value.name == item) {
+  remove(item, type)
+  {
+    if (type == 'elements')
+    {
+      this.elements_array.forEach((value, index) =>
+      {
+        if (value.name == item)
+        {
           this.elements_array.splice(index, 1);
         }
       });
     }
-    else if (type == 'effects') {
-      this.effects_array.forEach((value, index) => {
-        if (value.effects == item) {
+    else if (type == 'effects')
+    {
+      this.effects_array.forEach((value, index) =>
+      {
+        if (value.effects == item)
+        {
           this.effects_array.splice(index, 1);
         }
       });
     }
-    else {
-      this.synergies_array.forEach((value, index) => {
-        if (value.url == item) {
+    else
+    {
+      this.synergies_array.forEach((value, index) =>
+      {
+        if (value.url == item)
+        {
           this.synergies_array.splice(index, 1);
         }
       });
     }
   }
-  emptyField(type) {
-    if (type == 'submit') {
+  emptyField(type)
+  {
+    if (type == 'submit')
+    {
       this.title = '';
       this.notes = '';
       this.ex_weight = '';
@@ -345,7 +377,8 @@ export class CreateComponent implements OnInit {
       this.element_describe = null;
       this.element_helpe = null;
     }
-    else if (type == 'element') {
+    else if (type == 'element')
+    {
       this.element_name = '';
       this.element_type = '';
       this.element_quantity = '';
@@ -353,7 +386,8 @@ export class CreateComponent implements OnInit {
       this.element_helpe = null;
       this.selectedElementNameId = 0;
     }
-    else if (type == 'synergies') {
+    else if (type == 'synergies')
+    {
       this.category = null;
       this.url = '';
     }

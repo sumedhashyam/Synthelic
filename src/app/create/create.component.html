@@ -140,20 +140,20 @@
       </div>
 
       <div class="reports-notes mt-5">
-        <button class="btn btn-dark mb-3" (click)="upDownClick('reportNotes')">report & notes <i class="fa fa-angle-up"
-            *ngIf="!reportNotes"></i><i class="fa fa-angle-down" *ngIf="reportNotes"></i></button>
-        <textarea class="form-control" *ngIf="!reportNotes" rows="4" [(ngModel)]="notes"></textarea>
+        <button class="btn btn-dark mb-3" (click)="toggleReportNotes()">report & notes <i class="fa fa-angle-up"
+            *ngIf="!hideReportNotes"></i><i class="fa fa-angle-down" *ngIf="hideReportNotes"></i></button>
+        <textarea class="form-control" *ngIf="!hideReportNotes" rows="4" [(ngModel)]="notes"></textarea>
       </div>
 
       <div class="add-more-details mt-5">
-        <button class="btn btn-dark mb-3" (click)="upDownClick('addmore')">add more details <i class="fa fa-angle-up"
-            *ngIf="!addmore"></i>
-          <i class="fa fa-angle-down" *ngIf="addmore"></i></button>
-        <div *ngIf="!addmore">
+        <button class="btn btn-dark mb-3" (click)="toggleMoreDetails()">add more details <i class="fa fa-angle-up"
+            *ngIf="!hideMore"></i>
+          <i class="fa fa-angle-down" *ngIf="hideMore"></i></button>
+        <div *ngIf="!hideMore">
           <div class="inner-box">
-            <h4 (click)="upDownClick('explorer')">explorer <i class="fa fa-angle-up" *ngIf="!explorer"></i>
-              <i class="fa fa-angle-down" *ngIf="explorer"></i></h4>
-            <div class="row" *ngIf="!explorer">
+            <h4 (click)="toggleExplorer()">explorer <i class="fa fa-angle-up" *ngIf="!hideExplorer"></i>
+              <i class="fa fa-angle-down" *ngIf="hideExplorer"></i></h4>
+            <div class="row" *ngIf="!hideExplorer">
               <div class="col-md-4">
                 <input class="form-control" name="" [(ngModel)]="ex_weight" placeholder="weight (kg)" />
               </div>
@@ -171,9 +171,9 @@
             </div>
           </div>
           <div class="inner-box">
-            <h4 (click)="upDownClick('set')">set <i class="fa fa-angle-up" *ngIf="!set"></i>
-              <i class="fa fa-angle-down" *ngIf="set"></i></h4>
-            <div class="row" *ngIf="!set">
+            <h4 (click)="toggleSet()">set <i class="fa fa-angle-up" *ngIf="!hideSet"></i>
+              <i class="fa fa-angle-down" *ngIf="hideSet"></i></h4>
+            <div class="row" *ngIf="!hideSet">
               <div class="col-md-6">
                 <input class="form-control" [(ngModel)]="set_before" placeholder="min set before use" />
               </div>
@@ -184,9 +184,9 @@
           </div>
 
           <div class="inner-box">
-            <h4 (click)="upDownClick('setting')">setting <i class="fa fa-angle-up" *ngIf="!setting"></i>
-              <i class="fa fa-angle-down" *ngIf="setting"></i></h4>
-            <div class="row" *ngIf="!setting">
+            <h4 (click)="toggleSetting()">setting <i class="fa fa-angle-up" *ngIf="!hideSetting"></i>
+              <i class="fa fa-angle-down" *ngIf="hideSetting"></i></h4>
+            <div class="row" *ngIf="!hideSetting">
               <div class="col-md-6">
                 <input class="form-control" [(ngModel)]="setting_location" placeholder="place of location" />
               </div>
@@ -205,9 +205,9 @@
             </div>
           </div>
           <div class="inner-box">
-            <h4 (click)="upDownClick('effects')">effects in detail <i class="fa fa-angle-up" *ngIf="!effects"></i>
-              <i class="fa fa-angle-down" *ngIf="effects"></i></h4>
-            <div class="row" *ngIf="!effects">
+            <h4 (click)="toggleEffects()">effects in detail <i class="fa fa-angle-up" *ngIf="!hideEffects"></i>
+              <i class="fa fa-angle-down" *ngIf="hideEffects"></i></h4>
+            <div class="row" *ngIf="!hideEffects">
               <div class="col-md-6">
                 <input class="form-control" [(ngModel)]="effects_physical" placeholder="physical" />
               </div>
