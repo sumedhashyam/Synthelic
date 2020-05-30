@@ -410,7 +410,7 @@ export class CreateComponent implements OnInit
   }
 
   checkForRequired(field: NgModel, error: IError, index: number): void
-  {    
+  {
     if (field.errors && (error === null || error === undefined))
     {
       this.showError = true;
@@ -480,12 +480,12 @@ export class CreateComponent implements OnInit
         experience_elements: this.elements,
         experience_synergies: this.synergies,
         experience_effects: this.effects,
-      };
-      //console.log(experience);
+      };      
 
       this.synthelicService.saveExperience(experience).subscribe({
         next: response =>
         {
+          alert('Experience saved successfully!');
           console.log(response);
         },
         error: err => { this.showError = true; this.errorMessage = err; console.log(this.errorMessage); },
