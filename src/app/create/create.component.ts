@@ -9,11 +9,11 @@ import { IExperience } from '../services/IExperience';
 import { IResponse } from '../services/IResponse';
 
 @Component({
-  selector: 'app-createpage',
-  templateUrl: './createpage.component.html',
-  styleUrls: ['./createpage.component.css']
+  selector: 'app-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.css']
 })
-export class CreatePageComponent implements OnInit {
+export class CreateComponent implements OnInit {
   errorMessage: string;
   apiElementNamesUrl: string;
 
