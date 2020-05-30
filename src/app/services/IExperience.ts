@@ -1,4 +1,9 @@
-export interface IExperience{
+import { IExperienceElement } from '../create/IExperienceElement';
+import { IExperienceEffect } from '../create/IExperienceEffect';
+import { IExperienceSynergy } from '../create/IExperienceSynergy';
+
+export interface IExperience
+{
         title: string,
         explorer_weight: string,
         explorer_age: string,
@@ -14,7 +19,7 @@ export interface IExperience{
         effects_emotional: string,
         effects_semantic: string,
         effects_meta_physical: string,
-        experience_elements:[],
-        experience_synergies:[],
-        experience_effects:[],
+        experience_elements: IExperienceElement[],
+        experience_synergies: IExperienceSynergy[],
+        experience_effects: IExperienceEffect[],
 }

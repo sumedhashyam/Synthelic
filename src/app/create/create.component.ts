@@ -7,6 +7,9 @@ import { IElementName } from '../services/IElementName';
 import { IElement } from '../services/IElement';
 import { IExperience } from '../services/IExperience';
 import { IResponse } from '../services/IResponse';
+import { IExperienceElement } from './IExperienceElement';
+import { IExperienceEffect } from './IExperienceEffect';
+import { IExperienceSynergy } from './IExperienceSynergy';
 
 @Component({
   selector: 'app-create',
@@ -24,8 +27,6 @@ export class CreateComponent implements OnInit
   elementNames: IElementName[] = [];
   elementEffects: IElement[] = [];
   elementApplications: IElement[] = [];
-
-  selectedElementNameId: number;
 
   // Toggle properties
   hideMore: boolean = false;
@@ -48,16 +49,17 @@ export class CreateComponent implements OnInit
   elementQuantity: string;
   categoryEffect: string = null;
   categoryApplication: string = null;
-  elements: any = [];
+  selectedElementNameId: number;
+  elements: IExperienceElement[] = [];
 
   // Effects
   effectName: string;
-  effects: any = [];
+  effects: IExperienceEffect[] = [];
 
   // Synergies
   synergyUrl: string;
   synergyCategory: string = null;
-  synergies: any = [];
+  synergies: IExperienceSynergy[] = [];
 
   // Notes
   notes: string = '';
@@ -84,7 +86,6 @@ export class CreateComponent implements OnInit
   effectsSemantic: string;
   effectsMetaPhysical: string;
 
-  experience: IExperience;
   Error: boolean = false;
   errorObj: string = null;
 
@@ -220,17 +221,16 @@ export class CreateComponent implements OnInit
     {
       if (this.elements.length <= 9)
       {
-        // TODO: Create typescript object
-        var obj = {
-          "element": this.selectedElementNameId,
-          "name": this.elementName['Name'],
-          "type": this.elementType,
-          "quantity": this.elementQuantity,
-          "category_effect": this.categoryEffect,
-          "category_application": this.categoryApplication
+        const expElement: IExperienceElement = {
+          element: this.selectedElementNameId,
+          name: this.elementName['Name'],
+          type: this.elementType,
+          quantity: this.elementQuantity,
+          category_effect: this.categoryEffect,
+          category_application: this.categoryApplication
         }
-        this.elements.push(obj);
-        // Reset
+
+        this.elements.push(expElement);
         this.reset('element');
       }
       else
@@ -242,28 +242,29 @@ export class CreateComponent implements OnInit
     }
   }
 
-  removeElement(item): void
+  removeElement(expElement: IExperienceElement): void
   {
-    this.elements.forEach((value, index) =>
+    // Ref - https://medium.com/@benjamincherion/how-to-break-an-array-in-javascript-6d3a55bd06f6
+    this.elements.some((element, index) =>
     {
-      if (value.name == item)
+      if (element === expElement)
       {
         this.elements.splice(index, 1);
+        return true;
       }
     });
   }
 
-  addEffect()
+  addEffect(): void
   {
     if (this.effectName)
     {
       if (this.effects.length <= 9)
       {
-        var obj = {
-          "effect": this.effectName
+        const expEffect: IExperienceEffect = {
+          effect: this.effectName
         }
-        this.effects.push(obj);
-
+        this.effects.push(expEffect);
         this.effectName = '';
       }
       else
@@ -275,16 +276,28 @@ export class CreateComponent implements OnInit
     }
   }
 
+  removeEffect(expEffect: IExperienceEffect): void
+  {
+    this.effects.some((effect, index) =>
+    {
+      if (effect === expEffect)
+      {
+        this.effects.splice(index, 1);
+        return true;
+      }
+    });
+  }
+
   addSynergy()
   {
     if (this.synergyCategory && this.synergyUrl)
-      if (this.synergies.length <= '9')
+      if (this.synergies.length <= 9)
       {
-        var obj = {
-          "category": this.synergyCategory,
-          "url": this.synergyUrl
+        const expSynergy: IExperienceSynergy = {
+          category: this.synergyCategory,
+          url: this.synergyUrl
         }
-        this.synergies.push(obj);
+        this.synergies.push(expSynergy);
         this.reset('synergies');
       }
       else
@@ -293,6 +306,18 @@ export class CreateComponent implements OnInit
         this.errorObj = "Max limit :10";
         setTimeout(() => { this.Error = false }, 100000);
       }
+  }
+
+  removeSynergy(expSynergy: IExperienceSynergy): void
+  {
+    this.synergies.some((synergy, index) =>
+    {
+      if (synergy === expSynergy)
+      {
+        this.synergies.splice(index, 1);
+        return true;
+      }
+    });
   }
 
   remove(item, type)
@@ -311,7 +336,7 @@ export class CreateComponent implements OnInit
     {
       this.effects.forEach((value, index) =>
       {
-        if (value.effects == item)
+        if (value.effect == item)
         {
           this.effects.splice(index, 1);
         }
@@ -333,34 +358,34 @@ export class CreateComponent implements OnInit
   {
     if (info == 'personal' && this.title != undefined && this.title != '')
     {
-      this.experience = {
-        "title": this.title,
-        "explorer_weight": this.expWeight,
-        "explorer_age": this.expAge,
-        "explorer_gender": this.expGender,
-        "set_before": this.setBefore,
-        "set_expectations": this.setExpectation,
-        "setting_location": this.settingLocation,
-        "setting_weather": this.settingWeather,
-        "setting_atmosphere": this.settingAtmosphere,
-        "setting_companions": this.settingCompanion,
-        "setting_other": this.settingOther,
-        "effects_physical": this.effectsPhysical,
-        "effects_emotional": this.effectsEmotional,
-        "effects_semantic": this.effectsSemantic,
-        "effects_meta_physical": this.effectsMetaPhysical,
-        "experience_elements": this.elements,
-        "experience_synergies": this.synergies,
-        "experience_effects": this.effects,
+      const experience: IExperience = {
+        title: this.title,
+        explorer_weight: this.expWeight,
+        explorer_age: this.expAge,
+        explorer_gender: this.expGender,
+        set_before: this.setBefore,
+        set_expectations: this.setExpectation,
+        setting_location: this.settingLocation,
+        setting_weather: this.settingWeather,
+        setting_atmosphere: this.settingAtmosphere,
+        setting_companions: this.settingCompanion,
+        setting_other: this.settingOther,
+        effects_physical: this.effectsPhysical,
+        effects_emotional: this.effectsEmotional,
+        effects_semantic: this.effectsSemantic,
+        effects_meta_physical: this.effectsMetaPhysical,
+        experience_elements: this.elements,
+        experience_synergies: this.synergies,
+        experience_effects: this.effects,
       };
-      console.log(this.experience);
+      console.log(experience);
 
-      this.synthelicService.saveExperience(this.experience).subscribe({
+      this.synthelicService.saveExperience(experience).subscribe({
         next: response =>
         {
           console.log(response);
         },
-        error: err => { this.Error = true; this.errorMessage = err; console.log(err); },
+        error: err => { this.Error = true; this.errorMessage = err; console.log(this.errorMessage); },
         complete: () =>
         {
           this.reset('submit');
@@ -373,52 +398,52 @@ export class CreateComponent implements OnInit
     }
   }
 
-
-
-  reset(type)
+  reset(type: string)
   {
-    if (type == 'submit')
+    switch (type)
     {
-      this.title = '';
-      this.notes = '';
-      this.expWeight = '';
-      this.expAge = '';
-      this.expGender = null;
-      this.setBefore = '';
-      this.setExpectation = '';
-      this.settingLocation = '';
-      this.settingWeather = '';
-      this.settingAtmosphere = '';
-      this.settingCompanion = '';
-      this.settingOther = '';
-      this.effectsPhysical = '';
-      this.effectsEmotional = '';
-      this.effectsSemantic = '';
-      this.effectsMetaPhysical = '';
-      this.elements = [];
-      this.synergies = [];
-      this.effects = [];
-      this.elementName = '';
-      this.elementType = '';
-      this.elementQuantity = '';
-      this.effectName = '';
-      this.synergyUrl = '';
-      this.categoryEffect = null;
-      this.categoryApplication = null;
-    }
-    else if (type == 'element')
-    {
-      this.elementName = '';
-      this.elementType = '';
-      this.elementQuantity = '';
-      this.categoryEffect = null;
-      this.categoryApplication = null;
-      this.selectedElementNameId = 0;
-    }
-    else if (type == 'synergies')
-    {
-      this.synergyCategory = null;
-      this.synergyUrl = '';
+      case 'submit':
+        this.title = '';
+        this.notes = '';
+        this.expWeight = '';
+        this.expAge = '';
+        this.expGender = null;
+        this.setBefore = '';
+        this.setExpectation = '';
+        this.settingLocation = '';
+        this.settingWeather = '';
+        this.settingAtmosphere = '';
+        this.settingCompanion = '';
+        this.settingOther = '';
+        this.effectsPhysical = '';
+        this.effectsEmotional = '';
+        this.effectsSemantic = '';
+        this.effectsMetaPhysical = '';
+        this.elements = [];
+        this.synergies = [];
+        this.effects = [];
+        this.elementName = '';
+        this.elementType = '';
+        this.elementQuantity = '';
+        this.effectName = '';
+        this.synergyUrl = '';
+        this.categoryEffect = null;
+        this.categoryApplication = null;
+        break;
+
+      case 'element':
+        this.elementName = '';
+        this.elementType = '';
+        this.elementQuantity = '';
+        this.categoryEffect = null;
+        this.categoryApplication = null;
+        this.selectedElementNameId = 0;
+        break;
+
+      case 'synergies':
+        this.synergyCategory = null;
+        this.synergyUrl = '';
+        break;
     }
   }
 }
