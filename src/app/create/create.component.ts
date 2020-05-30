@@ -10,6 +10,8 @@ import { IResponse } from '../services/IResponse';
 import { IExperienceElement } from './IExperienceElement';
 import { IExperienceEffect } from './IExperienceEffect';
 import { IExperienceSynergy } from './IExperienceSynergy';
+import { NgForm, NgModel } from '@angular/forms';
+import { IError } from './IError';
 
 @Component({
   selector: 'app-create',
@@ -18,6 +20,7 @@ import { IExperienceSynergy } from './IExperienceSynergy';
 })
 export class CreateComponent implements OnInit
 {
+  showLoader: boolean = false;
   errorMessage: string;
   apiElementNamesUrl: string;
 
@@ -86,18 +89,25 @@ export class CreateComponent implements OnInit
   effectsSemantic: string;
   effectsMetaPhysical: string;
 
-  Error: boolean = false;
-  errorObj: string = null;
+  // Error handling
+  showError: boolean = false;
+  errorMaxItem: string = null;
+  errors: IError[] = [];
 
-  constructor(private synthelicService: SynthelicService) { }
+  constructor(private synthelicService: SynthelicService)
+  {
+
+  }
 
   ngOnInit(): void
   {
+    this.showLoader = true;
     this.fetchGenders();
     this.fetchCategories();
     this.fetchElementNames();
     this.fetchElementEffects();
     this.fetchElementApplications();
+    this.showLoader = false;
   }
 
   fetchGenders(): void
@@ -235,9 +245,9 @@ export class CreateComponent implements OnInit
       }
       else
       {
-        this.Error = true;
-        this.errorObj = "Max limit :10";
-        setTimeout(() => { this.Error = false }, 100000);
+        this.showError = true;
+        this.errorMaxItem = "Maximum 10 element allowed";
+        setTimeout(() => { this.showError = false }, 100000);
       }
     }
   }
@@ -269,9 +279,22 @@ export class CreateComponent implements OnInit
       }
       else
       {
-        this.Error = true;
-        this.errorObj = "Max limit :10";
-        setTimeout(() => { this.Error = false }, 100000);
+        this.showError = true;
+        this.errorMaxItem = "Maximum 10 effect allowed";
+        setTimeout(() => { this.showError = false }, 100000);
+      }
+    }
+    else
+    {
+      let error = this.errors.find(e => e.name === 'effect');
+      if (!error)
+      {
+        error = {
+          name: 'effect',
+          message: 'Effect name is required'
+        }
+        this.showError = true;
+        this.errors.push(error);
       }
     }
   }
@@ -290,10 +313,22 @@ export class CreateComponent implements OnInit
 
   addSynergy()
   {
+    let error = this.errors.find(e => e.name === 'synergyUrl');
     if (this.synergyCategory && this.synergyUrl)
     {
       if (this.synergies.length <= 9)
       {
+        if (!this.isValidUrl(this.synergyUrl) && !error)
+        {
+          this.showError = true;
+          error = {
+            name: 'synergyUrl',
+            message: 'Please provide correct url'
+          }
+          this.errors.push(error);
+          return;
+        }
+
         let categoryTitle = '';
         let category = this.categories.find(c => c.id == this.synergyCategory);
         if (category)  
@@ -311,9 +346,21 @@ export class CreateComponent implements OnInit
       }
       else
       {
-        this.Error = true;
-        this.errorObj = "Max limit :10";
-        setTimeout(() => { this.Error = false }, 100000);
+        this.showError = true;
+        this.errorMaxItem = "Maximum 10 synergy allowed";
+        setTimeout(() => { this.showError = false }, 100000);
+      }
+    }
+    else
+    {
+      if (!error)
+      {
+        error = {
+          name: 'synergyUrl',
+          message: 'Synergy url and category is required'
+        }
+        this.showError = true;
+        this.errors.push(error);
       }
     }
   }
@@ -330,43 +377,89 @@ export class CreateComponent implements OnInit
     });
   }
 
-  // remove(item, type)
-  // {
-  //   if (type == 'elements')
-  //   {
-  //     this.elements.forEach((value, index) =>
-  //     {
-  //       if (value.name == item)
-  //       {
-  //         this.elements.splice(index, 1);
-  //       }
-  //     });
-  //   }
-  //   else if (type == 'effects')
-  //   {
-  //     this.effects.forEach((value, index) =>
-  //     {
-  //       if (value.effect == item)
-  //       {
-  //         this.effects.splice(index, 1);
-  //       }
-  //     });
-  //   }
-  //   else
-  //   {
-  //     this.synergies.forEach((value, index) =>
-  //     {
-  //       if (value.url == item)
-  //       {
-  //         this.synergies.splice(index, 1);
-  //       }
-  //     });
-  //   }
-  // }
-
-  saveExperience(info): void
+  onBlur(field: NgModel)
   {
-    if (info == 'personal' && this.title != undefined && this.title != '')
+    let error = this.errors.find(e => e.name === field.name);
+    const index = this.errors.findIndex(e => e.name === field.name);
+
+    if (field.name === 'synergyUrl')
+    {
+      if (field.hasError)
+      {
+        this.checkForRequired(field, error, index);
+      }
+      else if (!this.isValidUrl(field.value))
+      {
+        this.showError = true;
+        error = {
+          name: field.name,
+          message: `${field.value} is not correct url`
+        }
+        this.errors.push(error);
+      }
+      else
+      {
+        this.errors.splice(index, 1);
+        this.showError = this.errors.length > 0;
+      }
+    }
+    else
+    {
+      this.checkForRequired(field, error, index);
+    }
+  }
+
+  checkForRequired(field: NgModel, error: IError, index: number): void
+  {    
+    if (field.errors && (error === null || error === undefined))
+    {
+      this.showError = true;
+      error = {
+        name: field.name,
+        message: `${field.name} is required`
+      }
+      this.errors.push(error);
+    }
+    else
+    {
+      if (!field.errors)
+      {
+        this.errors.splice(index, 1);
+        this.showError = this.errors.length > 0;
+      }
+    }
+  }
+
+  isValidUrl(url: string)
+  {
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return !!pattern.test(url);
+  }
+
+  saveExperience(info: string): void
+  {
+    if (!this.title)
+    {
+      let error = this.errors.find(e => e.name === 'title');
+      if (!error)
+      {
+        error = {
+          name: 'title',
+          message: 'Title is required'
+        }
+        this.showError = true;
+        this.errors.push(error);
+      }
+      alert(error.message);
+      return;
+    }
+
+    if (info == 'personal')
     {
       const experience: IExperience = {
         title: this.title,
@@ -388,14 +481,14 @@ export class CreateComponent implements OnInit
         experience_synergies: this.synergies,
         experience_effects: this.effects,
       };
-      console.log(experience);
+      //console.log(experience);
 
       this.synthelicService.saveExperience(experience).subscribe({
         next: response =>
         {
           console.log(response);
         },
-        error: err => { this.Error = true; this.errorMessage = err; console.log(this.errorMessage); },
+        error: err => { this.showError = true; this.errorMessage = err; console.log(this.errorMessage); },
         complete: () =>
         {
           this.reset('submit');

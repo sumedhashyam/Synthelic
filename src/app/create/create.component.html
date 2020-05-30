@@ -1,3 +1,9 @@
+<div class="overlay" *ngIf='showLoader'>
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Please wait! Loading...</span>
+  </div>
+</div>
+
 <header class="home-header">
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -10,16 +16,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav  mt-2 mt-lg-0">
-          <!-- <li class="nav-item active">
-              <a class="nav-link" href="#">Forun  <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Create</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Journal</a>
-            </li> -->
+        <ul class="navbar-nav  mt-2 mt-lg-0">          
           <li class="nav-item">
             <div class="dropdown">
               <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -42,230 +39,255 @@
   </div>
 </header>
 
-<div class="container">
-  <div class="main-div">
-    <div class="left">
-      <div class="add-media inline-form">
-        <input type="text" class="form-control" placeholder="title" [(ngModel)]="title" />
-        <button class="btn btn-dark">add media</button>
+<form #form='ngForm'>
+  <div class="container">
+    <div class="main-div">
+      <div class="left">
+        <div class="add-media inline-form">
+          <input type="text" class="form-control" placeholder="title" [(ngModel)]="title" name="title" required
+            #titleModel="ngModel" (blur)="onBlur(titleModel)" />
+          <button class="btn btn-dark">add media</button>
+        </div>
+
+        <div class="elements">
+          <h4>elements</h4>
+          <div class="inline-form">
+            <div>
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="substance-tab" data-toggle="tab" href="#substance" role="tab"
+                    aria-controls="substance" aria-selected="true">substance</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="product-tab" data-toggle="tab" href="#product" role="tab"
+                    aria-controls="product" aria-selected="false">product</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="brand-tab" data-toggle="tab" href="#brand" role="tab" aria-controls="brand"
+                    aria-selected="false">brand</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="substance" role="tabpanel" aria-labelledby="substance-tab">
+
+                  <div class="box mb-2">
+                    <div class="ng-autocomplete">
+                      <ng-autocomplete [data]="elementNames" [searchKeyword]="keyword" class="form-control"
+                        placeHolder="name" name="autocomplete" [(ngModel)]="elementName" [itemTemplate]="itemTemplate"
+                        [notFoundTemplate]="notFoundTemplate" (selected)='elementNameSelected($event)'>
+                      </ng-autocomplete>
+
+                      <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.Name"></a>
+                      </ng-template>
+
+                      <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="block">
+                    <div class="box">
+                      <input type="text" class="form-control" name="type" [(ngModel)]="elementType"
+                        placeholder="type" />
+                    </div>
+                    <div class="box">
+                      <input type="text" class="form-control" name="quantity" [(ngModel)]="elementQuantity"
+                        placeholder="quantity" />
+                    </div>
+                    <div class="box">
+                      <select class="js-example-basic-single form-control" name="describe" [(ngModel)]="categoryEffect">
+                        <option [ngValue]="null" [disabled]="true">i would describe it as</option>
+                        <option *ngFor="let ef of elementEffects" [value]="ef.title">{{ef.title}}</option>
+                      </select>
+                    </div>
+                    <div class="box">
+                      <select class="js-example-basic-single form-control" name="helpe"
+                        [(ngModel)]="categoryApplication">
+                        <option [ngValue]="null" [disabled]="true">it has helped me with</option>
+                        <option *ngFor="let ea of elementApplications" [value]="ea.title">{{ea.title}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">...</div>
+                <div class="tab-pane fade" id="brand" role="tabpanel" aria-labelledby="brand-tab">...</div>
+              </div>
+            </div>
+            <button class="btn btn-dark" (click)="addElement()">add</button>
+          </div>
+
+        </div>
+
+        <div class="effects">
+          <h4>effects</h4>
+          <div class="inline-form">
+            <input type="text" class="form-control" name="effects" [(ngModel)]="effectName" placeholder="" required
+              #effectModel="ngModel" (blur)="onBlur(effectModel)" />
+            <button class="btn btn-dark" (click)="addEffect()">add</button>
+          </div>
+        </div>
+
+        <div class="synergies">
+          <h4>synergies</h4>
+          <div class="inline-form">
+            <input type="URL" class="form-control" name="synergyUrl" [(ngModel)]="synergyUrl" placeholder="http://"
+              required #urlModel="ngModel" (blur)="onBlur(urlModel)" />
+            <div class="box">
+              <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control">
+                <option [ngValue]="null" [disabled]="true">select category</option>
+                <option *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
+              </select>
+            </div>
+            <button class="btn btn-dark" (click)="addSynergy()">add</button>
+          </div>
+        </div>
+
+        <div class="reports-notes mt-5">
+          <button class="btn btn-dark mb-3" (click)="toggleReportNotes()">report & notes <i class="fa fa-angle-up"
+              *ngIf="!hideReportNotes"></i><i class="fa fa-angle-down" *ngIf="hideReportNotes"></i></button>
+          <textarea name="report" class="form-control" *ngIf="!hideReportNotes" rows="4" [(ngModel)]="notes"></textarea>
+        </div>
+
+        <div class="add-more-details mt-5">
+          <button class="btn btn-dark mb-3" (click)="toggleMoreDetails()">add more details <i class="fa fa-angle-up"
+              *ngIf="!hideMore"></i>
+            <i class="fa fa-angle-down" *ngIf="hideMore"></i></button>
+          <div *ngIf="!hideMore">
+            <div class="inner-box">
+              <h4 (click)="toggleExplorer()">explorer <i class="fa fa-angle-up" *ngIf="!hideExplorer"></i>
+                <i class="fa fa-angle-down" *ngIf="hideExplorer"></i></h4>
+              <div class="row" *ngIf="!hideExplorer">
+                <div class="col-md-4">
+                  <input class="form-control" name="weight" [(ngModel)]="expWeight" placeholder="weight (kg)" />
+                </div>
+                <div class="col-md-4">
+                  <input class="form-control" name="age" [(ngModel)]="expAge" placeholder="age" />
+                </div>
+                <div class="col-md-4">
+                  <div class="box">
+                    <select name="gender" [(ngModel)]="expGender" class="js-example-basic-single form-control">
+                      <option [ngValue]="null" [disabled]="true">select gender</option>
+                      <option *ngFor="let gender of genders" [value]="gender.id">{{gender.title}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="inner-box">
+              <h4 (click)="toggleSet()">set <i class="fa fa-angle-up" *ngIf="!hideSet"></i>
+                <i class="fa fa-angle-down" *ngIf="hideSet"></i></h4>
+              <div class="row" *ngIf="!hideSet">
+                <div class="col-md-6">
+                  <input class="form-control" name="setBefore" [(ngModel)]="setBefore"
+                    placeholder="min set before use" />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="setExpectation" [(ngModel)]="setExpectation"
+                    placeholder="expectations" />
+                </div>
+              </div>
+            </div>
+
+            <div class="inner-box">
+              <h4 (click)="toggleSetting()">setting <i class="fa fa-angle-up" *ngIf="!hideSetting"></i>
+                <i class="fa fa-angle-down" *ngIf="hideSetting"></i></h4>
+              <div class="row" *ngIf="!hideSetting">
+                <div class="col-md-6">
+                  <input class="form-control" name="settingLocation" [(ngModel)]=" settingLocation"
+                    placeholder="place of location" />
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control" name="settingWeather" [(ngModel)]="settingWeather"
+                    placeholder="weather" />
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control" name="settingAtmosphere" [(ngModel)]="settingAtmosphere"
+                    placeholder="atmosphere" />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="settingCompanion" [(ngModel)]="settingCompanion"
+                    placeholder="companions" />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="settingOther" [(ngModel)]="settingOther" placeholder="other" />
+                </div>
+              </div>
+            </div>
+            <div class="inner-box">
+              <h4 (click)="toggleEffectsInDetail()">effects in detail <i class="fa fa-angle-up"
+                  *ngIf="!hideEffectsInDetail"></i>
+                <i class="fa fa-angle-down" *ngIf="hideEffectsInDetail"></i></h4>
+              <div class="row" *ngIf="!hideEffectsInDetail">
+                <div class="col-md-6">
+                  <input class="form-control" name="effectsPhysical" [(ngModel)]="effectsPhysical"
+                    placeholder="physical" />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="effectsEmotional" [(ngModel)]="effectsEmotional"
+                    placeholder="emotional" />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="effectsSymatic" [(ngModel)]="effectsSemantic"
+                    placeholder="semantic" />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="effectsMetaPhysical" [(ngModel)]="effectsMetaPhysical"
+                    placeholder="meta-physical" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="btn-div">
+          <button class="btn btn-dark" (click)="saveExperience('personal')">submit personal</button>
+          <button class="btn btn-dark" (click)="saveExperience('public')">submit public</button>
+        </div>
+
       </div>
 
-      <div class="elements">
-        <h4>elements</h4>
-        <div class="inline-form">
-          <div>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="substance-tab" data-toggle="tab" href="#substance" role="tab"
-                  aria-controls="substance" aria-selected="true">substance</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="product-tab" data-toggle="tab" href="#product" role="tab"
-                  aria-controls="product" aria-selected="false">product</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="brand-tab" data-toggle="tab" href="#brand" role="tab" aria-controls="brand"
-                  aria-selected="false">brand</a>
-              </li>
+      <div class="right">
+        <div class="error-box" [class.active]="showError" *ngIf="showError">
+          <div class="alert alert-danger" role="alert">
+            <p>{{errorMessage}}</p>
+            <p>{{errorMaxItem}}</p>
+            <ul>
+              <li *ngFor="let error of errors">{{error.message}}</li>
             </ul>
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="substance" role="tabpanel" aria-labelledby="substance-tab">
+          </div>
+        </div>
 
-                <div class="box mb-2">                                    
-                  <div class="ng-autocomplete">
-                    <ng-autocomplete [data]="elementNames" [searchKeyword]="keyword" class="form-control" placeHolder="name"
-                      [(ngModel)]="elementName" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" (selected)='elementNameSelected($event)'>
-                    </ng-autocomplete>
-
-                    <ng-template #itemTemplate let-item>
-                      <a [innerHTML]="item.Name"></a>
-                    </ng-template>
-
-                    <ng-template #notFoundTemplate let-notFound>
-                      <div [innerHTML]="notFound"></div>
-                    </ng-template>
-                  </div>
-                </div>
-                <div class="block">
-                  <div class="box">
-                    <input type="text" class="form-control" name="type" [(ngModel)]="elementType" placeholder="type" />
-                  </div>
-                  <div class="box">
-                    <input type="text" class="form-control" name="quantity" [(ngModel)]="elementQuantity"
-                      placeholder="quantity" />
-                  </div>
-                  <div class="box">
-                    <select class="js-example-basic-single form-control" name="describe" [(ngModel)]="categoryEffect">
-                      <option [ngValue]="null" [disabled]="true">i would describe it as</option>
-                      <option *ngFor="let ef of elementEffects" [value]="ef.title">{{ef.title}}</option>
-                    </select>
-                  </div>
-                  <div class="box">
-                    <select class="js-example-basic-single form-control" name="helpe" [(ngModel)]="categoryApplication">
-                      <option [ngValue]="null" [disabled]="true">it has helped me with</option>
-                      <option *ngFor="let ea of elementApplications" [value]="ea.title">{{ea.title}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">...</div>
-              <div class="tab-pane fade" id="brand" role="tabpanel" aria-labelledby="brand-tab">...</div>
+        <div class="r-box" *ngIf="elements.length > 0 ">
+          <h4>elements added</h4>
+          <div class="tag-box">
+            <div class="tag" *ngFor="let element of elements">
+              {{element.name}}
+              <i class="fa fa-close" (click)="removeElement(element)"></i>
             </div>
           </div>
-          <button class="btn btn-dark" (click)="addElement()">add</button>
         </div>
-
-      </div>
-
-      <div class="effects">
-        <h4>effects</h4>
-        <div class="inline-form">
-          <input type="text" class="form-control" name="effects_name" [(ngModel)]="effectName" placeholder="" />
-          <button class="btn btn-dark" (click)="addEffect()">add</button>
-        </div>
-      </div>
-
-      <div class="synergies">
-        <h4>synergies</h4>
-        <div class="inline-form">
-          <input type="text" class="form-control" name="Url" [(ngModel)]="synergyUrl" placeholder="http://" />
-          <div class="box">
-            <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control">
-              <option [ngValue]="null" [disabled]="true">select category</option>
-              <option *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
-            </select>
-          </div>
-          <button class="btn btn-dark" (click)="addSynergy()">add</button>
-        </div>
-      </div>
-
-      <div class="reports-notes mt-5">
-        <button class="btn btn-dark mb-3" (click)="toggleReportNotes()">report & notes <i class="fa fa-angle-up"
-            *ngIf="!hideReportNotes"></i><i class="fa fa-angle-down" *ngIf="hideReportNotes"></i></button>
-        <textarea class="form-control" *ngIf="!hideReportNotes" rows="4" [(ngModel)]="notes"></textarea>
-      </div>
-
-      <div class="add-more-details mt-5">
-        <button class="btn btn-dark mb-3" (click)="toggleMoreDetails()">add more details <i class="fa fa-angle-up"
-            *ngIf="!hideMore"></i>
-          <i class="fa fa-angle-down" *ngIf="hideMore"></i></button>
-        <div *ngIf="!hideMore">
-          <div class="inner-box">
-            <h4 (click)="toggleExplorer()">explorer <i class="fa fa-angle-up" *ngIf="!hideExplorer"></i>
-              <i class="fa fa-angle-down" *ngIf="hideExplorer"></i></h4>
-            <div class="row" *ngIf="!hideExplorer">
-              <div class="col-md-4">
-                <input class="form-control" name="" [(ngModel)]="expWeight" placeholder="weight (kg)" />
-              </div>
-              <div class="col-md-4">
-                <input class="form-control" name="" [(ngModel)]="expAge" placeholder="age" />
-              </div>
-              <div class="col-md-4">
-                <div class="box">
-                  <select name="gender" [(ngModel)]="expGender" class="js-example-basic-single form-control">
-                    <option [ngValue]="null" [disabled]="true">select gender</option>
-                    <option *ngFor="let gender of genders" [value]="gender.id">{{gender.title}}</option>
-                  </select>
-                </div>
-              </div>
+        <div class="r-box second-element" *ngIf="effects.length > 0 ">
+          <h4>effects added</h4>
+          <div class="tag-box">
+            <div class="tag" *ngFor="let item of effects">
+              {{item.effect}}
+              <i class="fa fa-close" (click)="removeEffect(item)"></i>
             </div>
           </div>
-          <div class="inner-box">
-            <h4 (click)="toggleSet()">set <i class="fa fa-angle-up" *ngIf="!hideSet"></i>
-              <i class="fa fa-angle-down" *ngIf="hideSet"></i></h4>
-            <div class="row" *ngIf="!hideSet">
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="setBefore" placeholder="min set before use" />
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="setExpectation" placeholder="expectations" />
-              </div>
-            </div>
-          </div>
-
-          <div class="inner-box">
-            <h4 (click)="toggleSetting()">setting <i class="fa fa-angle-up" *ngIf="!hideSetting"></i>
-              <i class="fa fa-angle-down" *ngIf="hideSetting"></i></h4>
-            <div class="row" *ngIf="!hideSetting">
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="settingLocation" placeholder="place of location" />
-              </div>
-              <div class="col-md-3">
-                <input class="form-control" [(ngModel)]="settingWeather" placeholder="weather" />
-              </div>
-              <div class="col-md-3">
-                <input class="form-control" [(ngModel)]="settingAtmosphere" placeholder="atmosphere" />
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="settingCompanion" placeholder="companions" />
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="settingOther" placeholder="other" />
-              </div>
-            </div>
-          </div>
-          <div class="inner-box">
-            <h4 (click)="toggleEffectsInDetail()">effects in detail <i class="fa fa-angle-up" *ngIf="!hideEffectsInDetail"></i>
-              <i class="fa fa-angle-down" *ngIf="hideEffectsInDetail"></i></h4>
-            <div class="row" *ngIf="!hideEffectsInDetail">
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="effectsPhysical" placeholder="physical" />
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="effectsEmotional" placeholder="emotional" />
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="effectsSemantic" placeholder="semantic" />
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="effectsMetaPhysical" placeholder="meta-physical" />
-              </div>
-            </div>
-          </div>
-
         </div>
-      </div>
-      <div class="btn-div">
-        <button class="btn btn-dark" (click)="saveExperience('personal')">submit personal</button>
-        <button class="btn btn-dark" (click)="saveExperience('public')">submit public</button>
-      </div>
-
-    </div>
-
-    <div class="right">
-      <div class="error-box" *ngIf="Error">
-        <p>{{errorMessage}}</p>
-        <p>{{errorObj}}</p>
-      </div>
-      <div class="r-box" *ngIf="elements.length > 0 ">
-        <h4>elements added</h4>
-        <div class="tag-box">
-          <div class="tag" *ngFor="let element of elements">
-            {{element.name}}
-            <i class="fa fa-close" (click)="removeElement(element)"></i>
-          </div>
-        </div>
-      </div>
-      <div class="r-box second-element" *ngIf="effects.length > 0 ">
-        <h4>effects added</h4>
-        <div class="tag-box">
-          <div class="tag" *ngFor="let item of effects">
-            {{item.effect}}
-            <i class="fa fa-close" (click)="removeEffect(item)"></i>
-          </div>
-        </div>
-      </div>
-      <div class="r-box third-element" *ngIf="synergies.length > 0 ">
-        <h4>synergies added</h4>
-        <div class="tag-box">
-          <div class="tag" *ngFor="let synergy of synergies">
-            <!-- <img src="../../assets/img/user.jpg" alt="" /> -->
-            {{synergy.url}}
-            <span>{{synergy.categoryName}}</span>
-            <i class="fa fa-close" (click)="removeSynergy(synergy)"></i>
+        <div class="r-box third-element" *ngIf="synergies.length > 0 ">
+          <h4>synergies added</h4>
+          <div class="tag-box">
+            <div class="tag" *ngFor="let synergy of synergies">
+              <!-- <img src="../../assets/img/user.jpg" alt="" /> -->
+              {{synergy.url}}
+              <span>{{synergy.categoryName}}</span>
+              <i class="fa fa-close" (click)="removeSynergy(synergy)"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</form>
