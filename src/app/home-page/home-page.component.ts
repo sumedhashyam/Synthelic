@@ -6,13 +6,16 @@ import { Router } from '@angular/router';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {
-
+export class HomePageComponent implements OnInit
+{
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
   }
-  gotoCreatepage(){
+
+  redirectToCreate()
+  {
     this.router.navigate(["createpage"]);
   }
 }
