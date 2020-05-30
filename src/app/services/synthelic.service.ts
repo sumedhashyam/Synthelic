@@ -46,7 +46,7 @@ export class SynthelicService
         }
 
         return this.http.get<IResponse>(url).pipe(
-            tap(data => console.log("Element Names:" + JSON.stringify(data))),
+            //tap(data => console.log("Element Names:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
     }
