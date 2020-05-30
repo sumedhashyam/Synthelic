@@ -291,10 +291,19 @@ export class CreateComponent implements OnInit
   addSynergy()
   {
     if (this.synergyCategory && this.synergyUrl)
+    {
       if (this.synergies.length <= 9)
       {
+        let categoryTitle = '';
+        let category = this.categories.find(c => c.id == this.synergyCategory);
+        if (category)  
+        {
+          categoryTitle = category.title;
+        }
+
         const expSynergy: IExperienceSynergy = {
           category: this.synergyCategory,
+          categoryName: categoryTitle,
           url: this.synergyUrl
         }
         this.synergies.push(expSynergy);
@@ -306,6 +315,7 @@ export class CreateComponent implements OnInit
         this.errorObj = "Max limit :10";
         setTimeout(() => { this.Error = false }, 100000);
       }
+    }
   }
 
   removeSynergy(expSynergy: IExperienceSynergy): void
@@ -320,39 +330,39 @@ export class CreateComponent implements OnInit
     });
   }
 
-  remove(item, type)
-  {
-    if (type == 'elements')
-    {
-      this.elements.forEach((value, index) =>
-      {
-        if (value.name == item)
-        {
-          this.elements.splice(index, 1);
-        }
-      });
-    }
-    else if (type == 'effects')
-    {
-      this.effects.forEach((value, index) =>
-      {
-        if (value.effect == item)
-        {
-          this.effects.splice(index, 1);
-        }
-      });
-    }
-    else
-    {
-      this.synergies.forEach((value, index) =>
-      {
-        if (value.url == item)
-        {
-          this.synergies.splice(index, 1);
-        }
-      });
-    }
-  }
+  // remove(item, type)
+  // {
+  //   if (type == 'elements')
+  //   {
+  //     this.elements.forEach((value, index) =>
+  //     {
+  //       if (value.name == item)
+  //       {
+  //         this.elements.splice(index, 1);
+  //       }
+  //     });
+  //   }
+  //   else if (type == 'effects')
+  //   {
+  //     this.effects.forEach((value, index) =>
+  //     {
+  //       if (value.effect == item)
+  //       {
+  //         this.effects.splice(index, 1);
+  //       }
+  //     });
+  //   }
+  //   else
+  //   {
+  //     this.synergies.forEach((value, index) =>
+  //     {
+  //       if (value.url == item)
+  //       {
+  //         this.synergies.splice(index, 1);
+  //       }
+  //     });
+  //   }
+  // }
 
   saveExperience(info): void
   {
