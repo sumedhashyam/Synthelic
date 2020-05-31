@@ -17,11 +17,11 @@ import { HomeComponent } from './home/home.component';
     CreateComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
+    BrowserModule,    
     FormsModule,
     HttpClientModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
