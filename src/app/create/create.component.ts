@@ -230,6 +230,7 @@ export class CreateComponent implements OnInit
   {
     this.selectedElementNameId = element.Id;
     this.elementName = element.Name;
+    this.elementNameSearchTxt = element.Name;
   }
 
   elementNameChange(searchTxt: string)
@@ -262,7 +263,7 @@ export class CreateComponent implements OnInit
       {
         const expElement: IExperienceElement = {
           element: this.selectedElementNameId,
-          name: this.elementName['Name'],
+          name: this.elementName,
           type: this.elementType,
           quantity: this.elementQuantity,
           category_effect: this.categoryEffect,
@@ -524,13 +525,23 @@ export class CreateComponent implements OnInit
       experience.public = true;
     }
 
+    console.log(JSON.stringify(experience));
     this.synthelicService.saveExperience(experience).subscribe({
       next: response =>
       {
         alert('Experience saved successfully!');
         console.log(response);
       },
-      error: err => { this.showError = true; this.errorMessage = err; console.log(this.errorMessage); },
+      error: err =>
+      {
+        console.log(err);
+        let error: IError = {
+          name: 'ErrorOnSave',
+          message: err
+        }
+        this.showErrors(error);
+
+      },
       complete: () =>
       {
         this.reset('submit');
@@ -568,7 +579,7 @@ export class CreateComponent implements OnInit
         this.effectName = '';
         this.synergyUrl = '';
         this.categoryEffect = null;
-        this.categoryApplication = null;
+        this.categoryApplication = null;        
         break;
 
       case 'element':
