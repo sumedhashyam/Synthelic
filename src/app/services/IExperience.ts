@@ -22,4 +22,5 @@ export interface IExperience
         experience_elements: IExperienceElement[],
         experience_synergies: IExperienceSynergy[],
         experience_effects: IExperienceEffect[],
+        public: boolean
 }

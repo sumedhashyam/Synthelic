@@ -459,46 +459,45 @@ export class CreateComponent implements OnInit
       return;
     }
 
-    if (info == 'personal')
-    {
-      const experience: IExperience = {
-        title: this.title,
-        explorer_weight: this.expWeight,
-        explorer_age: this.expAge,
-        explorer_gender: this.expGender,
-        set_before: this.setBefore,
-        set_expectations: this.setExpectation,
-        setting_location: this.settingLocation,
-        setting_weather: this.settingWeather,
-        setting_atmosphere: this.settingAtmosphere,
-        setting_companions: this.settingCompanion,
-        setting_other: this.settingOther,
-        effects_physical: this.effectsPhysical,
-        effects_emotional: this.effectsEmotional,
-        effects_semantic: this.effectsSemantic,
-        effects_meta_physical: this.effectsMetaPhysical,
-        experience_elements: this.elements,
-        experience_synergies: this.synergies,
-        experience_effects: this.effects,
-      };      
+    const experience: IExperience = {
+      title: this.title,
+      explorer_weight: this.expWeight,
+      explorer_age: this.expAge,
+      explorer_gender: this.expGender,
+      set_before: this.setBefore,
+      set_expectations: this.setExpectation,
+      setting_location: this.settingLocation,
+      setting_weather: this.settingWeather,
+      setting_atmosphere: this.settingAtmosphere,
+      setting_companions: this.settingCompanion,
+      setting_other: this.settingOther,
+      effects_physical: this.effectsPhysical,
+      effects_emotional: this.effectsEmotional,
+      effects_semantic: this.effectsSemantic,
+      effects_meta_physical: this.effectsMetaPhysical,
+      experience_elements: this.elements,
+      experience_synergies: this.synergies,
+      experience_effects: this.effects,
+      public: false
+    };
 
-      this.synthelicService.saveExperience(experience).subscribe({
-        next: response =>
-        {
-          alert('Experience saved successfully!');
-          console.log(response);
-        },
-        error: err => { this.showError = true; this.errorMessage = err; console.log(this.errorMessage); },
-        complete: () =>
-        {
-          this.reset('submit');
-        }
-      });
-    }
-    else
+    if (info == 'public')
     {
-
+      experience.public = true;
     }
+
+    this.synthelicService.saveExperience(experience).subscribe({
+      next: response =>
+      {
+        alert('Experience saved successfully!');
+        console.log(response);
+      },
+      error: err => { this.showError = true; this.errorMessage = err; console.log(this.errorMessage); },
+      complete: () =>
+      {
+        this.reset('submit');
+      }
+    });
   }
 
   reset(type: string)
