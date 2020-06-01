@@ -74,7 +74,7 @@
                     <div class="ng-autocomplete">
                       <ng-autocomplete [data]="elementNames" [searchKeyword]="keyword" class="form-control"
                         placeHolder="name*" name="autocomplete" [(ngModel)]="elementName" [itemTemplate]="itemTemplate"
-                        [notFoundTemplate]="notFoundTemplate" (selected)='elementNameSelected($event)'>
+                        [notFoundTemplate]="notFoundTemplate" (selected)='elementNameSelected($event)' (inputChanged)='elementNameChange($event)'>
                       </ng-autocomplete>
 
                       <ng-template #itemTemplate let-item>
@@ -250,8 +250,7 @@
       <div class="right">
         <div #errorBox class="error-box" [class.active]="showError" *ngIf="showError">
           <div class="alert alert-danger" role="alert">
-            <p>{{errorMessage}}</p>
-            <p>{{errorMaxItem}}</p>
+            <p>{{errorMessage}}</p>            
             <ul>
               <li *ngFor="let error of errors">{{error.message}}</li>
             </ul>

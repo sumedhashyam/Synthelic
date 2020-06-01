@@ -21,7 +21,6 @@ import { IResponse } from '../services/IResponse';
 export class CreateComponent implements OnInit
 {
   showLoader: boolean = false;
-  errorMessage: string;
   apiElementNamesUrl: string;
 
   // API response holder
@@ -52,6 +51,7 @@ export class CreateComponent implements OnInit
   elementQuantity: string;
   categoryEffect: string = null;
   categoryApplication: string = null;
+  elementNameSearchTxt: string;
   selectedElementNameId: number;
   elements: IExperienceElement[] = [];
 
@@ -90,8 +90,8 @@ export class CreateComponent implements OnInit
   effectsMetaPhysical: string;
 
   // Error handling
+  errorMessage: string;
   showError: boolean = false;
-  errorMaxItem: string = null;
   errors: IError[] = [];
 
   constructor(private synthelicService: SynthelicService)
@@ -219,6 +219,12 @@ export class CreateComponent implements OnInit
     this.hideEffectsInDetail = !this.hideEffectsInDetail;
   }
 
+  showErrors(error: IError)
+  {
+    this.showError = true;
+    this.errors.push(error);
+    setTimeout(() => { this.showError = false, this.errors = [] }, 2000);
+  }
 
   elementNameSelected(element: IElementName)
   {
@@ -226,10 +232,14 @@ export class CreateComponent implements OnInit
     this.elementName = element.Name;
   }
 
-  validateElement(searchTxt: string)
+  elementNameChange(searchTxt: string)
   {
-    debugger;
-    const element = this.elementNames.find(e => e.Name === searchTxt);
+    this.elementNameSearchTxt = searchTxt;
+  }
+
+  validateElement(): void
+  {
+    const element = this.elementNames.find(e => e.Name === this.elementNameSearchTxt);
     if (element)
     {
       this.selectedElementNameId = element.Id;
@@ -244,9 +254,9 @@ export class CreateComponent implements OnInit
 
   addElement(): void
   {
-    this.validateElement(this.elementName['Name']);
+    this.validateElement();
 
-    if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0)
+    if (this.selectedElementNameId != undefined && this.selectedElementNameId > 0)
     {
       if (this.elements.length <= 9)
       {
@@ -264,10 +274,20 @@ export class CreateComponent implements OnInit
       }
       else
       {
-        this.showError = true;
-        this.errorMaxItem = "Maximum 10 element allowed";
-        setTimeout(() => { this.showError = false }, 100000);
+        const error: IError = {
+          name: 'MaxElement10',
+          message: 'Maximum 10 element allowed'
+        }
+        this.showErrors(error);
       }
+    }
+    else
+    {
+      const error: IError = {
+        name: 'ElementNotFound',
+        message: `The element '${this.elementNameSearchTxt}' not found.`
+      }
+      this.showErrors(error);
     }
   }
 
@@ -298,22 +318,23 @@ export class CreateComponent implements OnInit
       }
       else
       {
-        this.showError = true;
-        this.errorMaxItem = "Maximum 10 effect allowed";
-        setTimeout(() => { this.showError = false }, 100000);
+        const error: IError = {
+          name: 'MaxEffect10',
+          message: 'Maximum 10 effect allowed'
+        }
+        this.showErrors(error);
       }
     }
     else
     {
-      let error = this.errors.find(e => e.name === 'effect');
+      let error = this.errors.find(e => e.name === 'effects');
       if (!error)
       {
         error = {
-          name: 'effect',
+          name: 'effects',
           message: 'Effect name is required'
         }
-        this.showError = true;
-        this.errors.push(error);
+        this.showErrors(error);
       }
     }
   }
@@ -339,12 +360,11 @@ export class CreateComponent implements OnInit
       {
         if (!this.isValidUrl(this.synergyUrl) && !error)
         {
-          this.showError = true;
           error = {
             name: 'synergyUrl',
             message: 'Please provide correct url'
           }
-          this.errors.push(error);
+          this.showErrors(error);
           return;
         }
 
@@ -365,9 +385,11 @@ export class CreateComponent implements OnInit
       }
       else
       {
-        this.showError = true;
-        this.errorMaxItem = "Maximum 10 synergy allowed";
-        setTimeout(() => { this.showError = false }, 100000);
+        const error: IError = {
+          name: 'MaxSynergy10',
+          message: 'Maximum 10 synergy allowed'
+        }
+        this.showErrors(error);
       }
     }
     else
@@ -378,8 +400,7 @@ export class CreateComponent implements OnInit
           name: 'synergyUrl',
           message: 'Synergy url and category is required'
         }
-        this.showError = true;
-        this.errors.push(error);
+        this.showErrors(error);
       }
     }
   }
@@ -432,12 +453,11 @@ export class CreateComponent implements OnInit
   {
     if (field.errors && (error === null || error === undefined))
     {
-      this.showError = true;
       error = {
         name: field.name,
         message: `${field.name} is required`
       }
-      this.errors.push(error);
+      this.showErrors(error);
     }
     else
     {
@@ -471,8 +491,7 @@ export class CreateComponent implements OnInit
           name: 'title',
           message: 'Title is required'
         }
-        this.showError = true;
-        this.errors.push(error);
+        this.showErrors(error);
       }
       alert(error.message);
       return;

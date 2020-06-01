@@ -44,7 +44,8 @@
     height: 5rem;
     color: #fff;
 }
-.error-box-fix {
+
+.error-box {
     position: fixed;
     top: 90px;
     width: 260px;
