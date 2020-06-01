@@ -44,6 +44,12 @@
     height: 5rem;
     color: #fff;
 }
+.error-box-fix {
+    position: fixed;
+    top: 90px;
+    width: 260px;
+    z-index: 1;
+}
 
 .error-box ul {
     padding: 0;
@@ -58,4 +64,7 @@
 
 .synergies .box {
     margin-left: 15px;
+}
+.add-media.inline-form {
+    max-width: calc(100% - 100px);
 }

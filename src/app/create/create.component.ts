@@ -6,12 +6,12 @@ import { IElementNames } from '../services/IElementNames';
 import { IElementName } from '../services/IElementName';
 import { IElement } from '../services/IElement';
 import { IExperience } from '../services/IExperience';
-import { IResponse } from '../services/IResponse';
 import { IExperienceElement } from './IExperienceElement';
 import { IExperienceEffect } from './IExperienceEffect';
 import { IExperienceSynergy } from './IExperienceSynergy';
 import { NgForm, NgModel } from '@angular/forms';
 import { IError } from './IError';
+import { IResponse } from '../services/IResponse';
 
 @Component({
   selector: 'app-create',
@@ -189,12 +189,6 @@ export class CreateComponent implements OnInit
     });
   }
 
-  elementNameSelected(element: IElementName)
-  {
-    this.selectedElementNameId = element.Id;
-    this.elementName = element.Name;
-  }
-
   toggleReportNotes(): void
   {
     this.hideReportNotes = !this.hideReportNotes;
@@ -225,8 +219,33 @@ export class CreateComponent implements OnInit
     this.hideEffectsInDetail = !this.hideEffectsInDetail;
   }
 
+
+  elementNameSelected(element: IElementName)
+  {
+    this.selectedElementNameId = element.Id;
+    this.elementName = element.Name;
+  }
+
+  validateElement(searchTxt: string)
+  {
+    debugger;
+    const element = this.elementNames.find(e => e.Name === searchTxt);
+    if (element)
+    {
+      this.selectedElementNameId = element.Id;
+      this.elementName = element.Name;
+    }
+    else
+    {
+      this.selectedElementNameId = 0;
+      this.elementName = '';
+    }
+  }
+
   addElement(): void
   {
+    this.validateElement(this.elementName['Name']);
+
     if (this.selectedElementNameId != undefined && this.selectedElementNameId != 0)
     {
       if (this.elements.length <= 9)
