@@ -73,7 +73,7 @@
                   <div class="box mb-2">
                     <div class="ng-autocomplete">
                       <ng-autocomplete [data]="elementNames" [searchKeyword]="keyword" class="form-control"
-                        placeHolder="name" name="autocomplete" [(ngModel)]="elementName" [itemTemplate]="itemTemplate"
+                        placeHolder="name*" name="autocomplete" [(ngModel)]="elementName" [itemTemplate]="itemTemplate"
                         [notFoundTemplate]="notFoundTemplate" (selected)='elementNameSelected($event)'>
                       </ng-autocomplete>
 
@@ -122,7 +122,7 @@
         <div class="effects">
           <h4>effects</h4>
           <div class="inline-form">
-            <input type="text" class="form-control" name="effects" [(ngModel)]="effectName" placeholder="" required
+            <input type="text" class="form-control" name="effects" [(ngModel)]="effectName" placeholder="description*" required
               #effectModel="ngModel" (blur)="onBlur(effectModel)" />
             <button class="btn btn-dark" (click)="addEffect()">add</button>
           </div>

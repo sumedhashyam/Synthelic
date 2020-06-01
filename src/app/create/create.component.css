@@ -2,6 +2,11 @@
     border: 1px solid red;
 } */
 
+@media (min-width: 1200px)
+.container {
+    max-width: 1210px;
+}
+
 .main-div .right {
     overflow: hidden;
     padding-right: 10px;
@@ -49,4 +54,8 @@
 
 .error-box ul li {
     padding: 5px 0;
+}
+
+.synergies .box {
+    margin-left: 15px;
 }

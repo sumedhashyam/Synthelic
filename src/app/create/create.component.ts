@@ -32,12 +32,12 @@ export class CreateComponent implements OnInit
   elementApplications: IElement[] = [];
 
   // Toggle properties
-  hideMore: boolean = false;
-  hideExplorer: boolean = false;
-  hideSet: boolean = false;
-  hideSetting: boolean = false;
-  hideEffectsInDetail: boolean = false;
-  hideReportNotes: boolean = false;
+  hideMore: boolean = true;
+  hideExplorer: boolean = true;
+  hideSet: boolean = true;
+  hideSetting: boolean = true;
+  hideEffectsInDetail: boolean = true;
+  hideReportNotes: boolean = true;
 
   // Form elements
   title: string = '';
