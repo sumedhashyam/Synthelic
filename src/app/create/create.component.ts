@@ -455,14 +455,14 @@ export class CreateComponent implements OnInit
 
   saveExperience(info: string): void
   {
-    if (!this.title)
+    if (this.elements.length === 0)
     {
-      let error = this.errors.find(e => e.name === 'title');
+      let error = this.errors.find(e => e.name === 'MustHaveOneElement');
       if (!error)
       {
         error = {
-          name: 'title',
-          message: 'Title is required'
+          name: 'MustHaveOneElement',
+          message: 'Please add at least one element'
         }
         this.showErrors(error);
       }
