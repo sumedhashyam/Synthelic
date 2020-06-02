@@ -44,8 +44,7 @@
     <div class="main-div">
       <div class="left">
         <div class="add-media inline-form">
-          <input type="text" class="form-control" placeholder="title" [(ngModel)]="title" name="title" required
-            #titleModel="ngModel" (blur)="onBlur(titleModel)" />
+          <input type="text" class="form-control" placeholder="title" [(ngModel)]="title" name="title" required/>
           <button class="btn btn-dark">add media</button>
         </div>
 
@@ -123,7 +122,7 @@
           <h4>effects</h4>
           <div class="inline-form">
             <input type="text" class="form-control" name="effects" [(ngModel)]="effectName" placeholder="description*" required
-              #effectModel="ngModel" (blur)="onBlur(effectModel)" />
+             />
             <button class="btn btn-dark" (click)="addEffect()">add</button>
           </div>
         </div>
@@ -132,7 +131,7 @@
           <h4>synergies</h4>
           <div class="inline-form">
             <input type="URL" class="form-control" name="synergyUrl" [(ngModel)]="synergyUrl" placeholder="http://"
-              required #urlModel="ngModel" (blur)="onBlur(urlModel)" />
+              required/>
             <div class="box">
               <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control">
                 <option [ngValue]="null" [disabled]="true">category</option>

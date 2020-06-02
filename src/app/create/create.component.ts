@@ -288,6 +288,10 @@ export class CreateComponent implements OnInit
         name: 'ElementNotFound',
         message: `The element '${this.elementNameSearchTxt}' not found.`
       }
+      if (!this.elementNameSearchTxt)
+      {
+        error.message = 'Please enter element name';
+      }
       this.showErrors(error);
     }
   }
@@ -418,38 +422,6 @@ export class CreateComponent implements OnInit
     });
   }
 
-  onBlur(field: NgModel)
-  {
-    let error = this.errors.find(e => e.name === field.name);
-    const index = this.errors.findIndex(e => e.name === field.name);
-
-    if (field.name === 'synergyUrl')
-    {
-      if (field.hasError)
-      {
-        this.checkForRequired(field, error, index);
-      }
-      else if (!this.isValidUrl(field.value))
-      {
-        this.showError = true;
-        error = {
-          name: field.name,
-          message: `${field.value} is not correct url`
-        }
-        this.errors.push(error);
-      }
-      else
-      {
-        this.errors.splice(index, 1);
-        this.showError = this.errors.length > 0;
-      }
-    }
-    else
-    {
-      this.checkForRequired(field, error, index);
-    }
-  }
-
   checkForRequired(field: NgModel, error: IError, index: number): void
   {
     if (field.errors && (error === null || error === undefined))
@@ -494,7 +466,6 @@ export class CreateComponent implements OnInit
         }
         this.showErrors(error);
       }
-      alert(error.message);
       return;
     }
 
@@ -579,7 +550,7 @@ export class CreateComponent implements OnInit
         this.effectName = '';
         this.synergyUrl = '';
         this.categoryEffect = null;
-        this.categoryApplication = null;        
+        this.categoryApplication = null;
         break;
 
       case 'element':
