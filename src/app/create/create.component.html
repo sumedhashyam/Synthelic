@@ -135,7 +135,7 @@
               required #urlModel="ngModel" (blur)="onBlur(urlModel)" />
             <div class="box">
               <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control">
-                <option [ngValue]="null" [disabled]="true">select category</option>
+                <option [ngValue]="null" [disabled]="true">category</option>
                 <option *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
               </select>
             </div>
@@ -167,7 +167,7 @@
                 <div class="col-md-4">
                   <div class="box">
                     <select name="gender" [(ngModel)]="expGender" class="js-example-basic-single form-control">
-                      <option [ngValue]="null" [disabled]="true">select gender</option>
+                      <option [ngValue]="null" [disabled]="true">sex</option>
                       <option *ngFor="let gender of genders" [value]="gender.id">{{gender.title}}</option>
                     </select>
                   </div>
@@ -180,7 +180,7 @@
               <div class="row" *ngIf="!hideSet">
                 <div class="col-md-6">
                   <input class="form-control" name="setBefore" [(ngModel)]="setBefore"
-                    placeholder="min set before use" />
+                    placeholder="mind-set before use" />
                 </div>
                 <div class="col-md-6">
                   <input class="form-control" name="setExpectation" [(ngModel)]="setExpectation"
@@ -195,7 +195,7 @@
               <div class="row" *ngIf="!hideSetting">
                 <div class="col-md-6">
                   <input class="form-control" name="settingLocation" [(ngModel)]=" settingLocation"
-                    placeholder="place of location" />
+                    placeholder="place or location" />
                 </div>
                 <div class="col-md-3">
                   <input class="form-control" name="settingWeather" [(ngModel)]="settingWeather"
