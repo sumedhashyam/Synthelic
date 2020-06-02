@@ -44,7 +44,6 @@ input::-webkit-input-placeholder {
   background: none;
   border-color: #282828;
   outline: 0;
-  box-shadow: none;
 }
 
 .select2-dropdown {
