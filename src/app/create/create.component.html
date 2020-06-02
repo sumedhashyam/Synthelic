@@ -250,6 +250,7 @@
       <div class="right">
         <div #errorBox class="error-box" [class.active]="showError" *ngIf="showError">
           <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p>{{errorMessage}}</p>            
             <ul>
               <li *ngFor="let error of errors">{{error.message}}</li>

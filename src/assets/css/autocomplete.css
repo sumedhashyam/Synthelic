@@ -21,3 +21,11 @@
 .suggestions-container ul li a {
     color: #767676 !important;
 }
+
+.autocomplete-container .not-found {
+    border: 1px solid #282828 !important;
+    background: #282828 !important;
+}
+.autocomplete-container .not-found div {
+    border-bottom: none !important;
+}
