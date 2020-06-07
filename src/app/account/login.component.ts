@@ -6,11 +6,13 @@ import { first } from 'rxjs/operators';
 import { AccountService, AlertService } from '@app/_services';
 
 @Component({ templateUrl: 'login.component.html' })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit
+{
     form: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
+    showPassword: boolean;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -20,7 +22,8 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService
     ) { }
 
-    ngOnInit() {
+    ngOnInit()
+    {
         this.form = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -33,14 +36,21 @@ export class LoginComponent implements OnInit {
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 
-    onSubmit() {
+    togglePasswordVisibility()
+    {
+        this.showPassword = !this.showPassword;
+    }
+
+    onSubmit()
+    {
         this.submitted = true;
 
         // reset alerts on submit
         this.alertService.clear();
 
         // stop here if form is invalid
-        if (this.form.invalid) {
+        if (this.form.invalid)
+        {
             return;
         }
 
@@ -48,10 +58,13 @@ export class LoginComponent implements OnInit {
         this.accountService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
-                data => {
+                data =>
+                {
+                    debugger;
                     this.router.navigate([this.returnUrl]);
                 },
-                error => {
+                error =>
+                {
                     this.alertService.error(error);
                     this.loading = false;
                 });
