@@ -17,7 +17,7 @@
                             formControlName="password" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                         <span><i class="fa" [ngClass]="[showPassword?'fa-eye':'fa-eye-slash']"
-                                (click)="togglePasswordVisibility()"></i></span>
+                                (click)="togglePassword()"></i></span>
                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                             <div *ngIf="f.password.errors.required">Password is required</div>
                         </div>

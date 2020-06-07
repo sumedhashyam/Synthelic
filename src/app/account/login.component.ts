@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 
-    togglePasswordVisibility()
+    togglePassword()
     {
         this.showPassword = !this.showPassword;
     }

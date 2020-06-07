@@ -11,6 +11,8 @@ export class SignupComponent implements OnInit
     form: FormGroup;
     loading = false;
     submitted = false;
+    showPass = false;
+    showConfirmPass = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -23,15 +25,25 @@ export class SignupComponent implements OnInit
     ngOnInit()
     {
         this.form = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
             username: ['', Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
         });
     }
 
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
+
+    togglePass()
+    {
+        this.showPass = !this.showPass;
+    }
+
+    toggleConfirmPass()
+    {
+        this.showConfirmPass = !this.showConfirmPass;
+    }
 
     onSubmit()
     {
@@ -53,7 +65,7 @@ export class SignupComponent implements OnInit
                 data =>
                 {
                     this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['../login'], { relativeTo: this.route });
+                    this.router.navigate(['signin'], { relativeTo: this.route });
                 },
                 error =>
                 {
