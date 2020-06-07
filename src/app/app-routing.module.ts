@@ -10,8 +10,8 @@ import { SignupComponent } from './account/signup.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'create', component: CreateComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: SignupComponent },
+  { path: 'signin', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: '**', redirectTo: '' }
 ];
 

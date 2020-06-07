@@ -16,8 +16,6 @@ export class HomeComponent implements OnInit
 
   redirectToCreate()
   {
-    this.router.navigate(["create"],{
-      queryParams: { type: "create" }
-    });
+    this.router.navigate(["create"]);
   }
 }

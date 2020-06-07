@@ -12,7 +12,6 @@ import { HomeComponent } from './home/home.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { HeaderComponent } from './_components/header.component';
 import { AlertComponent } from './_components/alert.component';
-
 import { LoginComponent } from './account/login.component';
 import { SignupComponent } from './account/signup.component';
 
