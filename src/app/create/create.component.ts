@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SynthelicService } from '../services/synthelic.service';
-import { IGender } from '../services/IGender';
-import { ICategory } from '../services/ICategory';
-import { IElementNames } from '../services/IElementNames';
-import { IElementName } from '../services/IElementName';
-import { IElement } from '../services/IElement';
-import { IExperience } from '../services/IExperience';
-import { IExperienceElement } from './IExperienceElement';
-import { IExperienceEffect } from './IExperienceEffect';
-import { IExperienceSynergy } from './IExperienceSynergy';
+import { SynthelicService } from '@app/_services/synthelic.service';
+import { IGender } from '@app/_models/IGender';
+import { ICategory } from '@app/_models/ICategory';
+import { IElementNames } from '@app/_models/IElementNames';
+import { IElementName } from '@app/_models/IElementName';
+import { IElement } from '@app/_models/IElement';
+import { IExperience } from '@app/_models/IExperience';
+import { IExperienceElement } from '@app/_models/IExperienceElement';
+import { IExperienceEffect } from '@app/_models/IExperienceEffect';
+import { IExperienceSynergy } from '@app/_models/IExperienceSynergy';
 import { NgForm, NgModel } from '@angular/forms';
-import { IError } from './IError';
-import { IResponse } from '../services/IResponse';
+import { IError } from '@app/_models/IError';
+import { IResponse } from '@app/_models/IResponse';
 
 @Component({
   selector: 'app-create',
@@ -93,14 +93,14 @@ export class CreateComponent implements OnInit
   errorMessage: string;
   showError: boolean = false;
   errors: IError[] = [];
-
+  Type:any;
   constructor(private synthelicService: SynthelicService)
   {
-
+   
   }
 
   ngOnInit(): void
-  {
+  {    
     this.showLoader = true;
     this.fetchGenders();
     this.fetchCategories();

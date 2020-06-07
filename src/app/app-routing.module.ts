@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { CreateComponent } from "./create/create.component";
 import { HomeComponent } from "./home/home.component";
+import { AuthGuard } from './_helpers/auth.guard';
+import { LoginComponent } from './account/login.component';
+import { SignupComponent } from './account/signup.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'create', component: CreateComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', component: HomeComponent },
+  { path: 'create', component: CreateComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: SignupComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true })],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   declarations: [],
   exports: [RouterModule]
 })

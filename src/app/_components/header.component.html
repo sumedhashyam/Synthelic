@@ -1,0 +1,55 @@
+<header class="home-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+            <a class="navbar-brand" href="#">
+                <img src="../../assets/img/Logo.svg" alt="" />
+            </a>
+            <div *ngIf="userLoggedIn">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                    aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                    <ul class="navbar-nav  mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user-circle"></i>
+                                    <span>Cobraholic</span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03" *ngIf="!userLoggedIn">
+                <ul class="navbar-nav  mt-2 mt-lg-0">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#">forun </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <div class="create"><img src="img/plus_icon.svg" alt="" /> create</div>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">sign up</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#">sign in</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>

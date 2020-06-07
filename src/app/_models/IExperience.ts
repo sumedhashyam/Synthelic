@@ -1,6 +1,6 @@
-import { IExperienceElement } from '../create/IExperienceElement';
-import { IExperienceEffect } from '../create/IExperienceEffect';
-import { IExperienceSynergy } from '../create/IExperienceSynergy';
+import { IExperienceElement } from './IExperienceElement';
+import { IExperienceEffect } from './IExperienceEffect';
+import { IExperienceSynergy } from './IExperienceSynergy';
 
 export interface IExperience
 {
