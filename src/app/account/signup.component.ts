@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService } from '@app/_services';
+import { MustMatch } from '@app/_helpers/mustMatch.validator';
 
 @Component({ templateUrl: 'signup.component.html' })
 export class SignupComponent implements OnInit
@@ -28,8 +29,11 @@ export class SignupComponent implements OnInit
             username: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
-        });
+            confirmPassword: ['', Validators.required]
+        },
+            {
+                validator: MustMatch('password', 'confirmPassword')
+            });
     }
 
     // convenience getter for easy access to form fields
