@@ -23,6 +23,7 @@ export class TrendComponent implements OnInit
   {
     this.fetchElements();
     this.fetchEffects();
+    this.fetchSynergies();
   }
 
   ngAfterViewInit()
