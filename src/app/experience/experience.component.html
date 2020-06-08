@@ -339,7 +339,7 @@
                 <div class="inner-block">
                     <div class="top">
                         <div class="left">
-                            <span>{{element.user.username}}</span>
+                            <span>{{element.user}}</span>
                             <h4>{{element.title}}</h4>
                         </div>
                         <div class="right">
@@ -347,11 +347,10 @@
                         </div>
                     </div>
                     <div class="middle">
-                        <h4 class="purple"><span
-                                *ngFor="let effect of element.experience_effects">{{effect.effect}}</span></h4>
-                        <h4 class="blue"><span *ngFor="let ele of element.experience_elements">{{ele.name}}</span></h4>
+                        <h4 class="purple"><span>{{element.experience_effects}}</span></h4>
+                        <h4 class="blue"><span>{{element.experience_elements}}</span></h4>
                         <div class="bob-dylan" *ngFor="let synergies of element.experience_synergies">
-                            <img [src]="synergies.url" alt="" />
+                            <img [src]="synergies.image" alt="" />
                             <p>{{synergies.title}}</p>
                             <span>{{synergies.category_title}}</span>
                         </div>

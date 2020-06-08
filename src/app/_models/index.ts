@@ -15,3 +15,5 @@ export * from './element';
 export * from './elementResponse';
 export * from './effect';
 export * from './synergy';
+export * from './ExpresionResponce';
+
