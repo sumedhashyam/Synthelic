@@ -1,1 +1,201 @@
-<p>trends works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="elements-tags">
+        <div class="top">
+          <h2>elements</h2>
+          <a href="javascript:void(0);">view all</a>
+        </div>
+        <div class="tags">
+          <a #anchor href="javascript:void(0);" *ngFor="let element of elements"
+            (click)="showElementDetail(element.id)">{{element.common_name}}</a>
+        </div>
+      </div>
+      <div class="elements-tags effects-tags">
+        <div class="top">
+          <h2>effects</h2>
+          <a href="javascript:void(0);">view all</a>
+        </div>
+        <div class="tags">
+          <a href="javascript:void(0);" *ngFor="let eff of effects">{{eff.effect}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="right-element" *ngIf="selectedElement">
+        <div class="right-box">
+          <img [src]="selectedElement.imageUrl" alt="" />
+          <h6>found in 215 experiences <a href="#">view experiences</a></h6>
+          <div class="inner-block">
+            <div class="top">
+              <h2>{{selectedElement.scientificName}}</h2>
+              <i class="fa fa-heart"></i>
+            </div>
+            <div class="box">
+              <span>Also known as</span>
+              <p>{{selectedElement.elementNames}}</p>
+            </div>
+            <div class="box">
+              <span>Sources</span>
+              <p>{{selectedElement.elementSources}}</p>
+            </div>
+            <div class="box">
+              <span>Effects</span>
+              <p>{{selectedElement.elementEffects}}</p>
+            </div>
+            <div class="box">
+              <span>Applications</span>
+              <p>{{selectedElement.elementApplications}}</p>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-dark">go to element</button>
+      </div>
+    </div>
+  </div>
+  <div class="synergies-block">
+    <div class="top">
+      <h2>synergies</h2>
+      <a href="#">view all</a>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>bob dylan - like a rolling stone </p> <i class="fa fa-heart purple"></i>
+            </div>
+            <span>elements</span>
+            <h6>cannabis, zanax, pepsi, princols</h6>
+            <span class="name">music</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>wegz & molotof - dorak gai </p> <i class="fa fa-heart"></i>
+            </div>
+            <span>elements</span>
+            <h6>cannabis, zanax</h6>
+            <span class="name">music</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>washington post hits donnald trump </p> <i class="fa fa-heart"></i>
+            </div>
+            <span>elements</span>
+            <h6>dopenezil, zanax, pepsi, princols</h6>
+            <span class="name">blog</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>could synthetic fish be a better catc </p> <i class="fa fa-heart"></i>
+            </div>
+            <span>elements</span>
+            <h6>dopenezil, zanax</h6>
+            <span class="name">website</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>stikoudi: i am in love with panayiotis </p> <i class="fa fa-heart"></i>
+            </div>
+            <span>elements</span>
+            <h6>cannabis, zanax, pepsi, princols</h6>
+            <span class="name">fact</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>queens of the stone age - a song for... </p> <i class="fa fa-heart"></i>
+            </div>
+            <span>elements</span>
+            <h6>cannabis, zanax</h6>
+            <span class="name">music</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>bob dylan - like a rolling stone </p> <i class="fa fa-heart "></i>
+            </div>
+            <span>elements</span>
+            <h6>cannabis, zanax, pepsi, princols</h6>
+            <span class="name">music</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>wegz & molotof - dorak gai </p> <i class="fa fa-heart purple"></i>
+            </div>
+            <span>elements</span>
+            <h6>cannabis, zanax</h6>
+            <span class="name">music</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="box">
+          <div class="left">
+            <img src="img/synergies-img.jpg" alt="" />
+          </div>
+          <div class="right">
+            <div class="top-sec">
+              <p>washington post hits donnald trump </p> <i class="fa fa-heart"></i>
+            </div>
+            <span>elements</span>
+            <h6>dopenezil, zanax, pepsi, princols</h6>
+            <span class="name">blog</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

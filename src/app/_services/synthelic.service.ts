@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { IResponse } from '@app/_models/IResponse';
 import { IExperience } from '@app/_models/IExperience';
 
@@ -13,9 +13,13 @@ export class SynthelicService
     apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
     apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
     apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';
-    apiCategoryEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
-    apiCategoryApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
-    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';    
+    apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/effects/';
+    apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/applications/';
+    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';
+
+    apiElementsUrl = 'http://synthelic.com:9090/api/synth/elements/';
+    apiEffectsUrl = 'http://synthelic.com:9090/api/synth/experience_effects/';
+    apiSynergiesUrl = 'http://synthelic.com:9090/api/synth/experience_synergies/';
 
     constructor(private http: HttpClient)
     {
@@ -53,7 +57,7 @@ export class SynthelicService
 
     getElementEffects(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiCategoryApplicationsUrl).pipe(
+        return this.http.get<IResponse>(this.apiElementEffectsUrl).pipe(
             //tap(data => console.log("Element Effects:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
@@ -61,7 +65,7 @@ export class SynthelicService
 
     getElementApplications(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiCategoryEffectsUrl).pipe(
+        return this.http.get<IResponse>(this.apiElementApplicationsUrl).pipe(
             //tap(data => console.log("Element Applications:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
@@ -78,7 +82,26 @@ export class SynthelicService
             .pipe(catchError(this.handleError));
     }
 
+    getElements(): Observable<IResponse>
+    {
+        return this.http.get<IResponse>(this.apiElementsUrl).pipe(
+            //tap(data => console.log("Elements:" + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
 
+    getEffects(): Observable<IResponse>
+    {
+        return this.http.get<IResponse>(this.apiEffectsUrl).pipe(
+            tap(data => console.log("Effects:" + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
+
+    getSynergies(): Observable<IResponse>
+    {
+        return this.http.get<IResponse>(this.apiSynergiesUrl).pipe(
+            //tap(data => console.log("Synergies:" + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
 
     private handleError(err: HttpErrorResponse)
     {

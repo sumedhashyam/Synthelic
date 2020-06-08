@@ -147,8 +147,8 @@ export class CreateComponent implements OnInit
           en.names.forEach(name =>
           {
             const eName: IElementName = {
-              Id: en.id,
-              Name: name
+              id: en.id,
+              name: name
             };
             this.elementNames.push(eName);
           })
@@ -228,9 +228,9 @@ export class CreateComponent implements OnInit
 
   elementNameSelected(element: IElementName)
   {
-    this.selectedElementNameId = element.Id;
-    this.elementName = element.Name;
-    this.elementNameSearchTxt = element.Name;
+    this.selectedElementNameId = element.id;
+    this.elementName = element.name;
+    this.elementNameSearchTxt = element.name;
   }
 
   elementNameChange(searchTxt: string)
@@ -240,11 +240,11 @@ export class CreateComponent implements OnInit
 
   validateElement(): void
   {
-    const element = this.elementNames.find(e => e.Name === this.elementNameSearchTxt);
+    const element = this.elementNames.find(e => e.name === this.elementNameSearchTxt);
     if (element)
     {
-      this.selectedElementNameId = element.Id;
-      this.elementName = element.Name;
+      this.selectedElementNameId = element.id;
+      this.elementName = element.name;
     }
     else
     {
