@@ -13,9 +13,9 @@ export class SynthelicService
     apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
     apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
     apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';
-    apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
-    apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
-    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';
+    apiCategoryEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
+    apiCategoryApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
+    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';    
 
     constructor(private http: HttpClient)
     {
@@ -53,7 +53,7 @@ export class SynthelicService
 
     getElementEffects(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementApplicationsUrl).pipe(
+        return this.http.get<IResponse>(this.apiCategoryApplicationsUrl).pipe(
             //tap(data => console.log("Element Effects:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
@@ -61,7 +61,7 @@ export class SynthelicService
 
     getElementApplications(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementEffectsUrl).pipe(
+        return this.http.get<IResponse>(this.apiCategoryEffectsUrl).pipe(
             //tap(data => console.log("Element Applications:" + JSON.stringify(data))),
             catchError(this.handleError)
         );
@@ -77,6 +77,8 @@ export class SynthelicService
         return this.http.post<IExperience>(this.apiSaveExperienceUrl, experience, httpOptions)
             .pipe(catchError(this.handleError));
     }
+
+
 
     private handleError(err: HttpErrorResponse)
     {

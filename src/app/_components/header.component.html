@@ -55,9 +55,10 @@
 <div class="header-bottom">
     <div class="container">
         <ul>
-            <li><a href="#">trends</a></li>
-            <li><a href="#">experiences</a></li>
-            <li><a href="#">filter <i class="fa fa-angle-down"></i></a></li>
+            <li [routerLinkActive]="['active']"><a routerLink="/trends">trends</a></li>
+            <li [routerLinkActive]="['active']"><a routerLink="/experiences">experiences</a></li>
+            <li><a data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0)">filter <i
+                        class="fa fa-angle-down"></i></a></li>
             <li>
                 <div class="search">
                     <span><i class="fa fa-search"></i></span>

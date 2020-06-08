@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -14,7 +15,8 @@ import { HeaderComponent } from './_components/header.component';
 import { AlertComponent } from './_components/alert.component';
 import { LoginComponent } from './account/login.component';
 import { SignupComponent } from './account/signup.component';
-
+import { TrendComponent } from './trend/trend.component';
+import { ExperienceComponent } from './experience/experience.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { SignupComponent } from './account/signup.component';
     HomeComponent,
     CreateComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    TrendComponent,
+    ExperienceComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import { User } from '../_models/user';
 export class AccountService
 {
     private userSubject: BehaviorSubject<User>;
-    public user: Observable<User>;    
+    public user: Observable<User>;
 
     apiUrl = 'http://synthelic.com:9090/api/profiles';
 
@@ -20,7 +20,7 @@ export class AccountService
     )
     {
         this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-        this.user = this.userSubject.asObservable();        
+        this.user = this.userSubject.asObservable();
     }
 
     public get userValue(): User
@@ -28,10 +28,10 @@ export class AccountService
         return this.userSubject.value;
     }
 
-    register(user: User)
+    signup(user: User)
     {
         return this.http.post(`${this.apiUrl}/signup`, user);
-    }   
+    }
 
     login(username: string, password: string)
     {
@@ -52,5 +52,5 @@ export class AccountService
         this.userSubject.next(null);
         this.router.navigate(['/account/login']);
     }
-    
+
 }

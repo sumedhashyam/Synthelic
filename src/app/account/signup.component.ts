@@ -63,7 +63,7 @@ export class SignupComponent implements OnInit
         }
 
         this.loading = true;
-        this.accountService.register(this.form.value)
+        this.accountService.signup(this.form.value)
             .pipe(first())
             .subscribe(
                 data =>
