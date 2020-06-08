@@ -1,16 +1,7 @@
-/* .ng-invalid:not(form).ng-touched {
-    border: 1px solid red;
-} */
-
 @media (min-width: 1200px)
 .container {
     max-width: 1210px;
 }
-
-/* .main-div .right {
-    overflow: hidden;
-    padding-right: 10px;
-} */
 
 .main-div .right .error-box {
     margin-bottom: 20px;
@@ -75,7 +66,4 @@
 }
 .main-div .left .add-media button {
     width:113px
-}
-header.home-header .navbar .navbar-collapse .navbar-nav li a.dropdown-toggle span {
-    margin: 0 5px;
 }
