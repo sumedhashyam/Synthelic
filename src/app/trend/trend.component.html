@@ -13,8 +13,8 @@
               <span class="sr-only">Please wait! Loading...</span>
             </div>
           </div>
-          <a #anchor href="javascript:void(0);" *ngFor="let element of elements"
-            (click)="showElementDetail(element.id)">{{element.common_name}}</a>
+          <a href="javascript:void(0);" *ngFor="let element of elements;let i = index"
+            [class.active]="selectedIndex === i" (click)="showElementDetail(element,i)">{{element.common_name}}</a>
         </div>
       </div>
       <div class="elements-tags effects-tags">
@@ -89,7 +89,7 @@
             <span class="name">{{synergy.category_title}}</span>
           </div>
         </div>
-      </div>   
+      </div>
 
     </div>
   </div>

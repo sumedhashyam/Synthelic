@@ -13,11 +13,11 @@ export class TrendComponent implements OnInit
   elements: Element[] = [];
   effects: Effect[] = [];
   synergies: Synergy[] = [];
+
   selectedElement: ElementResponse;
+  selectedIndex: number = null;
 
   constructor(private synthelicService: SynthelicService, private alertService: AlertService) { }
-
-  @ViewChildren('anchor') anchors: QueryList<any>;
 
   ngOnInit(): void
   {
@@ -26,24 +26,16 @@ export class TrendComponent implements OnInit
     this.fetchSynergies();
   }
 
-  ngAfterViewInit()
-  {
-    // Show first element's preview
-    this.anchors.changes.subscribe(t =>
-    {
-      if (this.elements.length > 0)
-      {
-        //this.showElementDetail(this.elements[0].id);
-      }
-    })
-  }
-
   fetchElements(): void
   {
     this.synthelicService.getElements().subscribe({
       next: response =>
       {
         this.elements = response.results as Element[];
+        if (this.elements.length > 0)
+        {
+          this.showElementDetail(this.elements[0], 0);
+        }
       },
       error: err =>
       {
@@ -80,11 +72,9 @@ export class TrendComponent implements OnInit
     });
   }
 
-  showElementDetail(id: number)
+  showElementDetail(element: Element, index: number)
   {
-    let element = this.elements.find(e => e.id == id);
-    console.log(element);
-
+    this.selectedIndex = index;
     this.selectedElement = {
       id: element.id,
       imageUrl: element.image,
