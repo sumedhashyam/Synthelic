@@ -2,11 +2,17 @@
   <div class="row">
     <div class="col-md-8">
       <div class="elements-tags">
+
         <div class="top">
           <h2>elements</h2>
           <a href="javascript:void(0);">view all</a>
         </div>
         <div class="tags">
+          <div class="overlay">
+            <div class="spinner-border" role="status" *ngIf="elements.length===0">
+              <span class="sr-only">Please wait! Loading...</span>
+            </div>
+          </div>
           <a #anchor href="javascript:void(0);" *ngFor="let element of elements"
             (click)="showElementDetail(element.id)">{{element.common_name}}</a>
         </div>
@@ -17,6 +23,11 @@
           <a href="javascript:void(0);">view all</a>
         </div>
         <div class="tags">
+          <div class="overlay">
+            <div class="spinner-border" role="status" *ngIf="effects.length===0">
+              <span class="sr-only">Please wait! Loading...</span>
+            </div>
+          </div>
           <a href="javascript:void(0);" *ngFor="let eff of effects">{{eff.effect}}</a>
         </div>
       </div>
@@ -54,12 +65,17 @@
     </div>
   </div>
   <div class="synergies-block">
+    <div class="overlay">
+      <div class="spinner-border" role="status" *ngIf="synergies.length===0">
+        <span class="sr-only">Please wait! Loading...</span>
+      </div>
+    </div>
     <div class="top">
       <h2>synergies</h2>
       <a href="#">view all</a>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-4 col-md-6" *ngFor="let synergy of synergies">
         <div class="box">
           <div class="left">
             <img src="img/synergies-img.jpg" alt="" />

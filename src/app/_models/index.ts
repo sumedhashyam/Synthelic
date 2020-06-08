@@ -14,3 +14,4 @@ export * from './user';
 export * from './element';
 export * from './elementResponse';
 export * from './effect';
+export * from './synergy';

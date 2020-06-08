@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 
 import { SynthelicService, AlertService } from '@app/_services';
-import { Element, ElementResponse, Effect } from '@app/_models';
+import { Element, ElementResponse, Effect, Synergy } from '@app/_models';
 
 @Component({
   selector: 'app-trend',
@@ -12,6 +12,7 @@ export class TrendComponent implements OnInit
 {
   elements: Element[] = [];
   effects: Effect[] = [];
+  synergies: Synergy[] = [];
   selectedElement: ElementResponse;
 
   constructor(private synthelicService: SynthelicService, private alertService: AlertService) { }
@@ -64,9 +65,18 @@ export class TrendComponent implements OnInit
     });
   }
 
-  ngForRendred()
+  fetchSynergies(): void
   {
-    console.log('NgFor is Rendered');
+    this.synthelicService.getSynergies().subscribe({
+      next: response =>
+      {
+        this.synergies = response.results as Synergy[];
+      },
+      error: err =>
+      {
+        this.alertService.error(err);
+      }
+    });
   }
 
   showElementDetail(id: number)
