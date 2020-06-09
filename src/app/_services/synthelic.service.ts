@@ -20,7 +20,7 @@ export class SynthelicService
     apiElementsUrl = 'http://synthelic.com:9090/api/synth/elements/';
     apiEffectsUrl = 'http://synthelic.com:9090/api/synth/experience_effects/';
     apiSynergiesUrl = 'http://synthelic.com:9090/api/synth/experience_synergies/';
-    apiExperienceUrl='http://synthelic.com:9090/api/synth/experiences/';
+    apiExperienceNameUrl='http://synthelic.com:9090/api/synth/experiences/?page_size=12&page=1';
 
     constructor(private http: HttpClient)
     {
@@ -104,9 +104,14 @@ export class SynthelicService
             catchError(this.handleError));
     }
 
-    getExperience(): Observable<IResponse>
+    getExperience(url?:string): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiExperienceUrl).pipe(
+        console.log(url);
+        if (!url)
+        {
+            url = this.apiExperienceNameUrl;
+        }
+        return this.http.get<IResponse>(url).pipe(
             //tap(data => console.log("Synergies:" + JSON.stringify(data))),
             catchError(this.handleError));
     }

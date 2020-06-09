@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SynthelicService, AlertService } from '@app/_services';
 import * as moment from 'moment';
-import { ExpresionResponce } from '@app/_models';
+import { ExpresionResponce, IResponse } from '@app/_models';
 @Component({
   selector: 'app-experience',
   templateUrl: './experience.component.html',
@@ -10,6 +10,8 @@ import { ExpresionResponce } from '@app/_models';
 export class ExperienceComponent implements OnInit {
   experience: any = [];
   expresionResponce: ExpresionResponce;
+  apiExperienceNamesUrl: string;
+  apiDenied: boolean = false;
   constructor(private synthelicService: SynthelicService, private alertService: AlertService) { }
 
   ngOnInit(): void {
@@ -17,21 +19,30 @@ export class ExperienceComponent implements OnInit {
   }
 
   experienceElements(): void {
-    this.synthelicService.getExperience().subscribe({
-      next: response => {
-        var data = response.results;
-        console.log(data);
-        if (data.length > 0) {
-          this.filterData(data);
+      let response: IResponse;
+      this.synthelicService.getExperience(this.apiExperienceNamesUrl).subscribe({
+        next: resp => {
+          response = resp;
+          var data = response.results;
+          if (data.length > 0) {
+            this.filterData(data);
+          }
+        },
+        error: err => {
+          this.alertService.error(err);
+        },
+        complete: () => {
+          if (response && response.next) {
+            this.apiExperienceNamesUrl = response.next;
+          }
+          else if(response.next == null) {
+            this.apiDenied = true;
+          }
         }
-      },
-      error: err => {
-        this.alertService.error(err);
-      }
-    });
+      });
   }
   formatUIDate(dateString: string): string {
-    return moment(dateString).format('DD-MM-YYYY');
+    return moment(dateString).format('DD.MM.YY');
   }
   filterData(experience) {
     for (let e1 of experience) {

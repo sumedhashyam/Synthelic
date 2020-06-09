@@ -347,8 +347,8 @@
                         </div>
                     </div>
                     <div class="middle">
-                        <h4 class="purple"><span>{{element.experience_effects}}</span></h4>
-                        <h4 class="blue"><span>{{element.experience_elements}}</span></h4>
+                        <h4 class="purple"><span>{{element.experience_elements}}</span></h4>
+                        <h4 class="blue"><span>{{element.experience_effects}}</span></h4>
                         <div class="bob-dylan" *ngFor="let synergies of element.experience_synergies">
                             <img [src]="synergies.image" alt="" />
                             <p>{{synergies.title}}</p>
@@ -366,7 +366,7 @@
             </div>
         </div>
         <div class="btn-center">
-            <button class="btn btn-dark">load more</button>
+            <button class="btn btn-dark" [disabled]="apiDenied == true" (click)="experienceElements()">load more</button>
         </div>
     </div>
 </div>
