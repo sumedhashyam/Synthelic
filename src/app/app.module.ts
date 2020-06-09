@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
 
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +30,7 @@ import { ModalModule } from './_modal';
     LoginComponent,
     SignupComponent,
     TrendComponent,
-    ExperienceComponent,    
+    ExperienceComponent,
     FilterComponent
   ],
   imports: [
@@ -39,6 +39,10 @@ import { ModalModule } from './_modal';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'csrftoken',
+      headerName: 'X-CSRFToken'
+    }),
     AutocompleteLibModule,
     ModalModule,
     AppRoutingModule
