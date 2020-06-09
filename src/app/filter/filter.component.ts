@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
-import { SynthelicService, AlertService } from '@app/_services';
+import { SynthelicService, AlertService, FilterService } from '@app/_services';
 import { ICategory, IElement } from '@app/_models';
+import { ModalService } from '@app/_modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -12,12 +14,17 @@ import { ICategory, IElement } from '@app/_models';
 export class FilterComponent implements OnInit
 {
   anyChkSelected: boolean;
-  form: FormGroup
+  form: FormGroup;
+  selectedCategories: FormArray;
+  selectedEffects: FormArray;
+  selectedApplications: FormArray;
+
   categories: ICategory[] = [];
   effects: IElement[] = [];
   applications: IElement[] = [];
 
-  constructor(private synthelicService: SynthelicService, private alertService: AlertService, private formBuilder: FormBuilder)
+  constructor(private formBuilder: FormBuilder, private synthelicService: SynthelicService,
+    private alertService: AlertService, private filterService: FilterService, private modalService: ModalService)
   {
 
   }
@@ -25,9 +32,9 @@ export class FilterComponent implements OnInit
   ngOnInit(): void
   {
     this.form = this.formBuilder.group({
-      selectedCategories: this.formBuilder.array([]),
-      selectedEffects: this.formBuilder.array([]),
-      selectedApplications: this.formBuilder.array([])
+      checkedCategories: this.formBuilder.array([]),
+      checkedEffects: this.formBuilder.array([]),
+      checkedApplications: this.formBuilder.array([])
     });
 
     this.fetchCategories();
@@ -78,11 +85,11 @@ export class FilterComponent implements OnInit
   {
     this.form.valueChanges.subscribe(val =>
     {
-      const categories: FormArray = this.f.selectedCategories as FormArray;
-      const effects: FormArray = this.f.selectedEffects as FormArray;
-      const applications: FormArray = this.f.selectedApplications as FormArray;
+      this.selectedCategories = this.f.checkedCategories as FormArray;
+      this.selectedEffects = this.f.checkedEffects as FormArray;
+      this.selectedApplications = this.f.checkedApplications as FormArray;
 
-      this.anyChkSelected = categories?.length > 0 || effects?.length > 0 || applications?.length > 0;
+      this.anyChkSelected = this.selectedCategories?.length > 0 || this.selectedEffects?.length > 0 || this.selectedApplications?.length > 0;
     });
   }
 
@@ -93,7 +100,7 @@ export class FilterComponent implements OnInit
   */
   onCategoryChange(event)
   {
-    const categories: FormArray = this.f.selectedCategories as FormArray;
+    const categories: FormArray = this.f.checkedCategories as FormArray;
 
     if (event.target.checked)
     {
@@ -120,7 +127,7 @@ export class FilterComponent implements OnInit
   */
   onEffectChange(event)
   {
-    const effects: FormArray = this.f.selectedEffects as FormArray;
+    const effects: FormArray = this.f.checkedEffects as FormArray;
 
     if (event.target.checked)
     {
@@ -147,7 +154,7 @@ export class FilterComponent implements OnInit
    */
   onApplicationChange(event)
   {
-    const applications: FormArray = this.f.selectedApplications as FormArray;
+    const applications: FormArray = this.f.checkedApplications as FormArray;
 
     if (event.target.checked)
     {
@@ -169,6 +176,57 @@ export class FilterComponent implements OnInit
 
   onSubmit()
   {
-    console.log(this.form.value);
+    const filterParam = this.getFilterParam();
+    this.filterService.sendFilter(filterParam);
+    this.closeModal('filterModal');
   }
+
+  getFilterParam(): string
+  {
+    let filterParam = '';
+
+    let sourceFilter;
+    if (this.selectedCategories?.length > 0)
+    {
+      sourceFilter = `?source=${this.selectedCategories.controls.map(i => i.value).join('&source=')}`;
+    }
+
+    let effectFilter;
+    if (this.selectedEffects?.length > 0)
+    {
+      let startingChar = sourceFilter !== undefined ? '&' : '?'
+      effectFilter = `${startingChar}effect=${this.selectedEffects.controls.map(i => i.value).join('&effect=')}`;
+    }
+
+    let appFilter;
+    if (this.selectedApplications?.length > 0)
+    {
+      let startingChar = sourceFilter !== undefined || effectFilter !== undefined ? '&' : '?'
+      appFilter = `${startingChar}application=${this.selectedApplications.controls.map(i => i.value).join('&application=')}`;
+    }
+
+    if (sourceFilter)
+    {
+      filterParam = sourceFilter;
+    }
+
+    if (effectFilter)
+    {
+      filterParam = filterParam + effectFilter;
+    }
+
+    if (appFilter)
+    {
+      filterParam = filterParam + appFilter;
+    }
+
+    return filterParam;
+  }
+
+  closeModal(id: string)
+  {
+    this.modalService.close(id);
+  }
+
+
 }

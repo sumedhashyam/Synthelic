@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { SynthelicService, AlertService } from '@app/_services';
+import { SynthelicService, AlertService, FilterService } from '@app/_services';
 import { Element, ElementResponse, Effect, Synergy } from '@app/_models';
 
 @Component({
@@ -8,8 +9,10 @@ import { Element, ElementResponse, Effect, Synergy } from '@app/_models';
   templateUrl: './trend.component.html',
   styleUrls: ['./trend.component.css']
 })
-export class TrendComponent implements OnInit
+export class TrendComponent implements OnInit, OnDestroy
 {
+  subscription: Subscription;
+
   elements: Element[] = [];
   effects: Effect[] = [];
   synergies: Synergy[] = [];
@@ -17,9 +20,28 @@ export class TrendComponent implements OnInit
   selectedElement: ElementResponse;
   selectedIndex: number = null;
 
-  constructor(private synthelicService: SynthelicService, private alertService: AlertService) { }
+  constructor(private synthelicService: SynthelicService, private alertService: AlertService, private filterService: FilterService)
+  {
+    // subscribe to filter
+    this.subscription = this.filterService.onFilter().subscribe(filterParam =>
+    {
+      this.fetchValuesFromApi(filterParam.filter)
+    });
+
+  }
 
   ngOnInit(): void
+  {
+    this.fetchValuesFromApi();
+  }
+
+  ngOnDestroy(): void
+  {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
+
+  fetchValuesFromApi(filter?: string)
   {
     this.fetchElements();
     this.fetchEffects();

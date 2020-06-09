@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit
 {
   public userLoggedIn: boolean;
 
-  constructor(accountService: AccountService, private modalService: ModalService, public router: Router)
+  constructor(accountService: AccountService, private modalService: ModalService, private router: Router)
   {
     this.userLoggedIn = accountService.userValue !== null && accountService.userValue !== undefined;
   }
@@ -21,9 +21,9 @@ export class HeaderComponent implements OnInit
   {
   }
 
-  openModal(route: string)
+  openModal()
   {
-    route = route.replace(/\//g, '');
+    let route = this.router.url.replace(/\//g, '');
     switch (route.toLowerCase())
     {
       case 'experiences':
@@ -33,10 +33,5 @@ export class HeaderComponent implements OnInit
         this.modalService.open('filterModal');
         break;
     }
-  }
-
-  closeModal(id: string)
-  {
-    this.modalService.close(id);
-  }
+  } 
 }

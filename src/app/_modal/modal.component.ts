@@ -50,8 +50,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
 
     // close modal
-    close(): void {
-        console.log('Close call');
+    close(): void {        
         this.element.style.display = 'none';
         document.body.classList.remove('jw-modal-open');
     }
