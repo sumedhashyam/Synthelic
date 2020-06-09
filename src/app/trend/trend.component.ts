@@ -25,14 +25,18 @@ export class TrendComponent implements OnInit, OnDestroy
     // subscribe to filter
     this.subscription = this.filterService.onFilter().subscribe(filterParam =>
     {
-      this.fetchValuesFromApi(filterParam.filter)
+      let filter = filterParam?.filter;
+      this.fetchElements(filter);
+      this.fetchEffects(filter);
+      this.fetchSynergies(filter);
     });
-
   }
 
   ngOnInit(): void
   {
-    this.fetchValuesFromApi();
+    this.fetchElements();
+    this.fetchEffects();
+    this.fetchSynergies();
   }
 
   ngOnDestroy(): void
@@ -41,16 +45,9 @@ export class TrendComponent implements OnInit, OnDestroy
     this.subscription.unsubscribe();
   }
 
-  fetchValuesFromApi(filter?: string)
+  fetchElements(filter?: string): void
   {
-    this.fetchElements();
-    this.fetchEffects();
-    this.fetchSynergies();
-  }
-
-  fetchElements(): void
-  {
-    this.synthelicService.getElements().subscribe({
+    this.synthelicService.getElements(filter).subscribe({
       next: response =>
       {
         this.elements = response.results as Element[];
@@ -66,9 +63,9 @@ export class TrendComponent implements OnInit, OnDestroy
     });
   }
 
-  fetchEffects(): void
+  fetchEffects(filter?: string): void
   {
-    this.synthelicService.getEffects().subscribe({
+    this.synthelicService.getEffects(filter).subscribe({
       next: response =>
       {
         this.effects = response.results as Effect[];
@@ -80,9 +77,9 @@ export class TrendComponent implements OnInit, OnDestroy
     });
   }
 
-  fetchSynergies(): void
+  fetchSynergies(filter?: string): void
   {
-    this.synthelicService.getSynergies().subscribe({
+    this.synthelicService.getSynergies(filter).subscribe({
       next: response =>
       {
         this.synergies = response.results as Synergy[];
