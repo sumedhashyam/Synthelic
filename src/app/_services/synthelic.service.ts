@@ -20,7 +20,7 @@ export class SynthelicService
     apiElementsUrl = 'http://synthelic.com:9090/api/synth/elements/';
     apiEffectsUrl = 'http://synthelic.com:9090/api/synth/experience_effects/';
     apiSynergiesUrl = 'http://synthelic.com:9090/api/synth/experience_synergies/';
-    apiExperienceNameUrl='http://synthelic.com:9090/api/synth/experiences/?page_size=12&page=1';
+    apiExperienceNameUrl = 'http://synthelic.com:9090/api/synth/experiences/?page_size=12&page=1';
 
     constructor(private http: HttpClient)
     {
@@ -83,28 +83,31 @@ export class SynthelicService
             .pipe(catchError(this.handleError));
     }
 
-    getElements(): Observable<IResponse>
+    getElements(filter?: string): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementsUrl).pipe(
+        let url = filter !== null && filter !== undefined ? this.apiElementsUrl + filter : this.apiElementsUrl;
+        return this.http.get<IResponse>(url).pipe(
             //tap(data => console.log("Elements:" + JSON.stringify(data))),
             catchError(this.handleError));
     }
 
-    getEffects(): Observable<IResponse>
+    getEffects(filter?: string): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiEffectsUrl).pipe(
+        let url = filter !== null && filter !== undefined ? this.apiEffectsUrl + filter : this.apiEffectsUrl;
+        return this.http.get<IResponse>(url).pipe(
             //tap(data => console.log("Effects:" + JSON.stringify(data))),
             catchError(this.handleError));
     }
 
-    getSynergies(): Observable<IResponse>
+    getSynergies(filter?: string): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiSynergiesUrl).pipe(
+        let url = filter !== null && filter !== undefined ? this.apiSynergiesUrl + filter : this.apiSynergiesUrl;
+        return this.http.get<IResponse>(url).pipe(
             //tap(data => console.log("Synergies:" + JSON.stringify(data))),
             catchError(this.handleError));
     }
 
-    getExperience(url?:string): Observable<IResponse>
+    getExperience(url?: string): Observable<IResponse>
     {
         console.log(url);
         if (!url)
@@ -115,7 +118,7 @@ export class SynthelicService
             //tap(data => console.log("Synergies:" + JSON.stringify(data))),
             catchError(this.handleError));
     }
-    
+
     private handleError(err: HttpErrorResponse)
     {
         let errorMessage = '';
