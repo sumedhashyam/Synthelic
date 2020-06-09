@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -31,7 +31,7 @@ export class AccountService
     signup(user: User)
     {
         return this.http.post(`${this.apiUrl}/signup/`, user);
-    }    
+    }
 
     login(username: string, password: string)
     {
@@ -50,7 +50,7 @@ export class AccountService
         // remove user from local storage and set current user to null
         localStorage.removeItem('user');
         this.userSubject.next(null);
-        this.router.navigate(['/account/login']);
+        this.router.navigate(['login']);
     }
 
 }

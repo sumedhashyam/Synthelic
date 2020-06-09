@@ -17,13 +17,13 @@
                             <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user-circle"></i>
-                                <span>Cobraholic</span>
+                                <span>{{username}}</span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="#">Action</a>
                                 <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="javascript:void(0);" (click)="logOut()">Log out</a>
                             </div>
                         </div>
                     </li>
