@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit
         break;
 
       case 'trends':
-        this.modalService.open('trendModal');
+        this.modalService.open('filterModal');
         break;
     }
   }

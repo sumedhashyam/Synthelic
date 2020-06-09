@@ -17,7 +17,7 @@ import { LoginComponent } from './account/login.component';
 import { SignupComponent } from './account/signup.component';
 import { TrendComponent } from './trend/trend.component';
 import { ExperienceComponent } from './experience/experience.component';
-import { ModalTrendComponent } from './modal-trend/modal-trend.component';
+import { FilterComponent } from './filter/filter.component';
 import { ModalModule } from './_modal';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { ModalModule } from './_modal';
     SignupComponent,
     TrendComponent,
     ExperienceComponent,    
-    ModalTrendComponent
+    FilterComponent
   ],
   imports: [
     CommonModule,
