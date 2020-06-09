@@ -23,15 +23,17 @@ export class HeaderComponent implements OnInit
 
   openModal()
   {
+    // Because we don't want to show filter for other cases
     let route = this.router.url.replace(/\//g, '');
     switch (route.toLowerCase())
     {
       case 'experiences':
+        this.modalService.open('filterModal');
         break;
 
       case 'trends':
         this.modalService.open('filterModal');
         break;
     }
-  } 
+  }
 }

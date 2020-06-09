@@ -107,13 +107,14 @@ export class SynthelicService
             catchError(this.handleError));
     }
 
-    getExperience(url?: string): Observable<IResponse>
+    getExperience(url?: string, filter?: string): Observable<IResponse>
     {
-        console.log(url);
         if (!url)
         {
             url = this.apiExperienceNameUrl;
         }
+
+        url = filter !== null && filter !== undefined ? url + filter : url;
         return this.http.get<IResponse>(url).pipe(
             //tap(data => console.log("Synergies:" + JSON.stringify(data))),
             catchError(this.handleError));
@@ -121,18 +122,21 @@ export class SynthelicService
 
     private handleError(err: HttpErrorResponse)
     {
-        let errorMessage = '';
+        // For 404, we don't get any error so setting it here
+        let errorMessage = 'Not Found';
+        
         if (err.error instanceof ErrorEvent)
         {
             // A client-side or network error occurred. Handle it accordingly
             errorMessage = `An error occurred: ${err.error.message}`;
         }
-        else
+        else if(err.status && err.message)
         {
-            // The backedn returned an unsuccessful response code
+            // The backend returned an unsuccessful response code
             // The response body may contain clues as to what went wrong.
             errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
         }
+        
         console.error(errorMessage);
         return throwError(errorMessage);
     }

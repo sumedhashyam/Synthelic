@@ -23,7 +23,7 @@ export class FilterComponent implements OnInit
   effects: IElement[] = [];
   applications: IElement[] = [];
 
-  constructor(private formBuilder: FormBuilder, private synthelicService: SynthelicService,
+  constructor(private formBuilder: FormBuilder, private router: Router, private synthelicService: SynthelicService,
     private alertService: AlertService, private filterService: FilterService, private modalService: ModalService)
   {
 
@@ -176,12 +176,24 @@ export class FilterComponent implements OnInit
 
   onSubmit()
   {
-    const filterParam = this.getFilterParam();
+    let filterParam = '';
+    let route = this.router.url.replace(/\//g, '');
+    switch (route.toLowerCase())
+    {
+      case 'experiences':
+        filterParam = this.getFilterParamForExperience();
+        break;
+
+      case 'trends':
+        filterParam = this.getFilterParamForTrend();
+        break;
+    }
+
     this.filterService.sendFilter(filterParam);
     this.closeModal('filterModal');
   }
 
-  getFilterParam(): string
+  getFilterParamForTrend(): string
   {
     let filterParam = '';
 
@@ -223,10 +235,48 @@ export class FilterComponent implements OnInit
     return filterParam;
   }
 
+  getFilterParamForExperience(): string
+  {
+    let filterParam = '';
+
+    let sourceFilter;
+    if (this.selectedCategories?.length > 0)
+    {
+      sourceFilter = `&source=${this.selectedCategories.controls.map(i => i.value).join('&source=')}`;
+    }
+
+    let effectFilter;
+    if (this.selectedEffects?.length > 0)
+    {
+      effectFilter = `&effect=${this.selectedEffects.controls.map(i => i.value).join('&effect=')}`;
+    }
+
+    let appFilter;
+    if (this.selectedApplications?.length > 0)
+    {
+      appFilter = `&application=${this.selectedApplications.controls.map(i => i.value).join('&application=')}`;
+    }
+
+    if (sourceFilter)
+    {
+      filterParam = sourceFilter;
+    }
+
+    if (effectFilter)
+    {
+      filterParam = filterParam + effectFilter;
+    }
+
+    if (appFilter)
+    {
+      filterParam = filterParam + appFilter;
+    }
+
+    return filterParam;
+  }
+
   closeModal(id: string)
   {
     this.modalService.close(id);
   }
-
-
 }
