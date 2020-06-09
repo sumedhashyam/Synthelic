@@ -871,64 +871,64 @@ header.home-header .navbar .navbar-collapse .navbar-nav li.active a {
   margin: 5px 0 0;
 }
 
-.dark-popup .modal-dialog {
+.dark-popup .modal-dialog, .jw-modal .modal-dialog {
   max-width: 650px;
 }
-.dark-popup .modal-content {
+.dark-popup .modal-content, .jw-modal .modal-content {
   background: #282828;
   border-color: #282828;
 }
-.dark-popup .modal-body {
+.dark-popup .modal-body, .jw-modal .modal-body {
   padding: 0;
 }
-.dark-popup .modal-body .filter-popup .filter-sec {
+.dark-popup .modal-body .filter-popup .filter-sec, .jw-modal .modal-body .filter-popup .filter-sec {
   display: flex;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block {
+.dark-popup .modal-body .filter-popup .filter-sec .block, .jw-modal .modal-body .filter-popup .filter-sec .block {
   width: 37%;
   padding: 15px;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block:first-child {
+.dark-popup .modal-body .filter-popup .filter-sec .block:first-child, .jw-modal .modal-body .filter-popup .filter-sec .block:first-child {
   width: 26%;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block:nth-child(2n) {
+.dark-popup .modal-body .filter-popup .filter-sec .block:nth-child(2n), .jw-modal .modal-body .filter-popup .filter-sec .block:nth-child(2n) {
   border-left: 1px solid #1a1a1a;
   border-right: 1px solid #1a1a1a;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block h3 {
+.dark-popup .modal-body .filter-popup .filter-sec .block h3, .jw-modal .modal-body .filter-popup .filter-sec .block h3 {
   color: #1a1a1a;
   font-size: 21px;
   font-weight: 600;
   margin: 0 0 10px;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox {
+.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox, .jw-modal .modal-body .filter-popup .filter-sec .block .custom-checkbox {
   cursor: pointer;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-label {
+.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-label, .jw-modal .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-label {
   font-weight: normal;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-label:before {
+.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-label:before, .jw-modal .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-label:before {
   border: 1px solid #767676;
   background: none;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:focus {
+.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:focus, .jw-modal .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:focus {
   box-shadow: none;
   outline: none;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before, .jw-modal .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #767676;
   background-color: #767676;
 }
-.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:focus ~ .custom-control-label::before {
+.dark-popup .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:focus ~ .custom-control-label::before, .jw-modal .modal-body .filter-popup .filter-sec .block .custom-checkbox .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
-.dark-popup .modal-body .filter-popup .btn-sec {
+.dark-popup .modal-body .filter-popup .btn-sec, .jw-modal .modal-body .filter-popup .btn-sec {
   border-top: 1px solid #1a1a1a;
   padding: 10px 0;
   display: flex;
   justify-content: center;
 }
-.dark-popup .modal-body .filter-popup .btn-sec .btn {
+.dark-popup .modal-body .filter-popup .btn-sec .btn, .jw-modal .modal-body .filter-popup .btn-sec .btn {
   background: #1a1a1a;
   border-color: #1a1a1a;
   padding: 5px 35px;
