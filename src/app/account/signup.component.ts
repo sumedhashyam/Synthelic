@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private alertService: AlertService
+        private alertService: AlertService        
     ) { }
 
     ngOnInit()
@@ -68,8 +68,8 @@ export class SignupComponent implements OnInit
             .subscribe(
                 data =>
                 {
-                    this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['signin'], { relativeTo: this.route });
+                    this.alertService.success('Registration successful', { keepAfterRouteChange: true, autoClose: true });
+                    this.router.navigate(['signin']);
                 },
                 error =>
                 {

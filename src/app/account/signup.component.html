@@ -50,7 +50,8 @@
                         </div>
                     </div>
                     <div class="forgot-signin">
-                        <button class="btn btn-primary">sign up</button>
+                        <button class="btn btn-primary" [disabled]="loading"> <span *ngIf="loading"
+                            class="spinner-border spinner-border-sm mr-1"></span> sign up</button>
                     </div>
                     <p>have an account? <a routerLink="/signin">sign in</a></p>
                     <p>by signing up, you agree to our <a href="#">terms & conditions</a>.</p>

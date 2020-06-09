@@ -30,12 +30,12 @@ export class AccountService
 
     signup(user: User)
     {
-        return this.http.post(`${this.apiUrl}/signup`, user);
-    }
+        return this.http.post(`${this.apiUrl}/signup/`, user);
+    }    
 
     login(username: string, password: string)
     {
-        return this.http.post<User>(`${this.apiUrl}/login`, { username, password })
+        return this.http.post<User>(`${this.apiUrl}/login/`, { username, password })
             .pipe(map(user =>
             {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
