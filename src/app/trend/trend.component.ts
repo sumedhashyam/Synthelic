@@ -20,15 +20,16 @@ export class TrendComponent implements OnInit, OnDestroy
   selectedElement: ElementResponse;
   selectedIndex: number = null;
 
+  isElementProcessed: boolean;
+  isEffectProcessed: boolean;
+  isSynergyProcessed: boolean;
+
   constructor(private synthelicService: SynthelicService, private alertService: AlertService, private filterService: FilterService)
   {
     // subscribe to filter
     this.subscription = this.filterService.onFilter().subscribe(filterParam =>
     {
-      let filter = filterParam?.filter;
-      this.fetchElements(filter);
-      this.fetchEffects(filter);
-      this.fetchSynergies(filter);
+      this.fetchValuesWithFilter(filterParam);
     });
   }
 
@@ -45,6 +46,22 @@ export class TrendComponent implements OnInit, OnDestroy
     this.subscription.unsubscribe();
   }
 
+  fetchValuesWithFilter(filterParam)
+  {
+    this.isElementProcessed = false;
+    this.isEffectProcessed = false;
+    this.isSynergyProcessed = false;
+
+    this.elements = [];
+    this.effects = [];
+    this.synergies = [];
+
+    let filter = filterParam?.filter;
+    this.fetchElements(filter);
+    this.fetchEffects(filter);
+    this.fetchSynergies(filter);
+  }
+
   fetchElements(filter?: string): void
   {
     this.synthelicService.getElements(filter).subscribe({
@@ -59,6 +76,10 @@ export class TrendComponent implements OnInit, OnDestroy
       error: err =>
       {
         this.alertService.error(err);
+      },
+      complete: () =>
+      {
+        this.isElementProcessed = true;
       }
     });
   }
@@ -73,6 +94,10 @@ export class TrendComponent implements OnInit, OnDestroy
       error: err =>
       {
         this.alertService.error(err);
+      },
+      complete: () =>
+      {
+        this.isEffectProcessed = true;
       }
     });
   }
@@ -87,6 +112,10 @@ export class TrendComponent implements OnInit, OnDestroy
       error: err =>
       {
         this.alertService.error(err);
+      },
+      complete: () =>
+      {
+        this.isSynergyProcessed = true;
       }
     });
   }
