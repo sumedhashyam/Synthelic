@@ -18,6 +18,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
   expresionResponce: ExpresionResponce;
   apiExperienceNamesUrl: string;
   apiDenied: boolean = false;
+  isExperienceProcessed: boolean;
 
   constructor(private synthelicService: SynthelicService, private alertService: AlertService, private filterService: FilterService)
   {
@@ -42,6 +43,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
 
   fetchExperiences(filter?:string): void
   {
+    this.isExperienceProcessed=false;
     let response: IResponse;
     this.synthelicService.getExperience(this.apiExperienceNamesUrl, filter).subscribe({
       next: resp =>
@@ -91,5 +93,6 @@ export class ExperienceComponent implements OnInit, OnDestroy
       };
       this.experience.push(this.expresionResponce);
     }
+    this.isExperienceProcessed=true;
   }
 }
