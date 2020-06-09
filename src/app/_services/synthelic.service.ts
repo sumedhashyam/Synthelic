@@ -93,7 +93,7 @@ export class SynthelicService
     getEffects(): Observable<IResponse>
     {
         return this.http.get<IResponse>(this.apiEffectsUrl).pipe(
-            tap(data => console.log("Effects:" + JSON.stringify(data))),
+            //tap(data => console.log("Effects:" + JSON.stringify(data))),
             catchError(this.handleError));
     }
 

@@ -12,6 +12,7 @@ import { IExperienceSynergy } from '@app/_models/IExperienceSynergy';
 import { NgForm, NgModel } from '@angular/forms';
 import { IError } from '@app/_models/IError';
 import { IResponse } from '@app/_models/IResponse';
+import { AlertService } from '@app/_services';
 
 @Component({
   selector: 'app-create',
@@ -94,7 +95,8 @@ export class CreateComponent implements OnInit
   showError: boolean = false;
   errors: IError[] = [];
   Type:any;
-  constructor(private synthelicService: SynthelicService)
+
+  constructor(private synthelicService: SynthelicService, private alertService: AlertService)
   {
    
   }
@@ -117,7 +119,7 @@ export class CreateComponent implements OnInit
       {
         this.genders = response.results as IGender[];
       },
-      error: err => this.errorMessage = err
+      error: err => { this.alertService.error(err);} 
     });
   }
 
@@ -128,7 +130,7 @@ export class CreateComponent implements OnInit
       {
         this.categories = response.results as ICategory[];
       },
-      error: err => this.errorMessage = err
+      error: err => { this.alertService.error(err);} 
     });
   }
 
@@ -154,7 +156,7 @@ export class CreateComponent implements OnInit
           })
         });
       },
-      error: err => this.errorMessage = err,
+      error: err => { this.alertService.error(err);},
       complete: () =>
       {
         if (response && response.next)
@@ -174,7 +176,7 @@ export class CreateComponent implements OnInit
         {
           this.elementEffects = response.results as IElement[];
         },
-        error: err => this.errorMessage = err
+        error: err => { this.alertService.error(err);} 
       });
   }
 
@@ -185,7 +187,7 @@ export class CreateComponent implements OnInit
       {
         this.elementApplications = response.results as IElement[];
       },
-      error: err => this.errorMessage = err
+      error: err => { this.alertService.error(err);} 
     });
   }
 

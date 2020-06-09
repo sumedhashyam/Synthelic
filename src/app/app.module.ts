@@ -17,6 +17,8 @@ import { LoginComponent } from './account/login.component';
 import { SignupComponent } from './account/signup.component';
 import { TrendComponent } from './trend/trend.component';
 import { ExperienceComponent } from './experience/experience.component';
+import { ModalTrendComponent } from './modal-trend/modal-trend.component';
+import { ModalModule } from './_modal';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { ExperienceComponent } from './experience/experience.component';
     LoginComponent,
     SignupComponent,
     TrendComponent,
-    ExperienceComponent
+    ExperienceComponent,    
+    ModalTrendComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +40,7 @@ import { ExperienceComponent } from './experience/experience.component';
     ReactiveFormsModule,
     HttpClientModule,
     AutocompleteLibModule,
+    ModalModule,
     AppRoutingModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
