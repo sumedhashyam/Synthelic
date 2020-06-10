@@ -19,7 +19,7 @@ export class FilterComponent implements OnInit
   selectedEffects: FormArray;
   selectedApplications: FormArray;
 
-  categories: ICategory[] = [];
+  sources: IElement[] = [];
   effects: IElement[] = [];
   applications: IElement[] = [];
 
@@ -37,7 +37,7 @@ export class FilterComponent implements OnInit
       checkedApplications: this.formBuilder.array([])
     });
 
-    this.fetchCategories();
+    this.fetchSources();
     this.fetchEffects();
     this.fetchApplications();
 
@@ -47,12 +47,12 @@ export class FilterComponent implements OnInit
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
 
-  fetchCategories(): void
+  fetchSources(): void
   {
-    this.synthelicService.getCategories().subscribe({
+    this.synthelicService.getElementSources().subscribe({
       next: response =>
       {
-        this.categories = response.results as ICategory[];
+        this.sources = response.results as IElement[];
       },
       error: err => { this.alertService.error(err); }
     });

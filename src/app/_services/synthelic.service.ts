@@ -12,9 +12,11 @@ export class SynthelicService
 {
     apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
     apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
-    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';
-    apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/effects/';
-    apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/applications/';
+
+    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';    
+    apiSourcesUrl = 'http://synthelic.com:9090/api/categories/sources/';
+    apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
+    apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
     apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';
 
     apiElementsUrl = 'http://synthelic.com:9090/api/synth/elements/';
@@ -46,6 +48,11 @@ export class SynthelicService
         }
 
         return this.http.get<IResponse>(url);
+    }
+
+    getElementSources(): Observable<IResponse>
+    {
+        return this.http.get<IResponse>(this.apiSourcesUrl);
     }
 
     getElementEffects(): Observable<IResponse>

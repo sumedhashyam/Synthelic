@@ -4,10 +4,10 @@
 
             <div class="block">
                 <h3>source</h3>
-                <div class="custom-control custom-checkbox" *ngFor="let cat of categories; let i=index">
-                    <input type="checkbox" class="custom-control-input" [value]="cat.id" id="{{ 'chkSource' + i }}"
+                <div class="custom-control custom-checkbox" *ngFor="let source of sources; let i=index">
+                    <input type="checkbox" class="custom-control-input" [value]="source.id" id="{{ 'chkSource' + i }}"
                         (change)="onCategoryChange($event)">
-                    <label class="custom-control-label" for="{{ 'chkSource' + i }}">{{cat.title}}</label>
+                    <label class="custom-control-label" for="{{ 'chkSource' + i }}">{{source.title}}</label>
                 </div>
             </div>
 

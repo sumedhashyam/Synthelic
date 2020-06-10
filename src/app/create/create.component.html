@@ -62,15 +62,16 @@
                     </div>
                     <div class="box">
                       <select class="js-example-basic-single form-control" name="describe"
-                        [(ngModel)]="categoryApplication">
+                        [(ngModel)]="categoryEffect">
                         <option [ngValue]="null" [disabled]="true">i would describe it as</option>
-                        <option *ngFor="let ea of elementApplications" [value]="ea.title">{{ea.title}}</option>
+                        <option *ngFor="let ef of elementEffects" [value]="ef.title">{{ef.title}}</option>
                       </select>
                     </div>
                     <div class="box">
-                      <select class="js-example-basic-single form-control" name="helpe" [(ngModel)]="categoryEffect">
+                      <select class="js-example-basic-single form-control" name="helpe" [(ngModel)]="categoryApplication">
                         <option [ngValue]="null" [disabled]="true">it has helped me with</option>
-                        <option *ngFor="let ef of elementEffects" [value]="ef.title">{{ef.title}}</option>
+                        <option *ngFor="let ea of elementApplications" [value]="ea.title">{{ea.title}}</option>
+                        
                       </select>
                     </div>
                   </div>
