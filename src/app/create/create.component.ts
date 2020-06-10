@@ -94,15 +94,15 @@ export class CreateComponent implements OnInit
   errorMessage: string;
   showError: boolean = false;
   errors: IError[] = [];
-  Type:any;
+  Type: any;
 
   constructor(private synthelicService: SynthelicService, private alertService: AlertService)
   {
-   
+
   }
 
   ngOnInit(): void
-  {    
+  {
     this.showLoader = true;
     this.fetchGenders();
     this.fetchCategories();
@@ -119,7 +119,7 @@ export class CreateComponent implements OnInit
       {
         this.genders = response.results as IGender[];
       },
-      error: err => { this.alertService.error(err);} 
+      error: err => { this.alertService.error(err); }
     });
   }
 
@@ -130,7 +130,7 @@ export class CreateComponent implements OnInit
       {
         this.categories = response.results as ICategory[];
       },
-      error: err => { this.alertService.error(err);} 
+      error: err => { this.alertService.error(err); }
     });
   }
 
@@ -156,7 +156,7 @@ export class CreateComponent implements OnInit
           })
         });
       },
-      error: err => { this.alertService.error(err);},
+      error: err => { this.alertService.error(err); },
       complete: () =>
       {
         if (response && response.next)
@@ -176,7 +176,7 @@ export class CreateComponent implements OnInit
         {
           this.elementEffects = response.results as IElement[];
         },
-        error: err => { this.alertService.error(err);} 
+        error: err => { this.alertService.error(err); }
       });
   }
 
@@ -187,7 +187,7 @@ export class CreateComponent implements OnInit
       {
         this.elementApplications = response.results as IElement[];
       },
-      error: err => { this.alertService.error(err);} 
+      error: err => { this.alertService.error(err); }
     });
   }
 
@@ -255,6 +255,7 @@ export class CreateComponent implements OnInit
     }
   }
 
+  // TODO: Use alert service to show error
   addElement(): void
   {
     this.validateElement();
@@ -459,15 +460,7 @@ export class CreateComponent implements OnInit
   {
     if (this.elements.length === 0)
     {
-      let error = this.errors.find(e => e.name === 'MustHaveOneElement');
-      if (!error)
-      {
-        error = {
-          name: 'MustHaveOneElement',
-          message: 'Please add at least one element'
-        }
-        this.showErrors(error);
-      }
+      this.alertService.error('Please add at least one element', { autoClose: true });
       return;
     }
 
@@ -501,19 +494,12 @@ export class CreateComponent implements OnInit
     console.log(JSON.stringify(experience));
     this.synthelicService.saveExperience(experience).subscribe({
       next: response =>
-      {
-        alert('Experience saved successfully!');
-        console.log(response);
+      {        
+        this.alertService.info('Experience saved successfully!');        
       },
       error: err =>
       {
-        console.log(err);
-        let error: IError = {
-          name: 'ErrorOnSave',
-          message: err
-        }
-        this.showErrors(error);
-
+        this.alertService.error(err);
       },
       complete: () =>
       {

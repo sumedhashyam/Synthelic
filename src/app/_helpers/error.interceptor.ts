@@ -6,17 +6,30 @@ import { catchError } from 'rxjs/operators';
 import { AccountService } from '@app/_services';
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private accountService: AccountService) {}
+export class ErrorInterceptor implements HttpInterceptor
+{
+    constructor(private accountService: AccountService) { }
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
-            if (err.status === 401) {
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
+    {
+        return next.handle(request).pipe(catchError(err =>
+        {
+            if (err.status === 401)
+            {
                 // auto logout if 401 response returned from api
                 this.accountService.logout();
             }
-            
-            const error = err.error?.message || err.statusText;
+
+            let error = '';            
+            if (err.status === 404)
+            {
+                error = 'No record found.';
+            }
+            else
+            {
+                error = err.error?.message || err.statusText;
+            }
+
             return throwError(error);
         }))
     }

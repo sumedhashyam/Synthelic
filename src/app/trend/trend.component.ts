@@ -75,8 +75,8 @@ export class TrendComponent implements OnInit, OnDestroy
       },
       error: err =>
       {
-        this.alertService.error(err);
-        this.isSynergyProcessed = true;
+        this.alertService.error(err, { autoClose: true });
+        this.isElementProcessed = true;
       },
       complete: () =>
       {
@@ -94,8 +94,8 @@ export class TrendComponent implements OnInit, OnDestroy
       },
       error: err =>
       {
-        this.alertService.error(err);
-        this.isSynergyProcessed = true;
+        this.alertService.error(err, { autoClose: true });
+        this.isEffectProcessed = true;
       },
       complete: () =>
       {
@@ -113,7 +113,7 @@ export class TrendComponent implements OnInit, OnDestroy
       },
       error: err =>
       {
-        this.alertService.error(err);
+        this.alertService.error(err, { autoClose: true });
         this.isSynergyProcessed = true;
       },
       complete: () =>

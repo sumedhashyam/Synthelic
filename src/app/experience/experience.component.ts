@@ -14,7 +14,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
 {
   subscription: Subscription;
 
-  experience: any = [];
+  experiences: any = [];
   expresionResponce: ExpresionResponce;
   apiExperienceNamesUrl: string;
   apiDenied: boolean = false;
@@ -26,6 +26,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
     this.subscription = this.filterService.onFilter().subscribe(filterParam =>
     {
       let filter = filterParam?.filter;
+      this.experiences = [];
       this.fetchExperiences(filter);
     });
   }
@@ -49,7 +50,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
       next: resp =>
       {
         response = resp;
-        var data = response.results;
+        let data = response.results;
         if (data.length > 0)
         {
           this.filterData(data);
@@ -57,7 +58,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
       },
       error: err =>
       {
-        this.alertService.error(err);
+        this.alertService.error(err, { autoClose: true });
         this.isExperienceProcessed = true;
       },
       complete: () =>
@@ -92,7 +93,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
         experience_elements: exp.experience_elements.map(s => s.name).join(', '),
         experience_synergies: exp.experience_synergies,
       };
-      this.experience.push(this.expresionResponce);
+      this.experiences.push(this.expresionResponce);
     }
     this.isExperienceProcessed = true;
   }
