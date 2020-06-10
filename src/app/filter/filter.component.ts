@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 import { SynthelicService, AlertService, FilterService } from '@app/_services';
@@ -22,6 +22,10 @@ export class FilterComponent implements OnInit
   sources: IElement[] = [];
   effects: IElement[] = [];
   applications: IElement[] = [];
+
+  @ViewChildren("sourceCheckboxes") sourceCheckboxes: QueryList<ElementRef>;
+  @ViewChildren("effectCheckboxes") effectCheckboxes: QueryList<ElementRef>;
+  @ViewChildren("appCheckboxes") appCheckboxes: QueryList<ElementRef>;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private synthelicService: SynthelicService,
     private alertService: AlertService, private filterService: FilterService, private modalService: ModalService)
@@ -172,6 +176,13 @@ export class FilterComponent implements OnInit
         i++;
       });
     }
+  }
+
+  clearAll()
+  {
+    this.sourceCheckboxes.forEach(e => e.nativeElement.checked = false);
+    this.effectCheckboxes.forEach(e => e.nativeElement.checked = false);
+    this.appCheckboxes.forEach(e => e.nativeElement.checked = false);
   }
 
   onSubmit()

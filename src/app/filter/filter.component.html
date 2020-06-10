@@ -5,7 +5,7 @@
             <div class="block">
                 <h3>source</h3>
                 <div class="custom-control custom-checkbox" *ngFor="let source of sources; let i=index">
-                    <input type="checkbox" class="custom-control-input" [value]="source.id" id="{{ 'chkSource' + i }}"
+                    <input #sourceCheckboxes type="checkbox" class="custom-control-input" [value]="source.id" id="{{ 'chkSource' + i }}"
                         (change)="onCategoryChange($event)">
                     <label class="custom-control-label" for="{{ 'chkSource' + i }}">{{source.title}}</label>
                 </div>
@@ -14,7 +14,7 @@
             <div class="block">
                 <h3>effect</h3>
                 <div class="custom-control custom-checkbox" *ngFor="let effect of effects; let i=index">
-                    <input type="checkbox" class="custom-control-input" [value]="effect.id" id="{{ 'chkEffect' + i }}"
+                    <input #effectCheckboxes type="checkbox" class="custom-control-input" [value]="effect.id" id="{{ 'chkEffect' + i }}"
                         (change)="onEffectChange($event)">
                     <label class="custom-control-label" for="{{ 'chkEffect' + i }}">{{effect.title}}</label>
                 </div>
@@ -23,7 +23,7 @@
             <div class="block">
                 <h3>application</h3>
                 <div class="custom-control custom-checkbox" *ngFor="let app of applications; let i=index">
-                    <input type="checkbox" class="custom-control-input" [value]="app.id" id="{{ 'chkApp' + i }}"
+                    <input #appCheckboxes type="checkbox" class="custom-control-input" [value]="app.id" id="{{ 'chkApp' + i }}"
                         (change)="onApplicationChange($event)">
                     <label class="custom-control-label" for="{{ 'chkApp' + i }}">{{app.title}}</label>
                 </div>
@@ -31,6 +31,7 @@
         </div>
         <div class="btn-sec">
             <button class="btn btn-dark" [disabled]="!anyChkSelected">Submit</button>
+            <button type="button" class="btn btn-dark" [disabled]="!anyChkSelected" (click)="clearAll()">Clear All</button>
         </div>
     </form>
 </div>
