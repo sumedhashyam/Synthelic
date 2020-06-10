@@ -49,7 +49,10 @@
 <div class="header-bottom">
     <div class="container">
         <ul>
-            <li [routerLinkActive]="['active']"><a routerLink="/trends">trends</a></li>
+            <li [routerLinkActive]="['active']">
+                <a routerLink="/trends">trends</a>
+                <a routerLink="/" style="display: none">home</a>
+            </li>
             <li [routerLinkActive]="['active']"><a routerLink="/experiences">experiences</a></li>
             <li><a href="javascript:void(0)" (click)="openModal()">filter <i class="fa fa-angle-down"></i></a></li>
             <li>

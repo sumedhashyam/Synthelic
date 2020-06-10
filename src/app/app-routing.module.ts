@@ -10,7 +10,7 @@ import { TrendComponent } from './trend/trend.component';
 import { ExperienceComponent } from './experience/experience.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: TrendComponent },
   { path: 'create', component: CreateComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
