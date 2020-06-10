@@ -44,7 +44,7 @@ export class CreateComponent implements OnInit
 
   // Use for autocomplete
   // Ref - https://www.npmjs.com/package/angular-ng-autocomplete
-  keyword = 'Name';
+  keyword = 'name';
 
   // Elements-->Substance
   elementName: string;
