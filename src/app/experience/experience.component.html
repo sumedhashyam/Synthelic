@@ -15,8 +15,8 @@
                 </div>
             </div>
         </div>       
-        <div class="overlay">
-            <div class="spinner-border" role="status" *ngIf="!isExperienceProcessed">
+        <div class="exp-overlay" *ngIf="!isExperienceProcessed">
+            <div class="spinner-border" role="status">
                 <span class="sr-only">Please wait! Loading...</span>
             </div>
         </div>
