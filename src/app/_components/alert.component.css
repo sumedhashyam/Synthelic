@@ -1,8 +1,10 @@
 .alert-error {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin: 10px 0;
-    position: absolute;
+    position: fixed;
+    left: 0;
+    top: 0;
     right: 0;
     z-index: 999999;
 }

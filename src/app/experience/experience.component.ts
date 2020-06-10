@@ -26,7 +26,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
     this.subscription = this.filterService.onFilter().subscribe(filterParam =>
     {
       let filter = filterParam?.filter;
-      this.fetchExperiences(filter);     
+      this.fetchExperiences(filter);
     });
   }
 
@@ -41,9 +41,9 @@ export class ExperienceComponent implements OnInit, OnDestroy
     this.subscription.unsubscribe();
   }
 
-  fetchExperiences(filter?:string): void
+  fetchExperiences(filter?: string): void
   {
-    this.isExperienceProcessed=false;
+    this.isExperienceProcessed = false;
     let response: IResponse;
     this.synthelicService.getExperience(this.apiExperienceNamesUrl, filter).subscribe({
       next: resp =>
@@ -58,6 +58,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
       error: err =>
       {
         this.alertService.error(err);
+        this.isExperienceProcessed = true;
       },
       complete: () =>
       {
@@ -93,6 +94,6 @@ export class ExperienceComponent implements OnInit, OnDestroy
       };
       this.experience.push(this.expresionResponce);
     }
-    this.isExperienceProcessed=true;
+    this.isExperienceProcessed = true;
   }
 }
