@@ -49,7 +49,7 @@
 <div class="header-bottom">
     <div class="container">
         <ul>
-            <li [routerLinkActive]="['active']">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
                 <a routerLink="/trends">trends</a>
                 <a routerLink="/" style="display: none">home</a>
             </li>
