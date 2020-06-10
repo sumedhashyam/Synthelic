@@ -6,7 +6,7 @@
                 <h5>let's get started</h5>
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <div class="form-group">
-                        <input type="text" placeholder="email" formControlName="username" class="form-control"
+                        <input type="text" placeholder="username" formControlName="username" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                         <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                             <div *ngIf="f.username.errors.required">Username is required</div>

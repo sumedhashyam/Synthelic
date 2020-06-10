@@ -1,3 +1,11 @@
+header.home-header .navbar .navbar-collapse .navbar-nav li
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 header.home-header .navbar .navbar-collapse .navbar-nav li a.dropdown-toggle span {
     margin: 0 5px;
 }
+

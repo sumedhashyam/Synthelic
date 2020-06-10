@@ -10,9 +10,23 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03" *ngIf="userLoggedIn">
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav  mt-2 mt-lg-0">
-                    <li class="nav-item">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#">forum</a>
+                    </li>
+                    <li class="nav-item" [routerLinkActive]="['active']">
+                        <a class="nav-link" routerLink="/create">
+                            <div class="create"><img src="../../assets/img/plus_icon.svg" alt="" /> create</div>
+                        </a>
+                    </li>
+                    <li class="nav-item" [routerLinkActive]="['active']" *ngIf="!userLoggedIn">
+                        <a class="nav-link" routerLink="/signup">sign up</a>
+                    </li>
+                    <li class="nav-item" [routerLinkActive]="['active']" *ngIf="!userLoggedIn">
+                        <a class="nav-link" routerLink="/signin">sign in</a>
+                    </li>
+                    <li class="nav-item" *ngIf="userLoggedIn">
                         <div class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -28,26 +42,6 @@
                         </div>
                     </li>
                 </ul>
-
-            </div>
-
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03" *ngIf="!userLoggedIn">
-                <ul class="navbar-nav  mt-2 mt-lg-0">
-                    <li class="nav-item ">
-                        <a class="nav-link" href="#">forum</a>
-                    </li>
-                    <li class="nav-item" [routerLinkActive]="['active']">
-                        <a class="nav-link" routerLink="/create">
-                            <div class="create"><img src="../../assets/img/plus_icon.svg" alt="" /> create</div>
-                        </a>
-                    </li>
-                    <li class="nav-item" [routerLinkActive]="['active']">
-                        <a class="nav-link" routerLink="/signup">sign up</a>
-                    </li>
-                    <li class="nav-item" [routerLinkActive]="['active']">
-                        <a class="nav-link" routerLink="/signin">sign in</a>
-                    </li>
-                </ul>
             </div>
         </nav>
     </div>
@@ -57,8 +51,7 @@
         <ul>
             <li [routerLinkActive]="['active']"><a routerLink="/trends">trends</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="/experiences">experiences</a></li>
-            <li><a href="javascript:void(0)" (click)="openModal()">filter <i
-                        class="fa fa-angle-down"></i></a></li>
+            <li><a href="javascript:void(0)" (click)="openModal()">filter <i class="fa fa-angle-down"></i></a></li>
             <li>
                 <div class="search">
                     <span><i class="fa fa-search"></i></span>
