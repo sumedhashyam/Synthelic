@@ -844,6 +844,7 @@ header.home-header .navbar .navbar-collapse .navbar-nav li.active a {
 }
 .synergies-block .box .left {
   margin-right: 15px;
+  width: 80px;
 }
 .synergies-block .box .left img {
   max-width: 80px;

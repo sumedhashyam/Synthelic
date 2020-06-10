@@ -15,7 +15,7 @@ export class FilterComponent implements OnInit
 {
   anyChkSelected: boolean;
   form: FormGroup;
-  selectedCategories: FormArray;
+  selectedSources: FormArray;
   selectedEffects: FormArray;
   selectedApplications: FormArray;
 
@@ -36,7 +36,7 @@ export class FilterComponent implements OnInit
   ngOnInit(): void
   {
     this.form = this.formBuilder.group({
-      checkedCategories: this.formBuilder.array([]),
+      checkedSources: this.formBuilder.array([]),
       checkedEffects: this.formBuilder.array([]),
       checkedApplications: this.formBuilder.array([])
     });
@@ -89,34 +89,34 @@ export class FilterComponent implements OnInit
   {
     this.form.valueChanges.subscribe(val =>
     {
-      this.selectedCategories = this.f.checkedCategories as FormArray;
+      this.selectedSources = this.f.checkedSources as FormArray;
       this.selectedEffects = this.f.checkedEffects as FormArray;
       this.selectedApplications = this.f.checkedApplications as FormArray;
 
-      this.anyChkSelected = this.selectedCategories?.length > 0 || this.selectedEffects?.length > 0 || this.selectedApplications?.length > 0;
+      this.anyChkSelected = this.selectedSources?.length > 0 || this.selectedEffects?.length > 0 || this.selectedApplications?.length > 0;
     });
   }
 
   /*
-  * Handle categories checkbox change and preserve selected one.
+  * Handle sources checkbox change and preserve selected one.
   *   
   * @param event - The event for the element checked.   
   */
-  onCategoryChange(event)
+  onSourceChange(event)
   {
-    const categories: FormArray = this.f.checkedCategories as FormArray;
+    const sources: FormArray = this.f.checkedSources as FormArray;
 
     if (event.target.checked)
     {
-      categories.push(new FormControl(event.target.value));
+      sources.push(new FormControl(event.target.value));
     } else
     {
       let i: number = 0;
-      categories.controls.forEach((item: FormControl) =>
+      sources.controls.forEach((item: FormControl) =>
       {
         if (item.value == event.target.value)
         {
-          categories.removeAt(i);
+          sources.removeAt(i);
           return;
         }
         i++;
@@ -183,6 +183,13 @@ export class FilterComponent implements OnInit
     this.sourceCheckboxes.forEach(e => e.nativeElement.checked = false);
     this.effectCheckboxes.forEach(e => e.nativeElement.checked = false);
     this.appCheckboxes.forEach(e => e.nativeElement.checked = false);
+
+    // Clear as above way will not fire form changes
+    this.selectedSources.clear();
+    this.selectedEffects.clear();
+    this.selectedApplications.clear();
+
+    this.anyChkSelected = false;
   }
 
   onSubmit()
@@ -209,9 +216,9 @@ export class FilterComponent implements OnInit
     let filterParam = '';
 
     let sourceFilter;
-    if (this.selectedCategories?.length > 0)
+    if (this.selectedSources?.length > 0)
     {
-      sourceFilter = `?source=${this.selectedCategories.controls.map(i => i.value).join('&source=')}`;
+      sourceFilter = `?source=${this.selectedSources.controls.map(i => i.value).join('&source=')}`;
     }
 
     let effectFilter;
@@ -251,9 +258,9 @@ export class FilterComponent implements OnInit
     let filterParam = '';
 
     let sourceFilter;
-    if (this.selectedCategories?.length > 0)
+    if (this.selectedSources?.length > 0)
     {
-      sourceFilter = `&source=${this.selectedCategories.controls.map(i => i.value).join('&source=')}`;
+      sourceFilter = `&source=${this.selectedSources.controls.map(i => i.value).join('&source=')}`;
     }
 
     let effectFilter;

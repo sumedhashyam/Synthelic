@@ -6,7 +6,7 @@
                 <h3>source</h3>
                 <div class="custom-control custom-checkbox" *ngFor="let source of sources; let i=index">
                     <input #sourceCheckboxes type="checkbox" class="custom-control-input" [value]="source.id" id="{{ 'chkSource' + i }}"
-                        (change)="onCategoryChange($event)">
+                        (change)="onSourceChange($event)">
                     <label class="custom-control-label" for="{{ 'chkSource' + i }}">{{source.title}}</label>
                 </div>
             </div>
