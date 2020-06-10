@@ -29,18 +29,13 @@ export class SynthelicService
 
     getGenders(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiGendersUrl).pipe(
-            //tap(data => console.log("Genders:" + JSON.stringify(data))),
-            catchError(this.handleError)
-        );
+        return this.http.get<IResponse>(this.apiGendersUrl);
+        //.pipe(tap(data => console.log("Element Applications:" + JSON.stringify(data))))
     }
 
     getCategories(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiCategoriesUrl).pipe(
-            //tap(data => console.log("Categories:" + JSON.stringify(data))),
-            catchError(this.handleError)
-        );
+        return this.http.get<IResponse>(this.apiCategoriesUrl);
     }
 
     getElementNames(url?: string): Observable<IResponse>
@@ -50,61 +45,41 @@ export class SynthelicService
             url = this.apiElementNamesUrl;
         }
 
-        return this.http.get<IResponse>(url).pipe(
-            //tap(data => console.log("Element Names:" + JSON.stringify(data))),
-            catchError(this.handleError)
-        );
+        return this.http.get<IResponse>(url);
     }
 
     getElementEffects(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementEffectsUrl).pipe(
-            //tap(data => console.log("Element Effects:" + JSON.stringify(data))),
-            catchError(this.handleError)
-        );
+        return this.http.get<IResponse>(this.apiElementEffectsUrl);
     }
 
     getElementApplications(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementApplicationsUrl).pipe(
-            //tap(data => console.log("Element Applications:" + JSON.stringify(data))),
-            catchError(this.handleError)
-        );
+        return this.http.get<IResponse>(this.apiElementApplicationsUrl);
     }
 
     saveExperience(experience: IExperience): Observable<any>
     {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-        return this.http.post<IExperience>(this.apiSaveExperienceUrl, experience, httpOptions)
-            .pipe(catchError(this.handleError));
-    }    
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        return this.http.post<IExperience>(this.apiSaveExperienceUrl, experience, httpOptions);
+    }
 
     getElements(filter?: string): Observable<IResponse>
     {
         let url = filter !== null && filter !== undefined ? this.apiElementsUrl + filter : this.apiElementsUrl;
-        return this.http.get<IResponse>(url).pipe(
-            //tap(data => console.log("Elements:" + JSON.stringify(data))),
-            catchError(this.handleError));
+        return this.http.get<IResponse>(url);
     }
 
     getEffects(filter?: string): Observable<IResponse>
     {
         let url = filter !== null && filter !== undefined ? this.apiEffectsUrl + filter : this.apiEffectsUrl;
-        return this.http.get<IResponse>(url).pipe(
-            //tap(data => console.log("Effects:" + JSON.stringify(data))),
-            catchError(this.handleError));
+        return this.http.get<IResponse>(url);
     }
 
     getSynergies(filter?: string): Observable<IResponse>
     {
         let url = filter !== null && filter !== undefined ? this.apiSynergiesUrl + filter : this.apiSynergiesUrl;
-        return this.http.get<IResponse>(url).pipe(
-            //tap(data => console.log("Synergies:" + JSON.stringify(data))),
-            catchError(this.handleError));
+        return this.http.get<IResponse>(url);
     }
 
     getExperience(url?: string, filter?: string): Observable<IResponse>
@@ -115,29 +90,6 @@ export class SynthelicService
         }
 
         url = filter !== null && filter !== undefined ? url + filter : url;
-        return this.http.get<IResponse>(url).pipe(
-            //tap(data => console.log("Synergies:" + JSON.stringify(data))),
-            catchError(this.handleError));
-    }
-
-    private handleError(err: HttpErrorResponse)
-    {
-        // For 404, we don't get any error so setting it here
-        let errorMessage = 'Not Found';
-        
-        if (err.error instanceof ErrorEvent)
-        {
-            // A client-side or network error occurred. Handle it accordingly
-            errorMessage = `An error occurred: ${err.error.message}`;
-        }
-        else if(err.status && err.message)
-        {
-            // The backend returned an unsuccessful response code
-            // The response body may contain clues as to what went wrong.
-            errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-        }
-        
-        console.error(errorMessage);
-        return throwError(errorMessage);
+        return this.http.get<IResponse>(url);
     }
 }
