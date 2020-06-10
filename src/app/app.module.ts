@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { CreateComponent } from './create/create.component';
-import { HomeComponent } from './home/home.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { HeaderComponent } from './_components/header.component';
 import { AlertComponent } from './_components/alert.component';
@@ -24,8 +23,7 @@ import { ModalModule } from './_modal';
   declarations: [
     AppComponent,
     HeaderComponent,
-    AlertComponent,
-    HomeComponent,
+    AlertComponent,    
     CreateComponent,
     LoginComponent,
     SignupComponent,
