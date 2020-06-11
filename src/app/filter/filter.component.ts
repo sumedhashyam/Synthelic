@@ -211,7 +211,7 @@ export class FilterComponent implements OnInit
     this.closeModal('filterModal');
   }
 
-  getFilterParamForTrend(): string
+  private getFilterParamForTrend(): string
   {
     let filterParam = '';
 
@@ -253,7 +253,7 @@ export class FilterComponent implements OnInit
     return filterParam;
   }
 
-  getFilterParamForExperience(): string
+  private getFilterParamForExperience(): string
   {
     let filterParam = '';
 
@@ -293,7 +293,7 @@ export class FilterComponent implements OnInit
     return filterParam;
   }
 
-  closeModal(id: string)
+  private closeModal(id: string)
   {
     this.modalService.close(id);
   }

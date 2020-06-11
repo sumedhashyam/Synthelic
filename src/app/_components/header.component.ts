@@ -37,23 +37,16 @@ export class HeaderComponent implements OnInit, OnDestroy
 
   openModal()
   {
-    // Because we don't want to show filter for other cases
-    let route = this.router.url.replace(/\//g, '');
-    switch (route.toLowerCase())
+    // Show filter for home, trends and experiences page
+    let route = this.router.url.replace(/\//g, '').toLowerCase();
+    if (route === '' || route === 'trends' || route === 'experiences')
     {
-      case 'experiences':
-        this.modalService.open('filterModal');
-        break;
-
-      case 'trends':
-        this.modalService.open('filterModal');
-        break;
+      this.modalService.open('filterModal');
     }
-  }
+  }  
 
   logOut()
   {
-    console.log("Called");
     this.accountService.logout();
   }
 }
