@@ -42,7 +42,7 @@ import { ModalModule } from './_modal';
       headerName: 'X-CSRFToken'
     }),
     AutocompleteLibModule,
-    ModalModule,
+    ModalModule,    
     AppRoutingModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],

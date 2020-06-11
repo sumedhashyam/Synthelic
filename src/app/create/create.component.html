@@ -119,11 +119,11 @@
           <button class="btn btn-dark mb-3" (click)="toggleMoreDetails()">add more details <i class="fa fa-angle-up"
               *ngIf="!hideMore"></i>
             <i class="fa fa-angle-down" *ngIf="hideMore"></i></button>
-          <div *ngIf="!hideMore">
+          <div [style.display]="hideMore?'none':'block'">
             <div class="inner-box">
               <h4 (click)="toggleExplorer()">explorer <i class="fa fa-angle-up" *ngIf="!hideExplorer"></i>
                 <i class="fa fa-angle-down" *ngIf="hideExplorer"></i></h4>
-              <div class="row" *ngIf="!hideExplorer">
+              <div class="row" [style.display]="hideExplorer?'none':'flex'">
                 <div class="col-md-4">
                   <input class="form-control" name="weight" [(ngModel)]="expWeight" placeholder="weight (kg)" />
                 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
 import { AlertService, SynthelicService } from '@app/_services';
@@ -14,12 +14,14 @@ import { IExperienceSynergy } from '@app/_models/IExperienceSynergy';
 import { IError } from '@app/_models/IError';
 import { IResponse } from '@app/_models/IResponse';
 
+declare var $: any;
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit
+export class CreateComponent implements OnInit, AfterContentInit
 {
   showLoader: boolean = false;
   apiElementNamesUrl: string;
@@ -101,6 +103,11 @@ export class CreateComponent implements OnInit
 
   }
 
+  ngAfterContentInit()
+  {
+    this.bindSelect2();
+  }
+
   ngOnInit(): void
   {
     this.showLoader = true;
@@ -110,7 +117,7 @@ export class CreateComponent implements OnInit
     this.fetchElementEffects();
     this.fetchElementApplications();
     this.showLoader = false;
-  } 
+  }
 
   fetchGenders(): void
   {
@@ -238,6 +245,11 @@ export class CreateComponent implements OnInit
   elementNameChange(searchTxt: string)
   {
     this.elementNameSearchTxt = searchTxt;
+  }
+
+  private bindSelect2()
+  {
+    $('.js-example-basic-single').select2();
   }
 
   validateElement(): void
