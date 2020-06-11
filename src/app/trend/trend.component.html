@@ -35,7 +35,9 @@
     <div class="col-md-4">
       <div class="right-element" *ngIf="selectedElement">
         <div class="right-box">
-          <img [src]="selectedElement.imageUrl" alt="" />
+          <div class="img-wrap">
+            <img [src]="selectedElement.imageUrl" alt="" />
+          </div>
           <h6>found in 215 experiences <a href="#">view experiences</a></h6>
           <div class="inner-block">
             <div class="top">
