@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SynthelicService } from '@app/_services/synthelic.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { NgModel } from '@angular/forms';
+
+import { AlertService, SynthelicService } from '@app/_services';
 import { IGender } from '@app/_models/IGender';
 import { ICategory } from '@app/_models/ICategory';
 import { IElementNames } from '@app/_models/IElementNames';
@@ -9,10 +11,8 @@ import { IExperience } from '@app/_models/IExperience';
 import { IExperienceElement } from '@app/_models/IExperienceElement';
 import { IExperienceEffect } from '@app/_models/IExperienceEffect';
 import { IExperienceSynergy } from '@app/_models/IExperienceSynergy';
-import { NgForm, NgModel } from '@angular/forms';
 import { IError } from '@app/_models/IError';
 import { IResponse } from '@app/_models/IResponse';
-import { AlertService } from '@app/_services';
 
 @Component({
   selector: 'app-create',
@@ -110,7 +110,7 @@ export class CreateComponent implements OnInit
     this.fetchElementEffects();
     this.fetchElementApplications();
     this.showLoader = false;
-  }
+  } 
 
   fetchGenders(): void
   {
@@ -494,8 +494,8 @@ export class CreateComponent implements OnInit
     console.log(JSON.stringify(experience));
     this.synthelicService.saveExperience(experience).subscribe({
       next: response =>
-      {        
-        this.alertService.info('Experience saved successfully!');        
+      {
+        this.alertService.info('Experience saved successfully!');
       },
       error: err =>
       {
