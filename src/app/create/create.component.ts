@@ -470,11 +470,11 @@ export class CreateComponent implements OnInit, AfterContentInit
 
   saveExperience(info: string): void
   {
-    // if (this.elements.length === 0)
-    // {
-    //   this.alertService.error('Please add at least one element', { autoClose: true });
-    //   return;
-    // }
+    if (this.elements.length === 0)
+    {
+      this.alertService.error('Please add at least one element', { autoClose: true });
+      return;
+    }
 
     const experience: IExperience = {
       title: this.title,
