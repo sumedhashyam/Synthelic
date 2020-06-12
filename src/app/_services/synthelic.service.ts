@@ -13,7 +13,7 @@ export class SynthelicService
     apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
     apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
 
-    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';    
+    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';
     apiSourcesUrl = 'http://synthelic.com:9090/api/categories/sources/';
     apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
     apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
@@ -31,13 +31,13 @@ export class SynthelicService
 
     getGenders(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiGendersUrl);
+        return this.http.get<IResponse>(this.apiGendersUrl, { withCredentials: true });
         //.pipe(tap(data => console.log("Element Applications:" + JSON.stringify(data))))
     }
 
     getCategories(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiCategoriesUrl);
+        return this.http.get<IResponse>(this.apiCategoriesUrl, { withCredentials: true });
     }
 
     getElementNames(url?: string): Observable<IResponse>
@@ -47,46 +47,46 @@ export class SynthelicService
             url = this.apiElementNamesUrl;
         }
 
-        return this.http.get<IResponse>(url);
+        return this.http.get<IResponse>(url, { withCredentials: true });
     }
 
     getElementSources(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiSourcesUrl);
+        return this.http.get<IResponse>(this.apiSourcesUrl, { withCredentials: true });
     }
 
     getElementEffects(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementEffectsUrl);
+        return this.http.get<IResponse>(this.apiElementEffectsUrl, { withCredentials: true });
     }
 
     getElementApplications(): Observable<IResponse>
     {
-        return this.http.get<IResponse>(this.apiElementApplicationsUrl);
+        return this.http.get<IResponse>(this.apiElementApplicationsUrl, { withCredentials: true });
     }
 
     saveExperience(experience: IExperience): Observable<any>
     {
-        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), withCredentials: true };
         return this.http.post<IExperience>(this.apiSaveExperienceUrl, experience, httpOptions);
     }
 
     getElements(filter?: string): Observable<IResponse>
     {
         let url = filter !== null && filter !== undefined ? this.apiElementsUrl + filter : this.apiElementsUrl;
-        return this.http.get<IResponse>(url);
+        return this.http.get<IResponse>(url, { withCredentials: true });
     }
 
     getEffects(filter?: string): Observable<IResponse>
     {
         let url = filter !== null && filter !== undefined ? this.apiEffectsUrl + filter : this.apiEffectsUrl;
-        return this.http.get<IResponse>(url);
+        return this.http.get<IResponse>(url, { withCredentials: true });
     }
 
     getSynergies(filter?: string): Observable<IResponse>
     {
         let url = filter !== null && filter !== undefined ? this.apiSynergiesUrl + filter : this.apiSynergiesUrl;
-        return this.http.get<IResponse>(url);
+        return this.http.get<IResponse>(url, { withCredentials: true });
     }
 
     getExperience(url?: string, filter?: string): Observable<IResponse>
@@ -97,6 +97,6 @@ export class SynthelicService
         }
 
         url = filter !== null && filter !== undefined ? url + filter : url;
-        return this.http.get<IResponse>(url);
+        return this.http.get<IResponse>(url, { withCredentials: true });
     }
 }

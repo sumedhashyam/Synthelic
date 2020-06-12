@@ -30,7 +30,7 @@ export class AccountService
 
     signup(user: User)
     {
-        return this.http.post(`${this.apiUrl}/signup/`, user);
+        return this.http.post(`${this.apiUrl}/signup/`, user, { withCredentials: true });
     }
 
     login(username: string, password: string)
