@@ -61,14 +61,14 @@
                         placeholder="quantity" />
                     </div>
                     <div class="box">
-                      <select class="js-example-basic-single form-control" name="describe"
+                      <select class="js-example-basic-single form-control eff" name="describe"
                         [(ngModel)]="categoryEffect">
                         <option [ngValue]="null" [disabled]="true">i would describe it as</option>
                         <option *ngFor="let ef of elementEffects" [value]="ef.title">{{ef.title}}</option>
                       </select>
                     </div>
                     <div class="box">
-                      <select class="js-example-basic-single form-control" name="helpe" [(ngModel)]="categoryApplication">
+                      <select class="js-example-basic-single form-control app" name="helpe" [(ngModel)]="categoryApplication">
                         <option [ngValue]="null" [disabled]="true">it has helped me with</option>
                         <option *ngFor="let ea of elementApplications" [value]="ea.title">{{ea.title}}</option>
                         
@@ -100,7 +100,7 @@
             <input type="URL" class="form-control" name="synergyUrl" [(ngModel)]="synergyUrl" placeholder="http://"
               required />
             <div class="box">
-              <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control">
+              <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control cat">
                 <option [ngValue]="null" [disabled]="true">category</option>
                 <option *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
               </select>
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="box">
-                    <select name="gender" [(ngModel)]="expGender" class="js-example-basic-single form-control">
+                    <select name="gender" [(ngModel)]="expGender" class="js-example-basic-single form-control sex">
                       <option [ngValue]="null" [disabled]="true">sex</option>
                       <option *ngFor="let gender of genders" [value]="gender.id">{{gender.title}}</option>
                     </select>

@@ -250,6 +250,11 @@ export class CreateComponent implements OnInit, AfterContentInit
   private bindSelect2()
   {
     $('.js-example-basic-single').select2();
+    // $(".js-example-basic-single").on("change", function(){
+    //   console.log($(this).val());
+    //   this.synergyCategory = $(this).val();
+    //   console.log(this.synergyCategory);
+    // });
   }
 
   validateElement(): void
@@ -271,11 +276,12 @@ export class CreateComponent implements OnInit, AfterContentInit
   addElement(): void
   {
     this.validateElement();
-
     if (this.selectedElementNameId != undefined && this.selectedElementNameId > 0)
     {
       if (this.elements.length <= 9)
       {
+        this.categoryEffect = $(".eff").val();
+        this.categoryApplication=$(".app").val();
         const expElement: IExperienceElement = {
           element: this.selectedElementNameId,
           name: this.elementName,
@@ -373,6 +379,7 @@ export class CreateComponent implements OnInit, AfterContentInit
 
   addSynergy()
   {
+    this.synergyCategory = $(".cat").val();
     let error = this.errors.find(e => e.name === 'synergyUrl');
     if (this.synergyCategory && this.synergyUrl)
     {
@@ -401,6 +408,7 @@ export class CreateComponent implements OnInit, AfterContentInit
           url: this.synergyUrl
         }
         this.synergies.push(expSynergy);
+        this.synergyCategory =null;
         this.reset('synergies');
       }
       else
@@ -476,6 +484,7 @@ export class CreateComponent implements OnInit, AfterContentInit
       return;
     }
 
+    this.expGender = $(".sex").val();
     const experience: IExperience = {
       title: this.title,
       explorer_weight: this.expWeight,
