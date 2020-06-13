@@ -26,7 +26,8 @@ export class ExperienceComponent implements OnInit, OnDestroy
     this.subscription = this.filterService.onFilter().subscribe(filterParam =>
     {
       let filter = filterParam?.filter;
-      console.log("Filter:" + filter)
+      console.log(`Experience filter: ${filter}`);
+
       this.experiences = [];
       this.apiExperienceNamesUrl = null;
       this.fetchExperiences(filter);
@@ -65,6 +66,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
       },
       complete: () =>
       {
+        this.isExperienceProcessed=true;
         if (response && response.next)
         {
           this.apiExperienceNamesUrl = response.next;

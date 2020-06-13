@@ -196,15 +196,15 @@ export class FilterComponent implements OnInit
   {
     let filterParam = '';
     let route = this.router.url.replace(/\//g, '');
-    switch (route.toLowerCase())
-    {
-      case 'experiences':
-        filterParam = this.getFilterParamForExperience();
-        break;
 
-      case 'trends':
-        filterParam = this.getFilterParamForTrend();
-        break;
+    // Because home page is trends page
+    if (route === '' || route === 'trends')
+    {
+      filterParam = this.getFilterParamForTrend();
+    }
+    else if (route === 'experiences')
+    {
+      filterParam = this.getFilterParamForExperience();
     }
 
     this.filterService.sendFilter(filterParam);

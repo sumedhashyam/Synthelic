@@ -29,7 +29,7 @@ export class TrendComponent implements OnInit, OnDestroy
     // subscribe to filter
     this.subscription = this.filterService.onFilter().subscribe(filterParam =>
     {
-      this.fetchValuesWithFilter(filterParam);
+      this.fetchValuesWithFilter(filterParam?.filter);
     });
   }
 
@@ -46,8 +46,9 @@ export class TrendComponent implements OnInit, OnDestroy
     this.subscription.unsubscribe();
   }
 
-  fetchValuesWithFilter(filterParam)
+  fetchValuesWithFilter(filter: string)
   {
+    console.log(`Trend filter: ${filter}`);
     this.isElementProcessed = false;
     this.isEffectProcessed = false;
     this.isSynergyProcessed = false;
@@ -56,7 +57,6 @@ export class TrendComponent implements OnInit, OnDestroy
     this.effects = [];
     this.synergies = [];
 
-    let filter = filterParam?.filter;
     this.fetchElements(filter);
     this.fetchEffects(filter);
     this.fetchSynergies(filter);
