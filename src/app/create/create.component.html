@@ -102,7 +102,7 @@
             <div class="box">
               <select name="category" [(ngModel)]="synergyCategory" class="js-example-basic-single form-control cat">
                 <option [ngValue]="null" [disabled]="true">category</option>
-                <option *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
+                <option class="cating" *ngFor="let cat of categories" [value]="cat.id">{{cat.title}}</option>
               </select>
             </div>
             <button class="btn btn-dark" (click)="addSynergy()">add</button>

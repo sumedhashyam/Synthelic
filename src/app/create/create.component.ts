@@ -21,8 +21,7 @@ declare var $: any;
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit, AfterContentInit
-{
+export class CreateComponent implements OnInit, AfterContentInit {
   showLoader: boolean = false;
   apiElementNamesUrl: string;
 
@@ -98,18 +97,15 @@ export class CreateComponent implements OnInit, AfterContentInit
   errors: IError[] = [];
   Type: any;
 
-  constructor(private synthelicService: SynthelicService, private alertService: AlertService)
-  {
+  constructor(private synthelicService: SynthelicService, private alertService: AlertService) {
 
   }
 
-  ngAfterContentInit()
-  {
+  ngAfterContentInit() {
     this.bindSelect2();
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.showLoader = true;
     this.fetchGenders();
     this.fetchCategories();
@@ -119,42 +115,34 @@ export class CreateComponent implements OnInit, AfterContentInit
     this.showLoader = false;
   }
 
-  fetchGenders(): void
-  {
+  fetchGenders(): void {
     this.synthelicService.getGenders().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.genders = response.results as IGender[];
       },
       error: err => { this.alertService.error(err); }
     });
   }
 
-  fetchCategories(): void
-  {
+  fetchCategories(): void {
     this.synthelicService.getCategories().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.categories = response.results as ICategory[];
       },
       error: err => { this.alertService.error(err); }
     });
   }
 
-  fetchElementNames(): void
-  {
+  fetchElementNames(): void {
     let response: IResponse;
 
     this.synthelicService.getElementNames(this.apiElementNamesUrl).subscribe({
-      next: resp =>
-      {
+      next: resp => {
         response = resp;
         let elementNames = response.results as IElementNames[];
 
-        elementNames.forEach(en =>
-        {
-          en.names.forEach(name =>
-          {
+        elementNames.forEach(en => {
+          en.names.forEach(name => {
             const eName: IElementName = {
               id: en.id,
               name: name
@@ -164,10 +152,8 @@ export class CreateComponent implements OnInit, AfterContentInit
         });
       },
       error: err => { this.alertService.error(err); },
-      complete: () =>
-      {
-        if (response && response.next)
-        {
+      complete: () => {
+        if (response && response.next) {
           this.apiElementNamesUrl = response.next;
           this.fetchElementNames();
         }
@@ -175,113 +161,88 @@ export class CreateComponent implements OnInit, AfterContentInit
     });
   }
 
-  fetchElementEffects(): void
-  {
+  fetchElementEffects(): void {
     this.synthelicService.getElementEffects
       ().subscribe({
-        next: response =>
-        {
+        next: response => {
           this.elementEffects = response.results as IElement[];
         },
         error: err => { this.alertService.error(err); }
       });
   }
 
-  fetchElementApplications(): void
-  {
+  fetchElementApplications(): void {
     this.synthelicService.getElementApplications().subscribe({
-      next: response =>
-      {
+      next: response => {
         this.elementApplications = response.results as IElement[];
       },
       error: err => { this.alertService.error(err); }
     });
   }
 
-  toggleReportNotes(): void
-  {
+  toggleReportNotes(): void {
     this.hideReportNotes = !this.hideReportNotes;
   }
 
-  toggleMoreDetails(): void
-  {
+  toggleMoreDetails(): void {
     this.hideMore = !this.hideMore;
   }
 
-  toggleExplorer(): void
-  {
+  toggleExplorer(): void {
     this.hideExplorer = !this.hideExplorer;
   }
 
-  toggleSet(): void
-  {
+  toggleSet(): void {
     this.hideSet = !this.hideSet;
   }
 
-  toggleSetting(): void
-  {
+  toggleSetting(): void {
     this.hideSetting = !this.hideSetting;
   }
 
-  toggleEffectsInDetail(): void
-  {
+  toggleEffectsInDetail(): void {
     this.hideEffectsInDetail = !this.hideEffectsInDetail;
   }
 
-  showErrors(error: IError)
-  {
+  showErrors(error: IError) {
     this.showError = true;
     this.errors.push(error);
     setTimeout(() => { this.showError = false, this.errors = [] }, 2000);
   }
 
-  elementNameSelected(element: IElementName)
-  {
+  elementNameSelected(element: IElementName) {
     this.selectedElementNameId = element.id;
     this.elementName = element.name;
     this.elementNameSearchTxt = element.name;
   }
 
-  elementNameChange(searchTxt: string)
-  {
+  elementNameChange(searchTxt: string) {
     this.elementNameSearchTxt = searchTxt;
   }
 
-  private bindSelect2()
-  {
+  private bindSelect2() {
     $('.js-example-basic-single').select2();
-    // $(".js-example-basic-single").on("change", function(){
-    //   console.log($(this).val());
-    //   this.synergyCategory = $(this).val();
-    //   console.log(this.synergyCategory);
-    // });
   }
 
-  validateElement(): void
-  {
+  validateElement(): void {
     const element = this.elementNames.find(e => e.name === this.elementNameSearchTxt);
-    if (element)
-    {
+    if (element) {
       this.selectedElementNameId = element.id;
       this.elementName = element.name;
     }
-    else
-    {
+    else {
       this.selectedElementNameId = 0;
       this.elementName = '';
     }
   }
 
   // TODO: Use alert service to show error
-  addElement(): void
-  {
+  addElement(): void {
     this.validateElement();
-    if (this.selectedElementNameId != undefined && this.selectedElementNameId > 0)
-    {
-      if (this.elements.length <= 9)
-      {
+    if (this.selectedElementNameId != undefined && this.selectedElementNameId > 0) {
+      if (this.elements.length <= 9) {
         this.categoryEffect = $(".eff").val();
-        this.categoryApplication=$(".app").val();
+        this.categoryApplication = $(".app").val();
         const expElement: IExperienceElement = {
           element: this.selectedElementNameId,
           name: this.elementName,
@@ -294,8 +255,7 @@ export class CreateComponent implements OnInit, AfterContentInit
         this.elements.push(expElement);
         this.reset('element');
       }
-      else
-      {
+      else {
         const error: IError = {
           name: 'MaxElement10',
           message: 'Maximum 10 element allowed'
@@ -303,47 +263,38 @@ export class CreateComponent implements OnInit, AfterContentInit
         this.showErrors(error);
       }
     }
-    else
-    {
+    else {
       const error: IError = {
         name: 'ElementNotFound',
         message: `The element '${this.elementNameSearchTxt}' not found.`
       }
-      if (!this.elementNameSearchTxt)
-      {
+      if (!this.elementNameSearchTxt) {
         error.message = 'Please enter element name';
       }
       this.showErrors(error);
     }
   }
 
-  removeElement(expElement: IExperienceElement): void
-  {
+  removeElement(expElement: IExperienceElement): void {
     // Ref - https://medium.com/@benjamincherion/how-to-break-an-array-in-javascript-6d3a55bd06f6
-    this.elements.some((element, index) =>
-    {
-      if (element === expElement)
-      {
+    this.elements.some((element, index) => {
+      if (element === expElement) {
         this.elements.splice(index, 1);
         return true;
       }
     });
   }
 
-  addEffect(): void
-  {
-    if (this.effectName)
-    {
-      if (this.effects.length <= 9)
-      {
+  addEffect(): void {
+    if (this.effectName) {
+      if (this.effects.length <= 9) {
         const expEffect: IExperienceEffect = {
           effect: this.effectName
         }
         this.effects.push(expEffect);
         this.effectName = '';
       }
-      else
-      {
+      else {
         const error: IError = {
           name: 'MaxEffect10',
           message: 'Maximum 10 effect allowed'
@@ -351,11 +302,9 @@ export class CreateComponent implements OnInit, AfterContentInit
         this.showErrors(error);
       }
     }
-    else
-    {
+    else {
       let error = this.errors.find(e => e.name === 'effects');
-      if (!error)
-      {
+      if (!error) {
         error = {
           name: 'effects',
           message: 'Effect name is required'
@@ -365,28 +314,21 @@ export class CreateComponent implements OnInit, AfterContentInit
     }
   }
 
-  removeEffect(expEffect: IExperienceEffect): void
-  {
-    this.effects.some((effect, index) =>
-    {
-      if (effect === expEffect)
-      {
+  removeEffect(expEffect: IExperienceEffect): void {
+    this.effects.some((effect, index) => {
+      if (effect === expEffect) {
         this.effects.splice(index, 1);
         return true;
       }
     });
   }
 
-  addSynergy()
-  {
+  addSynergy() {
     this.synergyCategory = $(".cat").val();
     let error = this.errors.find(e => e.name === 'synergyUrl');
-    if (this.synergyCategory && this.synergyUrl)
-    {
-      if (this.synergies.length <= 9)
-      {
-        if (!this.isValidUrl(this.synergyUrl) && !error)
-        {
+    if (this.synergyCategory && this.synergyUrl) {
+      if (this.synergies.length <= 9) {
+        if (!this.isValidUrl(this.synergyUrl) && !error) {
           error = {
             name: 'synergyUrl',
             message: 'Please provide correct url'
@@ -397,8 +339,7 @@ export class CreateComponent implements OnInit, AfterContentInit
 
         let categoryTitle = '';
         let category = this.categories.find(c => c.id == this.synergyCategory);
-        if (category)  
-        {
+        if (category) {
           categoryTitle = category.title;
         }
 
@@ -408,11 +349,9 @@ export class CreateComponent implements OnInit, AfterContentInit
           url: this.synergyUrl
         }
         this.synergies.push(expSynergy);
-        this.synergyCategory =null;
         this.reset('synergies');
       }
-      else
-      {
+      else {
         const error: IError = {
           name: 'MaxSynergy10',
           message: 'Maximum 10 synergy allowed'
@@ -420,10 +359,8 @@ export class CreateComponent implements OnInit, AfterContentInit
         this.showErrors(error);
       }
     }
-    else
-    {
-      if (!error)
-      {
+    else {
+      if (!error) {
         error = {
           name: 'synergyUrl',
           message: 'Synergy url and category is required'
@@ -433,40 +370,32 @@ export class CreateComponent implements OnInit, AfterContentInit
     }
   }
 
-  removeSynergy(expSynergy: IExperienceSynergy): void
-  {
-    this.synergies.some((synergy, index) =>
-    {
-      if (synergy === expSynergy)
-      {
+  removeSynergy(expSynergy: IExperienceSynergy): void {
+    this.synergies.some((synergy, index) => {
+      if (synergy === expSynergy) {
         this.synergies.splice(index, 1);
         return true;
       }
     });
   }
 
-  checkForRequired(field: NgModel, error: IError, index: number): void
-  {
-    if (field.errors && (error === null || error === undefined))
-    {
+  checkForRequired(field: NgModel, error: IError, index: number): void {
+    if (field.errors && (error === null || error === undefined)) {
       error = {
         name: field.name,
         message: `${field.name} is required`
       }
       this.showErrors(error);
     }
-    else
-    {
-      if (!field.errors)
-      {
+    else {
+      if (!field.errors) {
         this.errors.splice(index, 1);
         this.showError = this.errors.length > 0;
       }
     }
   }
 
-  isValidUrl(url: string)
-  {
+  isValidUrl(url: string) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
       '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -476,10 +405,8 @@ export class CreateComponent implements OnInit, AfterContentInit
     return !!pattern.test(url);
   }
 
-  saveExperience(info: string): void
-  {
-    if (this.elements.length === 0)
-    {
+  saveExperience(info: string): void {
+    if (this.elements.length === 0) {
       this.alertService.error('Please add at least one element', { autoClose: true });
       return;
     }
@@ -507,32 +434,26 @@ export class CreateComponent implements OnInit, AfterContentInit
       public: false
     };
 
-    if (info == 'public')
-    {
+    if (info == 'public') {
       experience.public = true;
     }
 
     console.log(JSON.stringify(experience));
     this.synthelicService.saveExperience(experience).subscribe({
-      next: response =>
-      {
+      next: response => {
         this.alertService.info('Experience saved successfully!');
       },
-      error: err =>
-      {
+      error: err => {
         this.alertService.error(err);
       },
-      complete: () =>
-      {
+      complete: () => {
         this.reset('submit');
       }
     });
   }
 
-  reset(type: string)
-  {
-    switch (type)
-    {
+  reset(type: string) {
+    switch (type) {
       case 'submit':
         this.title = '';
         this.notes = '';
@@ -560,6 +481,14 @@ export class CreateComponent implements OnInit, AfterContentInit
         this.synergyUrl = '';
         this.categoryEffect = null;
         this.categoryApplication = null;
+        $(".sex").prop("selectedIndex", 0);
+        $('.sex').select2();
+        $(".app").prop("selectedIndex", 0);
+        $('.app').select2();
+        $(".eff").prop("selectedIndex", 0);
+        $('.eff').select2();
+        $(".cat").prop("selectedIndex", 0);
+        $('.cat').select2();
         break;
 
       case 'element':
@@ -569,11 +498,17 @@ export class CreateComponent implements OnInit, AfterContentInit
         this.categoryEffect = null;
         this.categoryApplication = null;
         this.selectedElementNameId = 0;
+        $(".app").prop("selectedIndex", 0);
+        $('.app').select2();
+        $(".eff").prop("selectedIndex", 0);
+        $('.eff').select2();
         break;
 
       case 'synergies':
         this.synergyCategory = null;
         this.synergyUrl = '';
+        $(".cat").prop("selectedIndex", 0);
+        $('.cat').select2();
         break;
     }
   }
