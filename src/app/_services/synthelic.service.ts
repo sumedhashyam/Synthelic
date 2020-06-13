@@ -13,7 +13,7 @@ export class SynthelicService
     apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
     apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
 
-    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page_size=10&page=1';
+    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page=1&page_size=10';
     apiSourcesUrl = 'http://synthelic.com:9090/api/categories/sources/';
     apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
     apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
