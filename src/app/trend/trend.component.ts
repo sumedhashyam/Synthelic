@@ -72,6 +72,10 @@ export class TrendComponent implements OnInit, OnDestroy
         {
           this.showElementDetail(this.elements[0], 0);
         }
+        else
+        {
+          this.alertService.warn('No elements found', { autoClose: true });
+        }
       },
       error: err =>
       {
@@ -91,6 +95,10 @@ export class TrendComponent implements OnInit, OnDestroy
       next: response =>
       {
         this.effects = response.results as Effect[];
+        if (this.effects.length === 0)
+        {
+          this.alertService.warn('No effects found', { autoClose: true });
+        }
       },
       error: err =>
       {
@@ -110,6 +118,10 @@ export class TrendComponent implements OnInit, OnDestroy
       next: response =>
       {
         this.synergies = response.results as Synergy[];
+        if (this.synergies.length === 0)
+        {
+          this.alertService.warn('No synergies found', { autoClose: true });
+        }
       },
       error: err =>
       {

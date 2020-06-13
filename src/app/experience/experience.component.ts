@@ -58,6 +58,10 @@ export class ExperienceComponent implements OnInit, OnDestroy
         {
           this.filterData(data);
         }
+        else
+        {
+          this.alertService.warn('No record found', { autoClose: true });
+        }
       },
       error: err =>
       {
@@ -66,7 +70,7 @@ export class ExperienceComponent implements OnInit, OnDestroy
       },
       complete: () =>
       {
-        this.isExperienceProcessed=true;
+        this.isExperienceProcessed = true;
         if (response && response.next)
         {
           this.apiExperienceNamesUrl = response.next;
