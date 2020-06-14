@@ -1,6 +1,6 @@
 export interface IElement
 {
-    Id: number,
-    Title: string,
-    Image: string
+    id: number,
+    title: string,
+    image: string
 }

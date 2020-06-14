@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+      "target": "http://synthelic.com:9090",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    }
+  }

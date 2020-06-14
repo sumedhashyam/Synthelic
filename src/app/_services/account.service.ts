@@ -4,15 +4,20 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '../_models/user';
+import { User } from '@app/_models/user';
+import { environment } from '@src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService
 {
+    // To test API from local, set apiBaseUrl as apiBaseUrl=''
+    // Also in package.json, modify start in scripts as "start": "ng serve --proxy-config proxy.config.json --o"
+    apiBaseUrl = environment.baseUrl;
+
     private userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
 
-    apiUrl = 'http://synthelic.com:9090/api/profiles';
+    apiUrl = `${this.apiBaseUrl}/api/profiles`;
 
     constructor(
         private router: Router,

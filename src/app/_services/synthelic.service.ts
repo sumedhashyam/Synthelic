@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
-import { Observable, throwError } from 'rxjs'
-import { catchError, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs'
+
 import { IResponse } from '@app/_models/IResponse';
 import { IExperience } from '@app/_models/IExperience';
+import { environment } from '@src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SynthelicService
 {
-    apiGendersUrl = 'http://synthelic.com:9090/api/categories/genders/';
-    apiCategoriesUrl = 'http://synthelic.com:9090/api/categories/synergy_categories/';
+    // To test API from local, set apiBaseUrl as apiBaseUrl=''
+    // Also in package.json, modify start in scripts as "start": "ng serve --proxy-config proxy.config.json --o"
+    // Ref - https://juristr.com/blog/2016/11/configure-proxy-api-angular-cli/
+    apiBaseUrl = environment.baseUrl;
 
-    apiElementNamesUrl = 'http://synthelic.com:9090/api/synth/element_names/?page=1&page_size=10';
-    apiSourcesUrl = 'http://synthelic.com:9090/api/categories/sources/';
-    apiElementEffectsUrl = 'http://synthelic.com:9090/api/categories/effects/';
-    apiElementApplicationsUrl = 'http://synthelic.com:9090/api/categories/applications/';
-    apiSaveExperienceUrl = 'http://synthelic.com:9090/api/synth/experiences/';
+    apiGendersUrl = `${this.apiBaseUrl}/api/categories/genders/`;
+    apiCategoriesUrl = `${this.apiBaseUrl}/api/categories/synergy_categories/`;
 
-    apiElementsUrl = 'http://synthelic.com:9090/api/synth/elements/';
-    apiEffectsUrl = 'http://synthelic.com:9090/api/synth/experience_effects/';
-    apiSynergiesUrl = 'http://synthelic.com:9090/api/synth/experience_synergies/';
-    apiExperienceNameUrl = 'http://synthelic.com:9090/api/synth/experiences/?page_size=12&page=1';
+    apiElementNamesUrl = `${this.apiBaseUrl}/api/synth/element_names/?page=1&page_size=10`;
+    apiSourcesUrl = `${this.apiBaseUrl}/api/categories/sources/`;
+    apiElementEffectsUrl = `${this.apiBaseUrl}/api/categories/effects/`;
+    apiElementApplicationsUrl = `${this.apiBaseUrl}/api/categories/applications/`;
+    apiSaveExperienceUrl = `${this.apiBaseUrl}/api/synth/experiences/`;
+
+    apiElementsUrl = `${this.apiBaseUrl}/api/synth/elements/`;
+    apiEffectsUrl = `${this.apiBaseUrl}/api/synth/experience_effects/`;
+    apiSynergiesUrl = `${this.apiBaseUrl}/api/synth/experience_synergies/`;
+    apiExperienceNameUrl = `${this.apiBaseUrl}/api/synth/experiences/?page_size=12&page=1`;
 
     constructor(private http: HttpClient)
     {
