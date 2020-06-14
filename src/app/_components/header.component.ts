@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AccountService } from '@app/_services';
+import { AccountService, AlertService } from '@app/_services';
 import { ModalService } from '@app/_modal';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,8 @@ export class HeaderComponent implements OnInit, OnDestroy
   userLoggedIn: boolean;
   username: string;
 
-  constructor(private accountService: AccountService, private modalService: ModalService, private router: Router)
+  constructor(private router: Router, private accountService: AccountService, private modalService: ModalService,
+    private alertService: AlertService)
   {
     // subscribe to user observable  
     this.subscription = this.accountService.user.subscribe(user =>
@@ -43,10 +44,20 @@ export class HeaderComponent implements OnInit, OnDestroy
     {
       this.modalService.open('filterModal');
     }
-  }  
+  }
 
   logOut()
   {
-    this.accountService.logout();
+
+    this.accountService.logout().subscribe({      
+      error: err => { this.alertService.error(err); },
+      complete: () =>
+      {
+        // remove user from local storage and set current user to null
+        localStorage.removeItem('user');
+        this.accountService.userSubject.next(null);
+        this.router.navigate(['signin']);
+      }
+    });
   }
 }

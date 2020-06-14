@@ -14,7 +14,7 @@ export class AccountService
     // Also in package.json, modify start in scripts as "start": "ng serve --proxy-config proxy.config.json --o"
     apiBaseUrl = environment.baseUrl;
 
-    private userSubject: BehaviorSubject<User>;
+    public userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
 
     apiUrl = `${this.apiBaseUrl}/api/profiles`;
@@ -38,7 +38,7 @@ export class AccountService
         return this.http.post(`${this.apiUrl}/signup/`, user, { withCredentials: true });
     }
 
-    login(username: string, password: string)
+    login(username: string, password: string): Observable<User>
     {
         return this.http.post<User>(`${this.apiUrl}/login/`, { username, password }, { withCredentials: true })
             .pipe(map(user =>
@@ -52,10 +52,6 @@ export class AccountService
 
     logout()
     {
-        // remove user from local storage and set current user to null
-        localStorage.removeItem('user');
-        this.userSubject.next(null);
-        this.router.navigate(['signin']);
+        return this.http.post(`${this.apiUrl}/logout/`, { withCredentials: true });
     }
-
 }
